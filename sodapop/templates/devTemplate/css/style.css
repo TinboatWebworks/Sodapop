@@ -1,0 +1,39 @@
+body {
+
+	padding: 0px;
+	margin: 0px;
+	font-family: arial;
+	color: black;
+
+}
+
+
+div.tempName {
+
+	padding: 3px;
+	color: white;
+	background-color: red;
+	font-size: 9px;
+
+
+}
+
+div.menu {
+
+	padding: 5px;
+
+}
+
+div.mainContent {
+
+	padding: 5px;
+	
+}
+
+div.footer {
+
+	margin-top: 10px;
+	font-size: 9px;
+	padding: 5px;
+
+}

@@ -1,0 +1,132 @@
+0.0.1.1 Release Notes
+
+- This release, the first alpha release, is inteaded to put all of the basic foundational architecture in place.
+
+- Poptop is intended to be fully OOP and MVC, and use standard PHP best practices
+
+- At this stage, Poptop should still be general enough that it can be used as a platform for a myriad of site applications.  Though it is being built for Episodapop.com, the idea is to keep it general enough at this point that it could easily be recycled.
+
+- The basic fucntionality that are active as of this release:
+
+	- Template system works and loads defined template, and a null template if not defined.
+	- Language files load, system language which is extended by template and page language files.
+	- "Page" system works.  The app looks at the "handle" in the url (ex. http://domain.com/handle) to determine what page content to load.  Each page is it's own little MVC app.  I've set it up this way so that it would be easy to write new pages (mini apps?  Components?) in a discrete package.
+
+- With the release the application should load a template with language pulled from language files, display a hard-coded menu that lets the user load 3 pages with simple page id displayed.	
+		
+Questions:
+
+	- Im using the name "page" to mean the business of each page.  These are really almost like a component in Joomla.  I think the original idea was for them to simply handle the data on a given page, but because each is set up as an MVC app in their own right, much more is presumably possible.
+	
+	This leads to the question, is "page" still the best term?  Perhaps "application" or "component" would be better?
+	
+	In any case, as of this release i stuck with "page" as it seems to best fit what I intend to do with them at this point.
+	
+	- Is my MVC structure sensible?  The whole application uses the same structure as the pages, and the modules will use it as well.  An index page loads the model, then the controller, and then the controller pushes it's data to the view.  In pages (and modules) I'm using the constructor class of the controller and view as the place where most of the business happens.  This seems to work well, as simply calling the controller activates it, and then calling the view likewise activates the funcionality of that class.  This is similar to how things work in Code Igniter.
+	
+	- Should the configuration file be a class as well?  Right now it creates an array that I can pull into any function with a global call.  Would it make more sense for it to me a class though?  I can't decide if that would be unnecissary, or if it would tidy it up.
+	
+Database Map:
+
+Table: Pages
+			pageID
+			handle
+			getPage
+		
+Table: Templates
+			templateID
+			name
+			dflt
+			assigned
+	
+What's next:
+
+0.0.1.2 Will add module functionality:
+
+	- Create the first demo module for testing purposes
+	- Adding loadModule functionality to the application controller
+	- Add module positions to the template, and functionality to pull modules in via the view
+	Language file update
+	
+Future releases planned:
+
+0.0.1.3	
+Goal: To add login module and functionality
+
+Create login module with popup
+Create Login handling
+Write cookie management functions	
+	Language file update
+	
+**** 
+NOTE 0.0.1.3 marks the end of abstract functionality and the beginning of development specific to Episodapop.com
+****
+
+
+0.0.1.4
+Goal: To add front-end and profile view checklist display module
+
+	Create checklist module
+	Checklist module will: 
+switch based on page
+		pull data from episodes table
+		Allow user to sort based on column heading
+		Allow user to filter based on column heading
+	Language file update	
+
+0.0.1.5
+Goal: To allow registered users to check episode in checklist in profile view
+
+	Update module view on profile page with checkboxes
+Receive checkbox data and process it to database
+Add “Viewed Previously” checkbox
+Register checks to “Events Table”
+
+****
+Note: Alpha Testing can begin after 0.0.1.5
+****
+
+0.0.1.6
+Goal: To display events streams on front, profile and episode pages
+
+	Create events module
+	Events module will pull from events table 	
+	Events module will switch based on page
+		Front page will show all events
+		Profile page will show events for that user
+		Episode will show events for that event
+
+0.0.1.7
+Goal: To add Top-of-page stats
+	
+	Create primary stats modules for show, episode and profile
+	Create ratings modules for show
+		Top Watchers
+		Top Watched	
+		Highest Rated
+	Create reatings modules for Episode
+		Top Watchers
+		Episode rating and Rank
+		Smackdown wins
+	Creat ratings modules for Profile
+		Number of Episodes Watched
+		Favorite Episode
+		Quiz ranking	
+		Watch Percentage	
+	Add Google Charts
+		Show page: episode watch counts
+		Episode Page: timeline / watch counts
+Profile: timeline / watch percentage over time
+         
+		
+0.0.1.8
+Goal: Add Smackdown Module
+	Create module with iframe, pulling in smackdown page
+	Create Smackdown page
+	Create Smackdown answer handler
+
+0.1.9
+Goal: Add Quiz Module
+	Create module with iframe, pulling in Quiz page
+	Create Quiz page
+	Create Quiz results handler
