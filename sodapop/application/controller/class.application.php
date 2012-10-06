@@ -184,6 +184,11 @@ class application {
 ####
 ## Coming Soon!
 ####
+
+	public function modPosition() {
+	
+	
+	}	 
 	
 	public function loadModule() {
 	
