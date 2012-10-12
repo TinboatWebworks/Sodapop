@@ -81,13 +81,13 @@ class database {
 					$page['handle']		= $row['handle'];	
 					$page['getPage']	= $row['getPage'];						
 		}
-		
+
 		## So what happens if there is not a page for the handle?  We'll load the 404 page, that's what happens.
 		if (!$page['id']) {
 		
 					$page['getPage']	= "404";	
 		}
-	
+
 		return $page;
 	}
 

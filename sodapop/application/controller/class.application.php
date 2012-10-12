@@ -44,8 +44,9 @@ class application {
 	*/
 	public function getHandle() {
 
-		$handle		= $this->parseUrl('handle'); 
+		$handle		= $this->parseUrl('handle'); 	
 		return $handle;
+		
 	}	
 
 	/*
@@ -55,6 +56,7 @@ class application {
 	public function getQstring() {
 
 		$qString	= $this->parseUrl('qString');
+			
 		return $qString;						
 	}	
 		
@@ -67,13 +69,15 @@ class application {
 		global $config;
 
 		## Get the URI for the currently requested page
-		$uri	= $_SERVER['REQUEST_URI'];
-
+		$uri	= $_SERVER['REQUEST_URI'];		
+		
 		## Pull page handle and query string from domain etc 		
 		list($domain, $pageUrl)			= explode($config['liveSite'], $uri);
-
+		
 		## Separate the pages handle from the query string
 		list($handle, $queryString,)	= explode("?", $pageUrl);
+
+			
 		
 		## Ditch the slash separator
 		$handle	= str_replace("/", "", $handle);
@@ -87,7 +91,7 @@ class application {
 		
 			$string	= $queryString;
 		}
-		
+				
 		return $string;
 	}
 	
@@ -101,6 +105,7 @@ class application {
 		global $pageData;
 		
 		$pagePath	=  "./pages/" . $pageData['getPage'] . "/" . $pageData['getPage'] . ".php";
+		
 		require_once $pagePath;
 		
 	}	

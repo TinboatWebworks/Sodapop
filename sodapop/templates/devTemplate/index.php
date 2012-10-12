@@ -18,10 +18,9 @@ echo "
 ?>
 
 <div class="menu">
-	<a href="show.php?show=drwho"><? echo $language['show'];?> </a> | <a href="profile.php?user=1"><? echo $language['profile'];?></a> | <a href="episode.php?episode=1"><? echo $language['episode'];?></a>
+	<a href="show?show=drwho"><? echo $language['show'];?> </a> | <a href="profile?user=1"><? echo $language['profile'];?></a> | <a href="episode?episode=1"><? echo $language['episode'];?></a>
 </div>
 
-<a href="info.php">info</a>
 
 <div class="mainContent">
 <? $application->loadPage();?>

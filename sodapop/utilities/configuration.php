@@ -13,8 +13,8 @@ defined('_LOCK') or die('Restricted access');
 
 $config['appName']			= "sodapop";	
 $config['appVersion']		= "0.0.1.2";
-$config['liveSite']			= "sodapop";
-$config['sitePath'] 		= "./Users/bradgrochowski/Sites/sodapop";
+$config['liveSite']			= "~bradgrochowski/git/sodapop/sodapop";
+$config['sitePath'] 		= "./Users/bradgrochowski/Sites/git/Sodapop/sodapop";
 $config['maintenanceMode'] 	= "no";
 
 $config['dbName']			= "episodapop";
