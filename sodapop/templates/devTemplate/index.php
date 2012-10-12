@@ -21,6 +21,7 @@ echo "
 	<a href="show?show=drwho"><? echo $language['show'];?> </a> | <a href="profile?user=1"><? echo $language['profile'];?></a> | <a href="episode?episode=1"><? echo $language['episode'];?></a>
 </div>
 
+<?php $application->modPosition("test") ?>
 
 <div class="mainContent">
 <? $application->loadPage();?>

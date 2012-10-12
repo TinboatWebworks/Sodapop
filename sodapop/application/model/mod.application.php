@@ -80,7 +80,7 @@ class database {
 					$page['id']			= $row['pageID'];
 					$page['handle']		= $row['handle'];	
 					$page['getPage']	= $row['getPage'];						
-		}
+					}
 
 		## So what happens if there is not a page for the handle?  We'll load the 404 page, that's what happens.
 		if (!$page['id']) {
@@ -91,6 +91,29 @@ class database {
 		return $page;
 	}
 
+	
+	public function modsInPosition ($position) {
+		
+		$query	= " select 	*
+			from 	modules
+			where 	positions = '$position'";
+		
+		$result	= $this->getData($query);
+		
+			while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+
+				$mod['id']				= $row['id'];
+				$mod['name']			= $row['name'];
+				$mod['positions']		= $row['positions'];
+				$mod['pages']			= $row['pages'];	
+				$mod['hidden']			= $row['hidden'];
+				$mod['params']			= $row['name'];											
+			}
+
+		return $mod;
+		
+		
+	}
 }
 
 

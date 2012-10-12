@@ -190,14 +190,24 @@ class application {
 ## Coming Soon!
 ####
 
-	public function modPosition() {
+	public function modPosition($position) {
 	
+		global $database;
+		
+		$modData = $database->modsInPosition ($position);
+		$moduleName = $modData['name'];
+		
+		$this->loadModule($modData);
 	
 	}	 
 	
-	public function loadModule() {
-	
-	
+	public function loadModule($modData) {
+		
+		$modulePath	=  "./modules/mod_" . $modData['name'] . "/" . $modData['name'] . ".php";
+		
+		require_once $modulePath;
+		
+		
 	}	
 
 	public function request($InputString) {
