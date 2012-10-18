@@ -12,8 +12,8 @@
 
 define('_LOCK', 1 );
 
-## bootstrap and load application
 
+## bootstrap and load application
 require_once "./utilities/loader.php";
 
 ## begin action ###
