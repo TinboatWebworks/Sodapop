@@ -11,11 +11,10 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class thisModule extends module {
+class moduleDatabase {
 
-	public function thisModule() {
-	
+	public function moduleDatabase() {
 	
 	}
-	
 }	
+?>

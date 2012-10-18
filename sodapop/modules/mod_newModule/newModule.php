@@ -11,14 +11,14 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-
+$modulePath	= "./modules/mod_" . $modData['name'] . "/";
+global $config;
 
 ## bootstrap and load the module
-require_once "./utilities/loader.php";
+require_once $modulePath . "utilities/loader.php";
 
-
-## begin action ##
+## Load template ##
  
-##require_once $template['path'] . "/index.php";
+require_once $modulePath . "template/index.php";
 
 ?>

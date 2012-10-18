@@ -11,19 +11,18 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-die('xxx');
 
 ## 	Load module controller
-require_once "./controller.php";
-$module 	= new module();
+require_once $modulePath . "controller.php";
+$thisModule 	= new thisModule();
 
 ## 	Load module model
-require_once "./model.php";
-$moduleDatabase = new moduleDatabase();
+require_once $modulePath . "model.php";
+$thisModuleDatabase = new thisModuleDatabase();
 
 ## 	Load module view
-require_once "./view.php";
-$moduleView	= new moduleView();
+require_once $modulePath . "view.php";
+$thisModuleView	= new thisModuleView();
 
-## 	Load the template array
-## $template		= $database->getDefaultTemplate();
+
+?>

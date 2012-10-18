@@ -186,10 +186,6 @@ class application {
 	}	
 
 
-####
-## Coming Soon!
-####
-
 	public function modPosition($position) {
 	
 		global $database;
@@ -210,6 +206,11 @@ class application {
 		
 	}	
 
+	
+	####
+	## Coming Soon!
+	####	
+	
 	public function request($InputString) {
 	
 	

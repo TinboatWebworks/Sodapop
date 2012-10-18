@@ -14,26 +14,33 @@ defined('_LOCK') or die('Restricted access');
 ## 	Load configuration
 	require_once "./utilities/configuration.php";
 
-## 	Load application controller 
+## 	Load controllers 
 	require_once "./application/controller/class.application.php";
 	$application 	= new application();
+	
+	require_once "./application/controller/class.module.php";
+	$module 	= new module(); // Manages global module methods
 
-## 	Load application models
+## 	Load models
 
 	require_once "./application/model/mod.application.php";
 	require_once "./application/model/mod.users.php";	
-	require_once "./application/model/mod.shows.php";		
+	require_once "./application/model/mod.shows.php";
+	require_once "./application/model/mod.module.php";
 
 	$database		= new database(); 	// This is the appliction model
 	$user			= new user(); 		// Manages user data 
 	$show			= new show();		// Manages show and episode data
-
-## 	Load appplication view
+	$moduleDatabase	= new moduleDatabase();		// Manages global module data
+	
+## 	Load  views
 
 	require_once "./application/view/view.application.php";
+	require_once "./application/view/view.module.php";
+		
+	$view				= new view(); 		// Loads the view class
+	$moduleView			= new moduleView(); 		// Loads the global module view class
 	
-	$view			= new view(); 		// Loads the view class
-
 ##	Open databse
 	$dbConnect		= $application->dbConnect();
 
