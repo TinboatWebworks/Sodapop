@@ -14,15 +14,15 @@ defined('_LOCK') or die('Restricted access');
 
 ## 	Load module controller
 require_once $modulePath . "controller.php";
-$newModule 	= new newModule();
+$testModule	= new testModule();
 
 ## 	Load module model
 require_once $modulePath . "model.php";
-$newModuleDatabase = new newModuleDatabase();
+$testModuleDatabase = new testModuleDatabase();
 
 ## 	Load module view
 require_once $modulePath . "view.php";
-$newModuleView	= new newModuleView();
+$testModuleView	= new testModuleView();
 
 
 ?>

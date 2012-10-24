@@ -186,26 +186,115 @@ class application {
 	}	
 
 
+	/*
+	*  modPosition determines which modules are assigned to the given module position
+	*/	
+	
 	public function modPosition($position) {
 	
 		global $database;
 		
-		$modData = $database->modsInPosition ($position);
-		$moduleName = $modData['name'];
+		// This grabs the data from the db table for the modules assigned to the 
+		// given position, including the module's name
+		$allModsData = $database->modsInPosition ($position);
 		
-		$this->loadModule($modData);
+		$this->loadModule($allModsData);
 	
 	}	 
 	
-	public function loadModule($modData) {
+	
+	/*
+	 *  loadModule loads all the modules for the given position
+	 */
+	public function loadModule($allModsData) {
+			
 		
-		$modulePath	=  "./modules/mod_" . $modData['name'] . "/" . $modData['name'] . ".php";
-		
-		require_once $modulePath;
-		
-		
+		// We don't know how many modules there are in this postion, so we have to
+		// start scrolling thru the array by $i.  The 200 is a limit to avoid an 
+		// accidental infinite loop... just in case.
+		for ($i = 1; $i< 200; $i++) {				
+
+			// Create an array of this modules data from the subaray of all the modules' data
+			$modData	= $allModsData[$i];
+				
+			// Find out if we are supposed to show this module or not
+			$showIt	= $this->doShowModule($modData);
+
+			// And show it if we are
+			if ($showIt == true) {
+									
+				// get the path to the requested module then pulls it in
+				$modulePath	=  $this->buildModPath($modData['name']);
+				
+				// Fetches the modules index file if it exists
+				if (file_exists($modulePath)) {
+
+					require $modulePath;
+
+				} else {
+
+					// If it doesn't, let's get out of this for loop.
+					break;
+					
+				}
+			}	
+		}
 	}	
 
+	
+	/*
+	 *  buildModPath creates the path to the module's index page
+	*/
+	
+	public function buildModPath($modDataName) {
+		
+		$modulePath	=  "./modules/mod_" . $modDataName . "/" . $modDataName . ".php";
+		return $modulePath;
+		
+	}
+	
+	/*
+	 *  We need to find out whether or not to show the module on this page.
+	*  This is ugly and probably needs to be refactored
+	*/
+	
+	public function doShowModule($modData) {
+		
+		global $pageData;
+		
+		// Is the current page one that the module is supposed to show up on?
+		// we compare the current page's name to the 'pages' field in the module
+		$isItThisPage	= strpos("_" . $modData['pages'], $pageData['getPage']);
+		
+		// Is the current page one that the module us supposed to be hidden from?
+		// we compare the current page's name to the 'hidden' field in the module
+		$hideOnThisPage	= strpos("_" . $modData['hidden'], $pageData['getPage']);
+		
+		// if the module is assigned to all pages ('pages' field is blank) and the module 
+		//is not hidden from this page, then we can show the module.
+		if 	(($modData['pages'] == '') && ($hideOnThisPage === false)) {
+
+			$showIt = true;	
+					
+		}
+
+		// If it the module is assigned to this page, then we can show the module
+		else if ($isItThisPage == true ) {
+
+			$showIt = true;
+					
+		} 
+		
+		// unless it's explicitly hidden from this page, then we won't show it.
+		if ($hideOnThisPage == true) {
+
+			$showIt	= false;
+			
+		}
+					
+		return $showIt;	
+				
+	}
 	
 	####
 	## Coming Soon!

@@ -96,23 +96,26 @@ class database {
 		
 		$query	= " select 	*
 			from 	modules
-			where 	positions = '$position'";
+			where 	positions = '$position'
+			order by ordering";
 		
 		$result	= $this->getData($query);
 		
 			while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
 
-				$mod['id']				= $row['id'];
-				$mod['name']			= $row['name'];
-				$mod['positions']		= $row['positions'];
-				$mod['pages']			= $row['pages'];	
-				$mod['hidden']			= $row['hidden'];
-				$mod['params']			= $row['name'];											
+				$i++;
+				
+				$mod[$i]['id']				= $row['id'];
+				$mod[$i]['name']			= $row['name'];
+				$mod[$i]['positions']		= $row['positions'];
+				$mod[$i]['pages']			= $row['pages'];	
+				$mod[$i]['hidden']			= $row['hidden'];
+				$mod[$i]['params']			= $row['name'];			
+												
 			}
 
 		return $mod;
-		
-		
+				
 	}
 }
 

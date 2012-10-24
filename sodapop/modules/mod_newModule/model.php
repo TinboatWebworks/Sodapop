@@ -11,9 +11,9 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class thisModuleDatabase extends moduleDatabase{
+class newModuleDatabase extends moduleDatabase{
 
-	public function thisModuleDatabase() {
+	public function newModuleDatabase() {
 	
 	}
 }	

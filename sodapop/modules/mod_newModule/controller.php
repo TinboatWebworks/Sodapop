@@ -11,9 +11,9 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class thisModule extends module {
+class newModule extends module {
 
-	public function thisModule() {
+	public function newModule() {
 	
 	
 	}
