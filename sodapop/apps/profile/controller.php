@@ -12,15 +12,15 @@
 defined('_LOCK') or die('Restricted access');
 
 
-class controllerPage extends application {
+class controllerApp extends sodapop {
 
-	public function controllerPage($databasePage) {
+	public function controllerApp($databasePage) {
 
 		// This is where all the action goes for the page, calling on functions also found in this class, and it's parent.
 		
-		$data['pageName']	= "Profile";  // building "data" aray to send to the view.
+		$data['appName']	= "Profile";  // building "data" aray to send to the view.
 		
-		$viewPage	= $this->loadView($data);  // this pulls in the view, and sends the "data" aray to it.
+		$viewApp	= $this->loadView($data);  // this pulls in the view, and sends the "data" aray to it.
 
 	}	
 	

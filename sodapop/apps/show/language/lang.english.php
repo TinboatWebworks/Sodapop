@@ -11,9 +11,10 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class databasePage extends database {
+$language['welcome']	= " [New text added by template]";
+$language['noTemplate']	= "";
 
-
-}
+$language['tempName']	= "Template Name";
+$language['whatApp']	= "App Name: ";
 
 ?>

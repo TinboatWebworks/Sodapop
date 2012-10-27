@@ -11,10 +11,14 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-$language['welcome']	.= " [New text added by template]";
-$language['noTemplate']	= "";
+class viewApp extends view {
 
-$language['tempName']	= "Template Name";
-$language['whatPage']	= "Page Name: ";
+	public function viewApp($data) {
 
+	global $language;	
+
+		echo $language['whatApp'] . $data['appName'];
+	}
+	
+}
 ?>

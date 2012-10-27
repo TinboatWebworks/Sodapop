@@ -11,9 +11,9 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class application {
+class sodapop {
 
-	public function application() {
+	public function sodapop() {
 	
 	
 	}
@@ -40,7 +40,7 @@ class application {
 
 
 	/*
-	*  getHandle uses the parsUrl function to get the page handle from the url
+	*  getHandle uses the parsUrl function to get the app handle from the url
 	*/
 	public function getHandle() {
 
@@ -50,7 +50,7 @@ class application {
 	}	
 
 	/*
-	*  getQsting uses the parsUrl function to get the page query string from the
+	*  getQsting uses the parsUrl function to get the app query string from the
 	*  url
 	*/
 	public function getQstring() {
@@ -68,14 +68,14 @@ class application {
 
 		global $config;
 
-		## Get the URI for the currently requested page
+		## Get the URI for the currently requested app
 		$uri	= $_SERVER['REQUEST_URI'];		
 		
-		## Pull page handle and query string from domain etc 		
-		list($domain, $pageUrl)			= explode($config['liveSite'], $uri);
+		## Pull app handle and query string from domain etc 		
+		list($domain, $appUrl)			= explode($config['liveSite'], $uri);
 		
-		## Separate the pages handle from the query string
-		list($handle, $queryString,)	= explode("?", $pageUrl);
+		## Separate the apps handle from the query string
+		list($handle, $queryString,)	= explode("?", $appUrl);
 
 			
 		
@@ -97,34 +97,34 @@ class application {
 	
 
 	/*
-	*  loadPage builds the path the the requested page, and then loads it up by 
-	*  requiring the pages lead file.
+	*  loadApp builds the path the the requested app, and then loads it up by 
+	*  requiring the apps lead file.
 	*/	
-	public function loadPage() {
+	public function loadApp() {
 	
-		global $pageData;
+		global $appData;
 		
-		$pagePath	=  "./pages/" . $pageData['getPage'] . "/" . $pageData['getPage'] . ".php";
+		$appPath	=  "./apps/" . $appData['getApp'] . "/" . $appData['getApp'] . ".php";
 		
-		require_once $pagePath;
+		require_once $appPath;
 		
 	}	
 
 	/*
-	*  loadView allows the page's controller to call in the pages view and push
+	*  loadView allows the app's controller to call in the apps view and push
 	*  the $data array into it.
 	*/	
 	public function loadView($data) {
 	
-		global $pageData;
+		global $appData;
 		
-		$pagePath	=  "./pages/" . $pageData['getPage'] . "/view.php";
+		$appPath	=  "./apps/" . $appData['getApp'] . "/view.php";
 		
-		require_once $pagePath;
+		require_once $appPath;
 
-		$viewPage	= new viewPage($data);
+		$viewApp	= new viewApp($data);
 		
-		return $viewPage;
+		return $viewApp;
 	}
 	
 	
@@ -155,12 +155,12 @@ class application {
 	public function langPath($scope) {
 	
 		global $template;
-		global $pageData;		
+		global $appData;		
 
 		$language	= $this->setLanguage();
 		
 		// Load Application Language
-		if ($scope == "app") {
+		if ($scope == "sodapop") {
 			$langPath = "./language/lang." . $language . ".php";
 		
 		}
@@ -173,13 +173,13 @@ class application {
 		}
 		
 		// Load Template Language
-		if ($scope == "page") {
+		if ($scope == "app") {
 		
-			$getPage 	= $pageData['getPage'];
+			$getApp 	= $appData['getApp'];
 
-			// So, here we have to get the getPage from the database...				
+			// So, here we have to get the getApp from the database...				
 			
-			$langPath	= "./pages/" . $getPage . "/language/lang." . $language . ".php";
+			$langPath	= "./apps/" . $getApp . "/language/lang." . $language . ".php";
 		}		
 		
 		return $langPath;
@@ -209,12 +209,13 @@ class application {
 	public function loadModule($allModsData) {
 			
 		
-		// We don't know how many modules there are in this postion, so we have to
-		// start scrolling thru the array by $i.  The 200 is a limit to avoid an 
-		// accidental infinite loop... just in case.
-		for ($i = 1; $i< 200; $i++) {				
+		// How many modules are in this position so we know how many times to loop
+		$moduleCount	= count($allModsData);
+		
+		// Scroll thru the modules by $i, picking out the data from each modules sub-array
+		for ($i = 1; $i<= $moduleCount; $i++) {				
 
-			// Create an array of this modules data from the subaray of all the modules' data
+			// Create an array of this module's data from the subaray of all the modules' data
 			$modData	= $allModsData[$i];
 				
 			// Find out if we are supposed to show this module or not
@@ -231,19 +232,14 @@ class application {
 
 					require $modulePath;
 
-				} else {
-
-					// If it doesn't, let's get out of this for loop.
-					break;
-					
-				}
+				} 
 			}	
 		}
 	}	
 
 	
 	/*
-	 *  buildModPath creates the path to the module's index page
+	 *  buildModPath creates the path to the module's index app
 	*/
 	
 	public function buildModPath($modDataName) {
@@ -253,45 +249,48 @@ class application {
 		
 	}
 	
+	
 	/*
-	 *  We need to find out whether or not to show the module on this page.
+	 *  We need to find out whether or not to show the module on this app.
 	*  This is ugly and probably needs to be refactored
 	*/
 	
 	public function doShowModule($modData) {
 		
-		global $pageData;
+		global $appData;
 		
-		// Is the current page one that the module is supposed to show up on?
-		// we compare the current page's name to the 'pages' field in the module
-		$isItThisPage	= strpos("_" . $modData['pages'], $pageData['getPage']);
+		// Is the current app one that the module is supposed to show up on?
+		// we compare the current app's name to the 'apps' field in the module
+		// to see if it's in there
+		$isItThisApp	= strpos("_" . $modData['apps'], $appData['getApp']);
 		
-		// Is the current page one that the module us supposed to be hidden from?
-		// we compare the current page's name to the 'hidden' field in the module
-		$hideOnThisPage	= strpos("_" . $modData['hidden'], $pageData['getPage']);
-		
-		// if the module is assigned to all pages ('pages' field is blank) and the module 
-		//is not hidden from this page, then we can show the module.
-		if 	(($modData['pages'] == '') && ($hideOnThisPage === false)) {
+		// Is the current app one that the module us supposed to be hidden from?
+		// we compare the current app's name to the 'hidden' field in the module
+		// to see if it's in there
+		$hideOnThisApp	= strpos("_" . $modData['hidden'], $appData['getApp']);
+			
+		// if the module is assigned to all apps ('apps' field is blank) and the module 
+		// is not hidden from this app, then we can show the module.
+		if 	(($modData['apps'] == '') && ($hideOnThisApp === false)) {
 
 			$showIt = true;	
 					
 		}
 
-		// If it the module is assigned to this page, then we can show the module
-		else if ($isItThisPage == true ) {
+		// If it the module is assigned to this app, then we can show the module
+		else if ($isItThisApp == true ) {
 
 			$showIt = true;
 					
 		} 
 		
-		// unless it's explicitly hidden from this page, then we won't show it.
-		if ($hideOnThisPage == true) {
+		// unless it's explicitly hidden from this app, then we won't show it.
+		if ($hideOnThisApp == true) {
 
 			$showIt	= false;
 			
 		}
-					
+				
 		return $showIt;	
 				
 	}

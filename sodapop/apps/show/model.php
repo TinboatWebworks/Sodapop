@@ -11,14 +11,9 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class viewPage extends view {
+class databaseApp extends database {
 
-	public function viewPage($data) {
 
-	global $language;	
-
-		echo $language['whatPage'] . $data['pageName'];
-	}
-	
 }
+
 ?>

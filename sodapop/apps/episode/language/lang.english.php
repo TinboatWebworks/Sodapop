@@ -11,10 +11,10 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-$language['welcome']	= " [New text added by template]";
+$language['welcome']	.= " [New text added by template]";
 $language['noTemplate']	= "";
 
 $language['tempName']	= "Template Name";
-$language['whatPage']	= "Page Name: ";
+$language['whatApp']	= "App Name: ";
 
 ?>

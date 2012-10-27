@@ -59,36 +59,36 @@ class database {
 	}
 
 	/*
-	*  pageData retrieves all the info from the pages table for the given handle and packs it into the $page array.  If no page existis, it routes to a 404 page...  
+	*  appData retrieves all the info from the apps table for the given handle and packs it into the $app array.  If no app existis, it routes to a 404 app...  
 	*/		
-	public function pageData() {
+	public function appData() {
 	
-		global $application;
+		global $sodapop;
 	
 		## Get the handle
-		$handle	= $application->getHandle();
+		$handle	= $sodapop->getHandle();
 			
-		## Get the page data from the table for this handle
+		## Get the app data from the table for this handle
 		$query	= " select 	*
-					from 	pages
+					from 	apps
 					where 	handle = '$handle'";
 												
 		$result	= $this->getData($query);
 		
 				while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) { 
 					
-					$page['id']			= $row['pageID'];
-					$page['handle']		= $row['handle'];	
-					$page['getPage']	= $row['getPage'];						
+					$app['id']			= $row['appID'];
+					$app['handle']		= $row['handle'];	
+					$app['getApp']		= $row['getApp'];						
 					}
 
-		## So what happens if there is not a page for the handle?  We'll load the 404 page, that's what happens.
-		if (!$page['id']) {
+		## So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
+		if (!$app['id']) {
 		
-					$page['getPage']	= "404";	
+					$app['getApp']	= "404";	
 		}
 
-		return $page;
+		return $app;
 	}
 
 	
@@ -108,7 +108,7 @@ class database {
 				$mod[$i]['id']				= $row['id'];
 				$mod[$i]['name']			= $row['name'];
 				$mod[$i]['positions']		= $row['positions'];
-				$mod[$i]['pages']			= $row['pages'];	
+				$mod[$i]['apps']			= $row['apps'];	
 				$mod[$i]['hidden']			= $row['hidden'];
 				$mod[$i]['params']			= $row['name'];			
 												

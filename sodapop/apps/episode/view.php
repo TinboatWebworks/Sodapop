@@ -11,13 +11,13 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class viewPage extends view {
+class viewApp extends view {
 
-	public function viewPage($data) {
+	public function viewApp($data) {
 
 	global $language;	
 
-		echo $language['whatPage'] . $data['pageName'];
+		echo $language['whatApp'] . $data['appName'];
 	}
 	
 }

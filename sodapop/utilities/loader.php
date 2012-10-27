@@ -15,15 +15,15 @@ defined('_LOCK') or die('Restricted access');
 	require_once "./utilities/configuration.php";
 
 ## 	Load controllers 
-	require_once "./application/controller/class.application.php";
-	$application 	= new application();
+	require_once "./application/controller/class.sodapop.php";
+	$sodapop 	= new sodapop();
 	
 	require_once "./application/controller/class.module.php";
 	$module 	= new module(); // Manages global module methods
 
 ## 	Load models
 
-	require_once "./application/model/mod.application.php";
+	require_once "./application/model/mod.sodapop.php";
 	require_once "./application/model/mod.users.php";	
 	require_once "./application/model/mod.shows.php";
 	require_once "./application/model/mod.module.php";
@@ -35,17 +35,17 @@ defined('_LOCK') or die('Restricted access');
 	
 ## 	Load  views
 
-	require_once "./application/view/view.application.php";
+	require_once "./application/view/view.sodapop.php";
 	require_once "./application/view/view.module.php";
 		
 	$view				= new view(); 		// Loads the view class
 	$moduleView			= new moduleView(); 		// Loads the global module view class
 	
 ##	Open databse
-	$dbConnect		= $application->dbConnect();
+	$dbConnect		= $sodapop->dbConnect();
 
 ## 	Set language
-	$currentLanguage = $application->setLanguage();
+	$currentLanguage = $sodapop->setLanguage();
 
 ## 	Load the template array
 	$template		= $database->getDefaultTemplate();
@@ -53,19 +53,19 @@ defined('_LOCK') or die('Restricted access');
 ##	Load Template Path
 	$template['path']	= $view->loadTemplate($template['name']);
 
-##	Load page data
-	$pageData			=  $database->pageData();
+##	Load app data
+	$appData			=  $database->appData();
 	
 
 ## 	Load language files
 
-	$langPathApp		= $application->langPath("app");  
-	$langPathTem		= $application->langPath("template");
-	$langPathPage		= $application->langPath("page");
+	$langPathApp		= $sodapop->langPath("sodapop");  
+	$langPathTem		= $sodapop->langPath("template");
+	$langPathApp		= $sodapop->langPath("app");
 
 	require_once		$langPathApp; 		// Load Applicaiton language file	
 	require_once		$langPathTem; 		// Load Template Language file
-	require_once		$langPathPage; 		// Load page Language file
+	require_once		$langPathApp; 		// Load app Language file
 	
 
 	

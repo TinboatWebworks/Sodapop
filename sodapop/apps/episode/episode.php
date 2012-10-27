@@ -11,15 +11,15 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-		$pageFilePath	=  "./pages/" . $pageData['getPage'];
+		$pageFilePath	=  "./apps/" . $appData['getApp'];
 		
 		require_once $pageFilePath . "/controller.php";
 		require_once $pageFilePath . "/model.php";		
 		
 		// Create the model object for this page
-		$databasePage		= new databasePage(); 
+		$databaseApp		= new databaseApp(); 
 		
 		// Create the Controller for the page and sent the Model Object into it		
-		$controllerPage = new controllerPage($databasePage); 
+		$controllerApp = new controllerApp($databaseApp); 
 		
 ?>
