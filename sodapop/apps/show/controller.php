@@ -14,6 +14,10 @@ defined('_LOCK') or die('Restricted access');
 
 class controllerApp extends sodapop {
 
+	private $viewApp;
+	
+	public $data;
+	
 	public function controllerApp($databasePage) {
 
 		// This is where all the action goes for the page, calling on functions also found in this class, and it's parent.

@@ -11,7 +11,7 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class controllerPage extends application {
+class controllerPage extends sodapop {
 
 	public function controllerPage($databasePage) {
 

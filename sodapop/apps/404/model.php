@@ -11,7 +11,7 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class databasePage extends database {
+class databaseApp extends database {
 
 
 }

@@ -1,67 +1,88 @@
 0.0.1.2 Release Notes
 
-- This release, the first alpha release, is inteaded to put all of the basic foundational architecture in place.
+Primary Goal:  Add module functionality:
 
-- Poptop is intended to be fully OOP and MVC, and use standard PHP best practices
-
-- At this stage, Poptop should still be general enough that it can be used as a platform for a myriad of site applications.  Though it is being built for Episodapop.com, the idea is to keep it general enough at this point that it could easily be recycled.
-
-- The basic fucntionality that are active as of this release:
-
-	- Template system works and loads defined template, and a null template if not defined.
-	- Language files load, system language which is extended by template and page language files.
-	- "Page" system works.  The app looks at the "handle" in the url (ex. http://domain.com/handle) to determine what page content to load.  Each page is it's own little MVC app.  I've set it up this way so that it would be easy to write new pages (mini apps?  Components?) in a discrete package.
-
-- With the release the application should load a template with language pulled from language files, display a hard-coded menu that lets the user load 3 pages with simple page id displayed.	
-		
-Questions:
-
-	- Im using the name "page" to mean the business of each page.  These are really almost like a component in Joomla.  I think the original idea was for them to simply handle the data on a given page, but because each is set up as an MVC app in their own right, much more is presumably possible.
+	- The main purpose of the 2nd alpha release was to create the module struction, allowing modules to be created, assigned and hidden from specific pages.
 	
-	This leads to the question, is "page" still the best term?  Perhaps "application" or "component" would be better?
+	- We also separated the concepts of "pages" and "apps."  Pages load apps, but apps can be loaded by multiple pages.
 	
-	In any case, as of this release i stuck with "page" as it seems to best fit what I intend to do with them at this point.
+	- Modules are assigned based on the page.  This is similar to ItemID (Menu Items) in Joomla.
 	
-	- Is my MVC structure sensible?  The whole application uses the same structure as the pages, and the modules will use it as well.  An index page loads the model, then the controller, and then the controller pushes it's data to the view.  In pages (and modules) I'm using the constructor class of the controller and view as the place where most of the business happens.  This seems to work well, as simply calling the controller activates it, and then calling the view likewise activates the funcionality of that class.  This is similar to how things work in Code Igniter.
+	- Modules are published via "module positions" in the template.  Multiple modules can be assigned in each position, and they are ordered via an ordering parameter in the db
 	
-	- Should the configuration file be a class as well?  Right now it creates an array that I can pull into any function with a global call.  Would it make more sense for it to me a class though?  I can't decide if that would be unnecissary, or if it would tidy it up.
+	- Two demo module were created for the purposes of testing.
 	
-Database Map:
+Questions: 	
+	
+	- Will the splitting of the 'pages' and 'apps' be fine enough when assigning modules.  I think so, as you can have modules assing to one itteration of an app on one page, but not on the itteration of the app on another page.
+	
+	- At this point I really want apps and module to be completely discreet from the core application.  The application should run without error without any apps in place... none of them, even the 'core' apps should be required.
+		I'm not conviced this is going to be possible, but I am going to hold it as a guiding principle.
+		That having been said, the 404 app is already breaking that rule, so, perhaps finding a different way to handle 404 errors will be in order
+		Tho, I kinda like having an app to handle that.  See why this is in the 'questions' section?
 
 Table: Pages
 			pageID
 			handle
-			getPage
+			getApp
 		
 Table: Templates
 			templateID
 			name
 			dflt
 			assigned
-	
-What's next:
 
-0.0.1.2 Will add module functionality:
+Table: Modules
+			id
+			name
+			position
+			pages
+			hidden
+			params
+			ordering			
 
-	- Create the first demo module for testing purposes
-	- Adding loadModule functionality to the application controller
-	- Add module positions to the template, and functionality to pull modules in via the view
-	Language file update
+
+What's next:	
 	
-Future releases planned:
 
 0.0.1.3	
 Goal: To add login module and functionality
 
+Create Users app
 Create login module with popup
 Create Login handling
 Write cookie management functions	
-	Language file update
+Language file update
+	
+Future releases planned:	
+
+0.0.1.4
+Goal: To create the Articles core app
+
+Allow you to enter article content and title.
+Create Category and Tagging functionality
+Create an article view of the article, with the handle generated based on the title
+Create a Category view with all articles in that category
+Create a Tag view with all articles with a give tag
+Language file update
+
+0.0.1.5
+Goal: to create a rudimentary administrator app
+
+Create Pages manager
+Create Modules manager
+Create Apps Manager
+Language file update
+	
 	
 **** 
-NOTE 0.0.1.3 marks the end of abstract functionality and the beginning of development specific to Episodapop.com
+NOTE 0.0.1.5 marks the end the alpha stage.  All essential functionality and the first core apps and modules are now in 
+place.  Beta phase can begin.
 ****
 
+
+
+Below here was for episodapop, but is no longer part of the roadmap for Sodapop:
 
 0.0.1.4
 Goal: To add front-end and profile view checklist display module

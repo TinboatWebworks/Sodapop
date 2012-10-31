@@ -12,7 +12,39 @@
 defined('_LOCK') or die('Restricted access');
 
 class sodapop {
+	
+	private $config;
+	private $link;
+	private $handle;
+	private $qString;
+	private $uri;
+	private $domain; 
+	private $appUrl;
+	private $queryString;
+	private $part;
+	private $string;
+	private $appPath;
+	private $viewApp;
+	private $data;
+	private $language;
+	private $scope;
+	private $langPath;
+	private $templatePath;
+	private $getApp;
+	private $position;
+	private $allModsData;
+	private $i;
+	private $modulePath;
+	private $modDataName;
+	private $isItThisPage;
+	private $hideOnThisPage;
+	private $showIt;
+	
+	public 	$pageData;
+	public 	$template;
+	public	$modData;
 
+		
 	public function sodapop() {
 	
 	
@@ -102,9 +134,9 @@ class sodapop {
 	*/	
 	public function loadApp() {
 	
-		global $appData;
+		global $pageData;
 		
-		$appPath	=  "./apps/" . $appData['getApp'] . "/" . $appData['getApp'] . ".php";
+		$appPath	=  "./apps/" . $pageData['getApp'] . "/" . $pageData['getApp'] . ".php";
 		
 		require_once $appPath;
 		
@@ -116,9 +148,9 @@ class sodapop {
 	*/	
 	public function loadView($data) {
 	
-		global $appData;
+		global $pageData;
 		
-		$appPath	=  "./apps/" . $appData['getApp'] . "/view.php";
+		$appPath	=  "./apps/" . $pageData['getApp'] . "/view.php";
 		
 		require_once $appPath;
 
@@ -155,7 +187,7 @@ class sodapop {
 	public function langPath($scope) {
 	
 		global $template;
-		global $appData;		
+		global $pageData;		
 
 		$language	= $this->setLanguage();
 		
@@ -173,9 +205,9 @@ class sodapop {
 		}
 		
 		// Load Template Language
-		if ($scope == "app") {
-		
-			$getApp 	= $appData['getApp'];
+		if ($scope == "page") {
+	
+			$getApp 	= $pageData['getApp'];
 
 			// So, here we have to get the getApp from the database...				
 			
@@ -206,7 +238,7 @@ class sodapop {
 	/*
 	 *  loadModule loads all the modules for the given position
 	 */
-	public function loadModule($allModsData) {
+	private function loadModule($allModsData) {
 			
 		
 		// How many modules are in this position so we know how many times to loop
@@ -242,7 +274,7 @@ class sodapop {
 	 *  buildModPath creates the path to the module's index app
 	*/
 	
-	public function buildModPath($modDataName) {
+	private function buildModPath($modDataName) {
 		
 		$modulePath	=  "./modules/mod_" . $modDataName . "/" . $modDataName . ".php";
 		return $modulePath;
@@ -255,37 +287,37 @@ class sodapop {
 	*  This is ugly and probably needs to be refactored
 	*/
 	
-	public function doShowModule($modData) {
+	private function doShowModule($modData) {
 		
-		global $appData;
+		global $pageData;
 		
-		// Is the current app one that the module is supposed to show up on?
-		// we compare the current app's name to the 'apps' field in the module
+		// Is the current page one that the module is supposed to show up on?
+		// we compare the current page's handle to the 'pages' field in the module
 		// to see if it's in there
-		$isItThisApp	= strpos("_" . $modData['apps'], $appData['getApp']);
+		$isItThisPage	= strpos("_" . $modData['pages'], $pageData['handle']);
 		
-		// Is the current app one that the module us supposed to be hidden from?
-		// we compare the current app's name to the 'hidden' field in the module
+		// Is the current page one that the module us supposed to be hidden from?
+		// we compare the current pages's name to the 'hidden' field in the module
 		// to see if it's in there
-		$hideOnThisApp	= strpos("_" . $modData['hidden'], $appData['getApp']);
-			
+		$hideOnThisPage	= strpos("_" . $modData['hidden'], $pageData['handle']);
+		
 		// if the module is assigned to all apps ('apps' field is blank) and the module 
 		// is not hidden from this app, then we can show the module.
-		if 	(($modData['apps'] == '') && ($hideOnThisApp === false)) {
+		if 	(($modData['pages'] == '') && ($hideOnThisPage === false)) {
 
 			$showIt = true;	
 					
 		}
 
 		// If it the module is assigned to this app, then we can show the module
-		else if ($isItThisApp == true ) {
+		else if ($isItThisPage == true ) {
 
 			$showIt = true;
 					
 		} 
 		
 		// unless it's explicitly hidden from this app, then we won't show it.
-		if ($hideOnThisApp == true) {
+		if ($hideOnThisPage == true) {
 
 			$showIt	= false;
 			

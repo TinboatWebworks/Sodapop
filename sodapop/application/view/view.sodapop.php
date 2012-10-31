@@ -13,6 +13,12 @@ defined('_LOCK') or die('Restricted access');
 
 class view {
 
+	private $templatePath;
+	private $loadTemplate;
+	private $templateName;
+	
+	public	$template;	
+	
 	/*
 	*   
 	*/		

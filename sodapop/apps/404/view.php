@@ -1,8 +1,8 @@
 <?php
 
-class viewPage extends view {
+class viewApp extends view {
 
-	public function viewPage($data) {
+	public function viewApp($data) {
 
 		echo $language['whatPage'] . $data['pageName'];
 	}

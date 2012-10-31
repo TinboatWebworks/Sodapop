@@ -13,6 +13,17 @@ defined('_LOCK') or die('Restricted access');
 
 class database {
 
+	private $result;
+	private $query;
+	private $template;
+	private $row;
+	private $handle;
+	private $page;
+	private $i;
+	private $mod;
+	
+	public $sodapop;
+	
 	public function database() {
 	
 	}
@@ -61,7 +72,7 @@ class database {
 	/*
 	*  appData retrieves all the info from the apps table for the given handle and packs it into the $app array.  If no app existis, it routes to a 404 app...  
 	*/		
-	public function appData() {
+	public function pageData() {
 	
 		global $sodapop;
 	
@@ -70,25 +81,25 @@ class database {
 			
 		## Get the app data from the table for this handle
 		$query	= " select 	*
-					from 	apps
+					from 	pages
 					where 	handle = '$handle'";
 												
 		$result	= $this->getData($query);
 		
 				while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) { 
 					
-					$app['id']			= $row['appID'];
-					$app['handle']		= $row['handle'];	
-					$app['getApp']		= $row['getApp'];						
+					$page['id']			= $row['pageID'];
+					$page['handle']		= $row['handle'];	
+					$page['getApp']		= $row['getApp'];						
 					}
 
 		## So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
-		if (!$app['id']) {
+		if (!$page['id']) {
 		
-					$app['getApp']	= "404";	
+					$page['getApp']	= "404";	
 		}
 
-		return $app;
+		return $page;
 	}
 
 	
@@ -108,7 +119,7 @@ class database {
 				$mod[$i]['id']				= $row['id'];
 				$mod[$i]['name']			= $row['name'];
 				$mod[$i]['positions']		= $row['positions'];
-				$mod[$i]['apps']			= $row['apps'];	
+				$mod[$i]['pages']			= $row['pages'];	
 				$mod[$i]['hidden']			= $row['hidden'];
 				$mod[$i]['params']			= $row['name'];			
 												

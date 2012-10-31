@@ -13,6 +13,9 @@ defined('_LOCK') or die('Restricted access');
 
 class viewApp extends view {
 
+	public $language;
+	public $data;
+	
 	public function viewApp($data) {
 
 	global $language;	

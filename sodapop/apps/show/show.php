@@ -11,7 +11,7 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-		$appFilePath	=  "./apps/" . $appData['getApp'];
+		$appFilePath	=  "./apps/" . $pageData['getApp'];
 		
 		require_once $appFilePath . "/controller.php";
 		require_once $appFilePath . "/model.php";		

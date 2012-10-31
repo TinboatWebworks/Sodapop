@@ -54,14 +54,14 @@ defined('_LOCK') or die('Restricted access');
 	$template['path']	= $view->loadTemplate($template['name']);
 
 ##	Load app data
-	$appData			=  $database->appData();
+	$pageData			=  $database->pageData();
 	
 
 ## 	Load language files
 
 	$langPathApp		= $sodapop->langPath("sodapop");  
 	$langPathTem		= $sodapop->langPath("template");
-	$langPathApp		= $sodapop->langPath("app");
+	$langPathApp		= $sodapop->langPath("page");
 
 	require_once		$langPathApp; 		// Load Applicaiton language file	
 	require_once		$langPathTem; 		// Load Template Language file
