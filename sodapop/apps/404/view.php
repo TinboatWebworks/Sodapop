@@ -3,7 +3,7 @@
 /**
 * @author 	Brad Grochowski 
 * @copyright	2011 Tinboat Webworks
-* @version	0.0.1.1
+* @version	0.0.1.2
 * @link		a url
 * @since  	10/20/2011
 */
@@ -11,20 +11,9 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-class show {
+class appView extends view {
 
-	public function show() {
+	public function appView() {
 	
 	}
-
-	public function getShowData($showID) {
-	
-	}
-		
-	public function episodeData($episodeID) {
-		
-	}
-
 }
-
-?>

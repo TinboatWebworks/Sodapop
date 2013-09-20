@@ -3,7 +3,7 @@
 /**
 * @author 	Brad Grochowski 
 * @copyright	2011 Tinboat Webworks
-* @version	0.0.1.1
+* @version	0.0.1.2
 * @link		a url
 * @since  	10/20/2011
 */
@@ -13,6 +13,12 @@ defined('_LOCK') or die('Restricted access');
 
 class view {
 
+	public $templatePath;
+	public $loadTemplate;
+	public $templateName;
+	
+	public	$template;	
+	
 	/*
 	*   
 	*/		
@@ -21,16 +27,19 @@ class view {
 	
 	}
 
+	public function displaySodapop($sodapop) {
+
+	 	require_once $sodapop->template['path'] . "/index.php";
+	
+	}
+
+
 	/*
-	*  loadTemplate goes loads the current template 
+	*  loadTemplate loads the current template 
 	*/		
 	public function loadTemplate($templateName) {
 	
-		global $template;
-	
-		$templatePath = $this->templatePath($template['name']);
-		
-		$loadTemplate	= $templatePath;
+		$loadTemplate = $this->templatePath($templateName);
 		
 		return $loadTemplate;
 	

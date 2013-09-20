@@ -1,7 +1,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" media="screen" href="<? echo $template['path'] ?>/css/style.css">
+<link rel="stylesheet" type="text/css" media="screen" href="<? echo $sodapop->template['path'] ?>/css/style.css">
 
 </head>
 <body>
@@ -10,21 +10,25 @@
 <?php
 echo "
 	<div class='tempName'>
-		" . $language['tempName'] . ":" . $template['name'] . "
+		" . $sodapop->language['tempName'] . ":" . $sodapop->template['name'] . "
 		<br />" .
-		$language['labelVersion'] . $config['appVersion'] . "
+		$sodapop->language['labelVersion'] . $sodapop->config['appVersion'] . "
 		
-	</div><br />";
+	</div>";
+	
+$sodapop->modPosition('login');
+
+$sodapop->modPosition('menu');
 ?>
 
-<div class="menu">
-	<a href="show?show=drwho"><? echo $language['show'];?> <a> | <a href="profile?user=1"><? echo $language['profile'];?></a> | <a href="episode?episode=1"><? echo $language['episode'];?><a>
-</div>
 
+
+<?php $sodapop->modPosition("test"); ?>
 
 <div class="mainContent">
-<? $application->loadPage();?>
+<? echo $sodapop->output; ?>
 </div>
+
 
 
 <div class="footer">
