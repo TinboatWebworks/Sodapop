@@ -59,9 +59,58 @@ class appModel extends database {
 	
 	}
 	
-	public function createUser($data) {
+	public function confirmUnique($formData) {
 
-		$query	= "";
+		$query	= " select 	email
+			from 	app_user_users";						
+	
+		$result	= $this->getData($query);
+		
+		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+	
+			$existingUser['email']	= $row['email'];
+				
+			if ($formData['email']  ==  $existingUser['email']) {
+		
+				$confirmUnique = 1;				
+
+				return $confirmUnique;
+			
+			}
+			
+			else { $confirmUnique = '2'; }
+		}
+		
+
+
+		return $confirmUnique;		
+	}
+	
+	public function putUserData($data) {
+
+		global $sodapop;  // Is there really no better way to get to the hashIt method?  Argh.
+		 
+		$id				= "";
+		$name			= $data['name'];
+		$email			= $data['email'];
+		$username		= $data['username'];
+		$password		= $sodapop->hashIt($data['pass']);
+		$accessLevel	= '5';
+
+		$query	= "insert into app_user_users
+							( 	name, 
+								email, 
+								username,
+								password, 
+								accessLevel)
+
+					values 	(	'$name', 
+								'$email', 
+								'$username',
+								'$password', 
+								'$accessLevel')";								
+		$result	= $this->getData($query);
+		return $result;			
 	}
 
 }

@@ -1,0 +1,30 @@
+Welcome to Sodapop!
+
+What is Sodapop?
+
+Sodapop is a light PHP framework meant to provide the basic MVC and OOP structure for building web applications.  It is minimal in functionality, the core code providing just the bare necessities for web app development.
+
+This has of course been done numbers of times by numbers of products, and done much better than I am able to do with Sodapop.
+
+However, I wanted the experience of creating an MVC framework from scratch.  I also want to be able to say that I have build my web apps from the ground up - and by building them on top of my own framework, that will remain true.
+
+How is it set up?
+
+The basic Sodapop application is a set of php files in the MVC model.  It does the heavy lifting background stuff - database management, environmental data, etc etc - leaving you free to build any sort of web application on top of it that you desire.
+
+Web applications are build as "apps" and are set in the "apps" directory.
+
+Modules can also be built, and run as smaller apps themselves.  They can be embedded in the template separate from apps.
+
+And finally there is a template directory where you can store the templates from your site.
+
+What are the basic principles you are going for?
+
+Keeping it simple, light and extendable - that's the basic idea.  The core should always remain independent of the apps and modules.  It should run properly if any and or all of them are removed.
+
+Can I help with it?
+
+Uh yeah totally!  Im learning a lot as I go along, and much of what is done here could probably be done better.  There are holes too that I'd be happy to have someone else fill.  Changes in the core are welcome, and new apps, modules and templates are way more than welcome.  If you are interested, or want to chat with me you can reach me at bradisarobot@gmail.com.
+
+Who are you?
+

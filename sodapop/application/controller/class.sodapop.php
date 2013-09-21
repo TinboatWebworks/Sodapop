@@ -3,9 +3,9 @@
 /**
 * @author 	Brad Grochowski 
 * @copyright	2011 Tinboat Webworks
-* @version	0.0.1.2
+* @version	0.0.1.3
 * @link		a url
-* @since  	10/20/2011
+* @since  	9/20/2013
 */
  
 // no direct access
@@ -321,10 +321,9 @@ class sodapop {
 	private function buildModPath($modDataName) {
 		
 		$modulePath	=  "./modules/mod_" . $modDataName . "/" . $modDataName . ".php";
-		return $modulePath;
-		
+
+		return $modulePath;		
 	}
-	
 	
 	/*
 	*  We need to find out whether or not to show the module on this app.
@@ -332,20 +331,20 @@ class sodapop {
 	*/
 	private function doShowModule($modData) {
 		
-		global $pageData;
-		
+//		global $pageData;
+	
 		//  What if there is no handle?  Then we will set the handle to 'home'
-		if ($pageData['handle'] == "") {$pageData['handle'] = 'home';}
+		if ($this->pageData['handle'] == "") {$this->pageData['handle'] = 'home';}
 		
 		// Is the current page one that the module is supposed to show up on?
 		// we compare the current page's handle to the 'pages' field in the module
 		// to see if it's in there
-		$isItThisPage	= strpos("_" . $modData['pages'], $pageData['handle']);
+		$isItThisPage	= strpos("_" . $modData['pages'], $this->pageData['handle']);
 		
 		// Is the current page one that the module us supposed to be hidden from?
 		// we compare the current pages's name to the 'hidden' field in the module
 		// to see if it's in there
-		$hideOnThisPage	= strpos("_" . $modData['hidden'], $pageData['handle']);
+		$hideOnThisPage	= strpos("_" . $modData['hidden'], $this->pageData['handle']);
 				
 		// if the module is assigned to all apps ('apps' field is blank) and the module 
 		// is not hidden from this app, then we can show the module.
@@ -378,14 +377,12 @@ class sodapop {
 			
 		}		
 				
-		return $showIt;	
-				
+		return $showIt;		
 	}
 	
 	public function parseModParams($modParams) {
 	
 		$modParams	= '';
-	
 	}
 	
 	public function getFormData($data) {
@@ -442,6 +439,3 @@ class sodapop {
 	}
 
 }
-
-
-?>

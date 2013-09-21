@@ -31,8 +31,9 @@ class appView extends view {
 	public function buildRgstnForm() {
 	
 		$form	= "
-			<form name='login' action='http://localhost/~brad/sodapop/user?action=create' method='post'>
+			<form name='login' action='http://localhost/~brad/git/Sodapop/sodapop/user?action=create' method='post'>
 					Name: <input type='text' name='name'> <br />
+					Username: <input type='text' name='username'> <br />
 					Email: <input type='text' name='email'> <br /> 
 					Password: <input type='text' name='pass'> <br />
 					Confirm Password: <input type='text' name='passConfirm'> <br />

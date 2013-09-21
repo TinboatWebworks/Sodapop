@@ -34,6 +34,8 @@ class appController extends sodapop {
 		$this->appUrl	= $sodapop->appUrl;
 		$this->urlVars	= $this->parseUrl('qString');
 		$this->pageData	= $sodapop->pageData;
+		$this->formData	= $this->getFormData($_POST);
+		$this->redirect	= $sodapop->config['liveSite']; // Must chanage this to grab the redirect from the module params.
 
 	}
 	
@@ -84,25 +86,23 @@ class appController extends sodapop {
 	* 	plugin.
 	*/
 	public function logIn($sodapop) {
-		
-		$this->formData		= $this->getFormData($_POST);
-		$redirect			= $this->formData['redirect'];
+
 		$checkPass			= $this->appModel->getPassword($this->formData['user']);
 		$comparePass		= $this->comparePassword($this->formData['pass'], $checkPass);
 				
 		if ($comparePass == '1') {
-
-			$this->userData 	= $this->appModel->getUserData($this->formData['user']); 		
-			$setCookie	= $this->setaCookie('sp_login', $this->userData['id'], 3600);
-			
-			setcookie($cookieName, $userID, time()+$duration); 
-			header('Location: ' . $redirect);
-	
+		
+			$this->processUser($this->formData['user']);	
 		}
 	
+		elseif ($this->creatingUser == 1) {
+	
+	
+			$this->processUser($this->formData['username']);
+		}
 		
 		else { 
-		
+
 			$output = $sodapop->language['didNotPass'];
 			$output = $output . $sodapop->language['thankYou'];
 
@@ -112,14 +112,24 @@ class appController extends sodapop {
 	
 	}
 	
+	public function processUser($name){
+
+			$this->userData 	= $this->appModel->getUserData($name); 		
+			$setCookie	= $this->setaCookie('sp_login', $this->userData['id'], 3600);
+			header('Location: ' . $this->redirect);
+	
+	}
+	
 	/* 
 	* 	logOut() deletes the cookie and redirects to the home page of the site 
 	*/ 
-	public function logout($databaseApp)	{
-	
+	public function logout($sodapop)	{
+
 		$setCookie	= $this->setaCookie('sp_login', $userData['id'], -3600);
-		$redirect		= $formData['redirect'];
-		header('Location: http://localhost/~brad/sodapop/');
+//		$redirect		= $formData['redirect'];
+
+
+		header('Location: ' . $this->redirect);
 	
 	}
 	
@@ -140,11 +150,19 @@ class appController extends sodapop {
 	/* 
 	* createUser grabs the form data from newUser and pushes it to the database
 	*/
-	public function createUser($databaseApp) {
+	public function createUser($sodapop) {
+
+
+		$confirmUnique	= $this->appModel->confirmUnique($this->formData);
 	
-	
-		$output = $output . "Creating your account!";
-		
+		if ($confirmUnique !='1') {
+			$this->appModel->putUserData($this->formData);
+			$output = $output . "Creating your account!!!";
+			$this->creatingUser	= "1";
+			$this->login($sodapop);
+		}
+			
+		else {$output = $output .  "email must be unique!";}						
 		return $output;
 	
 	}
