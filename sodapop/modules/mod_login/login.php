@@ -1,12 +1,13 @@
 <?php
 
 /**
-* @author 	Brad Grochowski 
-* @copyright	2011 Tinboat Webworks
-* @version	0.0.1.2
-* @link		a url
-* @since  	10/20/2011
-*/	
+* @author 		Brad Grochowski 
+* @copyright	2013 Tinboat Webworks
+* @Project		Sodapop
+* @version		0.0.1.3
+* @link			http://tinboatwebworks.com
+* @since  		10/20/2011
+*/
 
 // no direct access
 defined('_LOCK') or die('Restricted access');
@@ -17,7 +18,8 @@ global $config;
 ## bootstrap and load the module
 require $modulePath . "utilities/loader.php";
 
-$modOutput	= $login->loginOutput($loginDatabase, $modData);  
+$modOutput	= $login->loginOutput($loginDatabase, 
+$modData);  
 
 ## Load template ##
  

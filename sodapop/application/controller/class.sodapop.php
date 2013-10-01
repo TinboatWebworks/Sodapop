@@ -1,11 +1,12 @@
 <?php
 
 /**
-* @author 	Brad Grochowski 
-* @copyright	2011 Tinboat Webworks
-* @version	0.0.1.3
-* @link		a url
-* @since  	9/20/2013
+* @author 		Brad Grochowski 
+* @copyright	2013 Tinboat Webworks
+* @Project		Sodapop
+* @version		0.0.1.3
+* @link			http://tinboatwebworks.com
+* @since  		10/20/2011
 */
  
 // no direct access
@@ -416,6 +417,7 @@ class sodapop {
 		
 		return $string;
 	}
+	
 	
 	####
 	## Coming Soon!

@@ -1,11 +1,12 @@
 <?php
 
 /**
-* @author 	Brad Grochowski 
-* @copyright	2011 Tinboat Webworks
-* @version	0.0.1.2
-* @link		a url
-* @since  	10/20/2011
+* @author 		Brad Grochowski 
+* @copyright	2013 Tinboat Webworks
+* @Project		Sodapop
+* @version		0.0.1.3
+* @link			http://tinboatwebworks.com
+* @since  		10/20/2011
 */
  
 // no direct access
@@ -26,6 +27,7 @@ class appController extends sodapop {
 		
 		require_once $sodapop->pageData['filePath'] . "/view.php";		
 		$this->appView	= new appView();
+		
 	}	
 	
 	public function loadApp($sodapop) {
@@ -46,7 +48,7 @@ class appController extends sodapop {
 		switch ($this->urlVars['action']) {
 	
 			// If there is no string at all, we just attempt to log in	
-			case '':
+			case 'login':
 	
 				$output	= $this->logIn($sodapop);
 			
@@ -72,7 +74,13 @@ class appController extends sodapop {
 		
 				$output	= $this->createUser($sodapop);
 	
-				break;				
+				break;	
+			
+			case '':
+		
+				$output	= $this->showProfile($sodapop);
+	
+				break;					
 		}
 		
 	
@@ -87,12 +95,12 @@ class appController extends sodapop {
 	*/
 	public function logIn($sodapop) {
 
-		$checkPass			= $this->appModel->getPassword($this->formData['user']);
-		$comparePass		= $this->comparePassword($this->formData['pass'], $checkPass);
-				
+		$checkPass			= $this->appModel->getPassword($this->formData['username']);
+		$comparePass		= $this->comparePassword($this->formData['pwd'], $checkPass);
+	//print_r ($this->formData['username']); die();
 		if ($comparePass == '1') {
 		
-			$this->processUser($this->formData['user']);	
+			$this->processUser($this->formData['username']);	
 		}
 	
 		elseif ($this->creatingUser == 1) {
@@ -116,7 +124,7 @@ class appController extends sodapop {
 
 			$this->userData 	= $this->appModel->getUserData($name); 		
 			$setCookie	= $this->setaCookie('sp_login', $this->userData['id'], 3600);
-			header('Location: ' . $this->redirect);
+			header('Location: ' . $this->formData['redirect']);
 	
 	}
 	
@@ -141,7 +149,7 @@ class appController extends sodapop {
 		
 		$output = $output . $sodapop->language['newUser'];
 		
-		$output = $output . $this->appView->buildRgstnForm();
+		$output = $output . $this->appView->buildRgstnForm($sodapop);
 		
 		return $output;
 	
@@ -162,7 +170,7 @@ class appController extends sodapop {
 			$this->login($sodapop);
 		}
 			
-		else {$output = $output .  "email must be unique!";}						
+		else {$output = $output .  "email and username must be unique!";}						
 		return $output;
 	
 	}
@@ -184,7 +192,11 @@ class appController extends sodapop {
 		return $match;
 	}	
 	
+	public function showProfile($sodapop)  {
 	
+		$output = $this->appView->buildProfile($sodapop);
 	
+		return $output;
+	}
 }
 ?>

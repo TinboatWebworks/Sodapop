@@ -1,11 +1,12 @@
 <?php
 
 /**
-* @author 	Brad Grochowski 
-* @copyright	2011 Tinboat Webworks
-* @version	0.0.1.2
-* @link		a url
-* @since  	10/20/2011
+* @author 		Brad Grochowski 
+* @copyright	2013 Tinboat Webworks
+* @Project		Sodapop
+* @version		0.0.1.3
+* @link			http://tinboatwebworks.com
+* @since  		10/20/2011
 */
  
 // no direct access
@@ -22,14 +23,13 @@ class login extends sodapop {
 		$cookie		= $this->getCookie("sp_login");
 		$redirect	= $modData['redirect'];
 
-
 		if ($cookie == '') {
 	
 			$modOutput	= "
-				
-					<form name='login' action='http://localhost/~brad/git/Sodapop/sodapop/user' method='post'>
-						Username: <input type='text' name='user'> 
-						Password: <input type='text' name='pass'> 
+					
+					<form name='login' action='http://localhost/~brad/git/Sodapop/sodapop/user?action=login' method='post'>
+						Username: <input type='text' name='username'> 
+						Password: <input type='text' name='pwd'> 
 						<input type='hidden' name='redirect' value='" . $redirect . "'>
 						<input type='submit' value='Submit'>
 						<a href='user?action=new'>Create Account</a>
@@ -40,7 +40,7 @@ class login extends sodapop {
 
 	
 			$userInfo	= $loginDatabase->getUserDataById($cookie);	
-			$modOutput	= "You are logged in <b>" . $userInfo['name'] . "</b> [<a href='user?action=logout'>Log out</a>]";
+			$modOutput	= "You are logged in <b><a href='http://localhost/~brad/git/Sodapop/sodapop/user'>" . $userInfo['name'] . "</a></b> [<a href='user?action=logout'>Log out</a>]";
 	
 		}
 

@@ -1,11 +1,12 @@
 <?php
 
 /**
-* @author 	Brad Grochowski 
-* @copyright	2011 Tinboat Webworks
-* @version	0.0.1.2
-* @link		a url
-* @since  	10/20/2011
+* @author 		Brad Grochowski 
+* @copyright	2013 Tinboat Webworks
+* @Project		Sodapop
+* @version		0.0.1.3
+* @link			http://tinboatwebworks.com
+* @since  		10/20/2011
 */
  
 // no direct access
@@ -31,7 +32,7 @@ class appModel extends database {
 				$password	= $row['password'];
 													
 			}
-
+//die($password);
 		return $password;
 	
 	
@@ -61,16 +62,17 @@ class appModel extends database {
 	
 	public function confirmUnique($formData) {
 
-		$query	= " select 	email
-			from 	app_user_users";						
+		$query	= " select 	email, username
+					from app_user_users";						
 	
 		$result	= $this->getData($query);
 		
 		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
 	
-			$existingUser['email']	= $row['email'];
+			$existingUser['email']		= $row['email'];
+			$existingUser['username']	= $row['username'];
 				
-			if ($formData['email']  ==  $existingUser['email']) {
+			if ($formData['email']  ==  $existingUser['email'] || $formData['username']  ==  $existingUser['username']) {
 		
 				$confirmUnique = 1;				
 
@@ -89,12 +91,12 @@ class appModel extends database {
 	public function putUserData($data) {
 
 		global $sodapop;  // Is there really no better way to get to the hashIt method?  Argh.
-		 
+	 
 		$id				= "";
 		$name			= $data['name'];
 		$email			= $data['email'];
 		$username		= $data['username'];
-		$password		= $sodapop->hashIt($data['pass']);
+		$password		= $sodapop->hashIt($data['pwd']);
 		$accessLevel	= '5';
 
 		$query	= "insert into app_user_users

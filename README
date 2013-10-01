@@ -1,30 +1,74 @@
 Welcome to Sodapop!
 
-What is Sodapop?
+***Sodapop is in early Alpha development, so a lot of work has yet to be done.***
 
-Sodapop is a light PHP framework meant to provide the basic MVC and OOP structure for building web applications.  It is minimal in functionality, the core code providing just the bare necessities for web app development.
+*What is Sodapop?
 
-This has of course been done numbers of times by numbers of products, and done much better than I am able to do with Sodapop.
+Sodapop is a light PHP framework meant to provide the basic MVC and OO
+structure for building web applications.  It is minimal in
+functionality, the core code providing just the bare necessities for web
+app development.
 
-However, I wanted the experience of creating an MVC framework from scratch.  I also want to be able to say that I have build my web apps from the ground up - and by building them on top of my own framework, that will remain true.
+This has of course been done numbers of times by numbers of products,
+and certainly done much better than I am able to do with Sodapop.
 
-How is it set up?
+However, I wanted the experience of creating an MVC framework from
+scratch.  I also want to be able to say that I have build my web apps
+from the ground up - and by building them on top of my own framework,
+that will remain true.
 
-The basic Sodapop application is a set of php files in the MVC model.  It does the heavy lifting background stuff - database management, environmental data, etc etc - leaving you free to build any sort of web application on top of it that you desire.
+*How is it set up?
 
-Web applications are build as "apps" and are set in the "apps" directory.
+The basic Sodapop application is a set of php files in the MVC model. It
+does the heavy lifting background stuff - database management,
+environmental data, etc etc - leaving you free to build any sort of web
+application on top of it that you desire.
 
-Modules can also be built, and run as smaller apps themselves.  They can be embedded in the template separate from apps.
+Web applications are build as "apps" and are set in the "apps"
+directory.
 
-And finally there is a template directory where you can store the templates from your site.
+Modules can also be built, and run as smaller apps themselves.  They can
+be embedded in the template separate from apps. You would place them in
+the "modules" directory.
 
-What are the basic principles you are going for?
+And finally there is a template directory where you can store the
+templates for your project.
 
-Keeping it simple, light and extendable - that's the basic idea.  The core should always remain independent of the apps and modules.  It should run properly if any and or all of them are removed.
+*What are the basic principles you are going for?
 
-Can I help with it?
+Keeping it simple, light and extendable - that's the basic idea.  The
+core should always remain independent of the apps and modules.  It
+should run properly if any and or all of them are removed.  Even the
+apps that serve "Core" functionality - such as user login and
+management, are not vital to the core application... and could very
+easily be replaced by an app that functions differently.
 
-Uh yeah totally!  Im learning a lot as I go along, and much of what is done here could probably be done better.  There are holes too that I'd be happy to have someone else fill.  Changes in the core are welcome, and new apps, modules and templates are way more than welcome.  If you are interested, or want to chat with me you can reach me at bradisarobot@gmail.com.
+*Can I help with it?
 
-Who are you?
+Uh yeah totally!  Im learning a lot as I go along, and much of what is
+done here could probably be done better.  There are holes too that I'd
+be happy to have someone help fill.  Changes in the core are welcome,
+and new apps, modules and templates are way more than welcome.  If you
+are interested, or want to chat with me you can reach me at
+bradisarobot@gmail.com.  In truth though, Sodapop is really a personal
+project that will probably only be useful to myself to expedite my own
+future projects.
 
+*Who are you?
+
+I'm Brad. I'm self-taught and have a lot to learn but really enjoy
+working with PHP.  This project has been a great way to put what I am
+learning into practice, while forcing me to learn more in order to solve
+problems that I run across.
+
+Thanks for checking out Sodapop and again, please feel free to reach out to me
+if you have any questions, want to be involved in any way, or to kindly provide
+feedback or suggestions for better ways of doing things.
+
+Thanks much!
+
+---
+Brad Grochowski
+Tinboat Webworks
+http://tinboatweborks.com
+bradisarobot@gmail.com
