@@ -13,7 +13,7 @@
 defined('_LOCK') or die('Restricted access');
 
 $config['appName']			= "sodapop";	
-$config['appVersion']		= "0.0.1.3~";
+$config['appVersion']		= "0.0.1.3.3";
 $config['liveSite']			= "/~brad/git/Sodapop/sodapop/";
 $config['sitePath'] 		= "/Users/brad/Sites/git/Sodapop/sodapop/";
 $config['maintenanceMode'] 	= "no";

@@ -45,7 +45,9 @@ class sodapop {
 	public 	$template;
 	public	$modData;
 
-		
+	/*
+	*  	sodapop() creates the model and view objects.
+	*/  		
 	public function sodapop() {
 	
 		require_once "./application/model/mod.sodapop.php";
@@ -55,6 +57,11 @@ class sodapop {
 		$this->view	= new view;
 	}
 	
+	/*
+	*  	loadSodapop() is where we really get everything rolling.  We load the language,
+	*	Config file, template, all that good stuff as well as find out what should be
+	*	happening on the requested page.
+	*/        	
 	public function loadSodapop() {
 	
 		$this->config				= $this->loadConfigFile();
@@ -67,6 +74,10 @@ class sodapop {
 		$this->loadLanguage			= $this->loadLanguage();		
 	}
 	
+
+	/*
+	*  loadConfigFile() grabs the config file and generates the config array $sodapop->config
+	*/		
 	public function loadConfigFile() {
 	
 		require_once "./utilities/configuration.php";
@@ -75,7 +86,7 @@ class sodapop {
 
 
 	/*
-	*  dbConnect takes care of the db connection.  Somebody's got to do it.
+	*	dbConnect() takes care of the db connection.  Somebody's got to do it.
 	*/
 	function dbConnect($config) {
 		
@@ -89,9 +100,30 @@ class sodapop {
 		mysql_select_db($config['dbName'] , $link)
 		or die("Couldn't open" . $config['dbName'] . ": ".mysql_error());
 	}
+
+	/*
+	*  setLanguage() determines which language file to pull from... defaulting to 
+	*  english. 
+	*/		
+	public function setLanguage() {
+
+		/* Once cookies are working:
+		$language	= getCookie("language");
+		*/
+		
+		// but for now:
+		$language = "english";
+		
+		if (!$language) {
+			$language	= "english";
+		}		
+
+		return $language;	
+	}
 	
 	/*
-	*
+	*	loadLanguage() loads the language files for the application, apps and modules.
+	* 	Language in the apps and template will override core language
 	*/
 	public function loadLanguage() {
 	
@@ -106,7 +138,7 @@ class sodapop {
 
 
 	/*
-	*  getHandle uses the parsUrl function to get the app handle from the url
+	*	getHandle() uses the parsUrl() function to get the app handle from the url
 	*/
 	public function getHandle() {
 
@@ -115,8 +147,8 @@ class sodapop {
 	}	
 
 	/*
-	*  getQsting uses the parsUrl function to get the app query string from the
-	*  url
+	*	getQsting() uses the parsUrl() function to get the app query string from the
+	*	url
 	*/
 	public function getQstring() {
 
@@ -127,7 +159,7 @@ class sodapop {
 		
 			
 	/*
-	*  parseUrl retrieves the URI and breaks it up into it's various parts
+	*	parseUrl() retrieves the URI and breaks it up into it's various parts
 	*/
 	public function parseUrl($part) {
 
@@ -158,7 +190,13 @@ class sodapop {
 		return $this->string;
 	}
 	
-	
+	/*
+	*	getStringVars() takes the parameter strinf in the URL and parses out to it's 
+	*	parts.  It creates the variablein an array with the name and value based 
+	*	on the string.  So ?something=top&somethingElse=bottom would end as
+	*	$urlVals['something']='top'; $urlVals['$something']='bottom'; and then get
+	*	returned.
+	*/
 	public function getStringVars($string){
 	
 		$string	= explode("&", $string);
@@ -167,16 +205,13 @@ class sodapop {
 
 			list($name, $value)	= explode("=", $i);			
 			$urlVals[$name]	=	$value;
-
-
 		}
 	
-		return $urlVals;
-	
+		return $urlVals;	
 	}
 
 	/*
-	*  loadApp builds the path to the requested app, and then loads it up by 
+	*  loadApp() builds the path to the requested app, and then loads it up by 
 	*  requiring the apps lead file.
 	*/	
 	public function loadApp() {
@@ -200,7 +235,7 @@ class sodapop {
 	}
 
 	/*
-	*  loadView allows the app's controller to call in the apps view and push
+	*  loadView() allows the app's controller to call in the apps view and push
 	*  the $data array into it.
 	*/	
 	public function loadView() {
@@ -215,30 +250,8 @@ class sodapop {
 		return $viewApp;
 	}
 	
-	
 	/*
-	*  setLanguage determines which language file to pull from... defaulting to 
-	*  english. 
-	*/		
-	public function setLanguage() {
-
-		/* Once cookies are working:
-		$language	= getCookie("language");
-		*/
-		
-		// but for now:
-		$language = "english";
-		
-		if (!$language) {
-			$language	= "english";
-		}		
-
-		return $language;	
-	}
-
-
-	/*
-	*  langPath sets the path to the language files  
+	*  langPath() sets the path to the language files  
 	*/		
 	public function langPath($scope) {
 			
@@ -255,7 +268,7 @@ class sodapop {
 			$langPath		= $templatePath . "/language/lang." . $this->currentLanguage . ".php";
 		}
 		
-		// Load Template Language
+		// Load app Language
 		if ($scope == "app") {
 	
 			$getApp 	= $this->pageData['getApp'];
@@ -270,7 +283,7 @@ class sodapop {
 
 
 	/*
-	*  modPosition determines which modules are assigned to the given module position
+	*  modPosition() determines which modules are assigned to the given module position
 	*/	
 	public function modPosition($position) {
 		
@@ -283,7 +296,7 @@ class sodapop {
 	
 	
 	/*
-	 *  loadModule loads all the modules for the given position
+	 *  loadModule() loads all the modules for the given position
 	 */
 	private function loadModule() {
 					
@@ -317,7 +330,7 @@ class sodapop {
 
 	
 	/*
-	*  buildModPath creates the path to the module's index app
+	*  buildModPath() creates the path to the module's index app
 	*/
 	private function buildModPath($modDataName) {
 		
@@ -381,35 +394,60 @@ class sodapop {
 		return $showIt;		
 	}
 	
+	
+	/*
+	*  	parseModParams() was intended to parse out the parameter of the module
+	*  	but I think that's currently being done in mod.sodapop.pop in getModuleData()
+	*	This  method can probably be removed.
+	*/	
 	public function parseModParams($modParams) {
 	
 		$modParams	= '';
 	}
 	
+	/*
+	*  	getFormData() should be getting the data submitted by a form.  It sends it to 
+	*	scrubFormData to clean it up from injection attacks, etc.
+	*/	
 	public function getFormData($data) {
 	
 		$data	= $this->scrubFormData($data);
 		return $data;
 	}
 	
+	/*
+	*  	scrubFormData() This needs to be built yet.  It will scrub input form data to  
+	*	make sure that there aren't any injection attacks, etc.
+	*/
 	public function scrubFormData ($data) {
 	
 		return $data;
 	}
 	
-	
+	/*
+	*  	setaCookie():  At this point it just does the same thing as PHP setcookie,
+	*	but now we have the option doing some checking before actually setting a 
+	*	cookie.
+	*/	
 	public function setaCookie($cookieName, $userID, $duration) {
 	
 		setcookie($cookieName, $userID, time()+$duration); 
 	}
 	
-		
+	/*
+	*  	getCookie() just grabs a desired cookies value. 
+	*/			
 	public function getCookie($cookieName) {
 	
 		$cookie	= $_COOKIE[$cookieName];
 		return $cookie;
 	}
 	
+	
+	/*
+	*  	for hashing things.  Right now it's just a double md5.  Will probably add another
+	*	layer of SHA, any suggestion here would be appreciated. 
+	*/			
 	public function hashIt($string) {
 	
 		$string	= md5($string);

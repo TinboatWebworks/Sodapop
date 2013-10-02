@@ -29,11 +29,11 @@ class database {
 	
 	}
 
+
 	/*
 	*  getData performs the basic db query, and add scrubbing for sql injection 
 	*  protection. 
 	*/		
-
 	public function getData($query) {
 
 		#####
@@ -44,7 +44,6 @@ class database {
 		$result = mysql_query($query) or die("Couldn't execute query");
 			
 		return $result;
-	
 	}
 	
 	/*
@@ -67,7 +66,6 @@ class database {
 		}
 		
 		return $template;
-	
 	}
 
 	/*
@@ -75,11 +73,11 @@ class database {
 	*/		
 	public function pageData($sodapop) {
 	
-		## Get the handle
+		// Get the handle
 		$this->handle	= $sodapop->getHandle();
 
 			
-		## Get the app data from the table for this handle
+		// Get the app data from the table for this handle
 		$query	= " select 	*
 					from 	pages
 					where 	handle = '$this->handle'";
@@ -94,7 +92,7 @@ class database {
 					$page['getApp']		= $row['getApp'];						
 					}
 
-		## So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
+		// So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
 		if (!$page['id']) {
 		
 					$page['getApp']	= "404";	
@@ -104,7 +102,12 @@ class database {
 	}
 
 	
-	public function modsInPosition ($position) {
+	/*
+	*  	modsInPosition($position) determines which modules are to be loaded for the given position,
+	*	then processes all the info from the modules in that position loading them into
+	*	an array $mod then returning the array  
+	*/	
+	public function modsInPosition($position) {
 	
 		$query	= " select 	*
 			from 	modules
@@ -136,11 +139,15 @@ class database {
 					$mod[$i][$name]			= $value;
 									
 				}								
-			}			
-		return $mod;
+			}		
 				
+		return $mod;			
 	}
 	
+		/*
+		*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
+		*	data based on that. 
+		*/		
 		public function getUserDataById($id) {
 
 		$query	= " select 	*
@@ -159,10 +166,13 @@ class database {
 				$userData['accessLevel']	= $row['accessLevel'];											
 			}
 
-		return $userData;	
-	
+		return $userData;		
 	}
 
+		/*
+		*  	getModuleData($id) pulls module data from the db based on the modules ID number
+		*	then returns an array of that data.
+		*/	
 		public function getModuleData($id) {
 
 		$query	= " select 	*
@@ -185,10 +195,7 @@ class database {
 			}
 
 		return $moduleData;	
-	
 	}
-
-
 }
 
 

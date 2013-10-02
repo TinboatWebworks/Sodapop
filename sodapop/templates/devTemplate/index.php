@@ -5,22 +5,18 @@
 
 </head>
 <body>
+<br />
 
+<div class="mainBody">
+
+<?php $sodapop->modPosition('login'); ?>
+<div class="menuBar">
+<img src="http://localhost/~brad/git/Sodapop/sodapop/templates/devTemplate/images/sodapopSplashLogoSmaller.png" /> Demonstration Site
 
 <?php
-echo "
-	<div class='tempName'>
-		" . $sodapop->language['tempName'] . ":" . $sodapop->template['name'] . "
-		<br />" .
-		$sodapop->language['labelVersion'] . $sodapop->config['appVersion'] . "
-		
-	</div>";
-	
-$sodapop->modPosition('login');
-
 $sodapop->modPosition('menu');
 ?>
-
+</div>
 
 
 <?php $sodapop->modPosition("test"); ?>
@@ -32,9 +28,19 @@ $sodapop->modPosition('menu');
 
 
 <div class="footer">
-
+<?php
+echo "
+	<div class='tempName'>
+		" . $sodapop->language['tempName'] . ":" . $sodapop->template['name'] . "
+		<br />" .
+		$sodapop->language['labelVersion'] . $sodapop->config['appVersion'] . "
+		
+	</div>";
+	?>
 
 </div>
+</div>
 
+<br /><br /><br />
 </body>
 </html>

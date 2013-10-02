@@ -18,22 +18,67 @@ div.tempName {
 
 }
 
+div.mainBody {
+	outline: 1px solid black;
+	margin-left: 10%;
+	width: 851px;
+}
+
+div.menuBar {
+
+	height: 100px;
+	padding: 15px 0 0 15px;
+	background-color: #115fad;
+	color: white;
+	
+}
+
 div.menu {
 
-	padding: 5px;
+	padding: 70px 20 0 0;
+	float: right;
+	font-size: 20px;
 
+
+}
+
+div.tempName {
+
+
+	width: 845px;
+}
+
+div.testModuleBox {
+
+	width: 845px !important;
 }
 
 div.mainContent {
 
-	padding: 5px;
+	outline: 0px solid gray;
+	width: 820px;
+	height: 100%;
+	padding: 15px;
+	margin: 0px 0px 0px 0px;
+	background-color: lightgray;
 	
 }
 
 div.footer {
 
-	margin-top: 10px;
-	font-size: 9px;
-	padding: 5px;
+	margin-top: 0px;
+	font-size: 0px;
+	padding: 0px;
 
+}
+
+div.menu a {
+
+	color: white;
+	text-decoration: none;
+}
+
+div.menu a:hover {
+
+	color: gray;
 }

@@ -28,11 +28,14 @@ class appView extends view {
 				
 		return $viewApp;
 	}
-	
+
+	/*
+	*  	buildRgstnForm($sodapop) builds the registration form for new registrations
+	*/	
 	public function buildRgstnForm($sodapop) {
 
 		//require_once "./apps/user/assets/javascript/regFormValidation.php";
-	
+
 		$formFields = array ( 
 						name,
 						userName,
@@ -44,20 +47,48 @@ class appView extends view {
 		
 		$form	.= "
 
-			<form name='Register' onsubmit='return validateFormOnSubmitRegister(this)' action='http://localhost/~brad/git/Sodapop/sodapop/user?action=create' method='post'>
-					Name: <input type='text' name='name'> <br />
-					Username: <input type='text' name='username'> <br />
-					Email: <input type='text' name='email'> <br /> 
-					Password: <input type='text' name='pwd'> <br />
-					Confirm Password: <input type='text' name='pwdConfirm'> <br />
-					<input name='redirect' type='hidden' value='http://localhost/~brad/git/Sodapop/sodapop/user'>
-					<input name='Submit' type='submit' value='Register'>
-			</form>";
+			<div class='registrationForm'>
+				<form name='Register' onsubmit='return validateFormOnSubmitRegister(this)' action='" . $sodapop->config['liveSite'] . "user?action=create' method='post'>
+					<table class='registrationTable'>
+						<tr>
+							<td><label for='name'> " . $sodapop->language['regName'] . " </label></td>	
+							<td><input type='text' name='name'></td>
+						</tr>
+						<tr>	
+							<td><label for='username'> " . $sodapop->language['regUsrname'] . "  </label></td>
+							<td> <input type='text' name='username'> </td>
+						</tr>
+						<tr>							
+							<td><label for='email'> " . $sodapop->language['regEmail'] . " </label></td>
+							<td> <input type='text' name='email'> </td>
+						</tr>
+						<tr>
+							<td><label for='pwd'> " . $sodapop->language['regPwd'] . "</label> </td>
+							<td> <input type='text' name='pwd'> </td>
+						</tr>
+						<tr>							
+							<td><label for='pwdConfirm'> " . $sodapop->language['regCnfPwd'] . " </label></td>
+							<td> <input type='text' name='pwdConfirm'> </td>
+						</tr>
+						<tr>							 
+							<td> <input name='redirect' type='hidden' value='" . $sodapop->config['liveSite'] . "user'>
+								<input name='Submit' type='submit' value='" . $sodapop->language['regSubmit'] . "'> </td>
+						</tr>
+					</table>	
+								
+				</form>
+			</div>";
 	
 		return $form;
 	
 	}
-	
+
+
+	/*
+	*  	buildProfile() builds the profile page.  It's super simple here, but could be expanded 
+	*	by greated an html.profile.php file and requiring it, or something like that, to 
+	*	make it more fancy for your own purposes.
+	*/			
 	public function buildProfile($sodapop) {
 	
 		$cookie		= $sodapop->getCookie("sp_login");
@@ -70,20 +101,26 @@ class appView extends view {
 		
 		else {
 	
-			$output	= "<h1>Profile:</h1> ";
-		
-			$output .= "<strong>User Name:</strong> " . $userInfo['username'] . "<br />";
-			$output .= "<strong>Name:</strong> " . $userInfo['name'] . "<br />";
-			$output .= "<strong>email:</strong> " . $userInfo['email'] . "<br />";
-			$output .= "<br /><a href='http://localhost/~brad/git/Sodapop/sodapop/user?action=logout'>Log out</a>";
-			
-			
+			$output	= "<h1>" . $sodapop->language['profileTitle'] . "</h1> ";
+			$output	.= "<div class='profileData'><table>";
+			$output .= "<tr><td><strong>" . $sodapop->language['profileUsrName'] . "</strong> </td><td>" . $userInfo['username'] . "</td></tr>";
+			$output .= "<tr><td><strong>" . $sodapop->language['profileName'] . "</strong> </td><td>" . $userInfo['name'] . "</td></tr>";
+			$output .= "<tr><td><strong>" . $sodapop->language['profileEmail'] . "</strong> </td><td>" . $userInfo['email'] . "</td></tr>";
+			$output .= "<tr><td></td><td><a href='" . $sodapop->config['liveSite'] . "user?action=logout'>" . $sodapop->language['profileLogout'] . "</a></td></tr>";
+			$output	.= "</table></div>";	
 		
 		}
 		
 		return $output;
 	}
 	
+	/*
+	*  	validator() builds the validation javascript based on the fields that are sent into
+	*	it in a $fields array.  If a field is requested, then validator validates that 
+	*	field.  You have to pass the $formName into it as well, so the JS method 
+	*	can differentiate itself in case the validation srcipt appears mulitple times 
+	*	on a page.
+	*/				
 	public function validator($formName, $fields) {
 
 		$fields	= $this->getFields($fields);
@@ -270,6 +307,10 @@ class appView extends view {
 		return $validator;	
 	}
 	
+	/*
+	*  	getFields() parses the $fields array for validator() so that it knows which fields
+	*	to validate. 
+	*/		
 	public function getFields($checkFields) {
 	
 	

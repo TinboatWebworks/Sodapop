@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 21, 2013 at 01:59 AM
+-- Generation Time: Oct 02, 2013 at 03:08 AM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.1
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `app_user_users` (
   `password` varchar(300) NOT NULL,
   `accessLevel` int(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=154 ;
 
 --
 -- Dumping data for table `app_user_users`
@@ -41,7 +41,11 @@ CREATE TABLE IF NOT EXISTS `app_user_users` (
 
 INSERT INTO `app_user_users` (`id`, `name`, `email`, `username`, `password`, `accessLevel`) VALUES
 (1, 'Brad', 'brad@picnet.net', 'brad', '696d29e0940a4957748fe3fc9efd22a3', 10),
-(2, 'bill', 'bill@email.com', 'bill', 'bcfd3203056c535aace7c6c4b810d83b', 10);
+(127, 'brad', 'bradisarobot@gmail.com', 'newBrad', '224cf2b695a5e8ecaecfb9015161fa4b', 5),
+(128, '', '', '', 'sdafasdf', 5),
+(151, 'tester', 'brad@emailer.com', 'tester', '224cf2b695a5e8ecaecfb9015161fa4b', 5),
+(152, 'asdf', 'asdf@asdf.com', 'asdfsdfgsdf', '224cf2b695a5e8ecaecfb9015161fa4b', 5),
+(153, 'asdf', 'asdf@asdf.sad', 'asdfsdfad', '224cf2b695a5e8ecaecfb9015161fa4b', 5);
 
 -- --------------------------------------------------------
 
@@ -68,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
 INSERT INTO `modules` (`id`, `name`, `positions`, `pages`, `hidden`, `params`, `ordering`, `active`) VALUES
 (1, 'testModule', 'test', '', '', '', 3, 0),
 (2, 'newModule', 'test', '', 'episode', '', 2, 0),
-(3, 'login', 'login', '', '', 'redirect=http://localhost/~brad/git/Sodapop/sodapop/::money=lots', 0, 1),
+(3, 'login', 'login', '', '', 'redirect==http://localhost/~brad/git/Sodapop/sodapop/user::money=lots', 0, 1),
 (4, 'menu', 'menu', '', '', '', 1, 1);
 
 -- --------------------------------------------------------
