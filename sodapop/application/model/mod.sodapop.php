@@ -162,7 +162,8 @@ class database {
 				$userData['id']				= $row['id'];
 				$userData['name']			= $row['name'];
 				$userData['email']			= $row['email'];
-				$userData['username']		= $row['username'];	
+				$userData['username']		= $row['username'];
+				$userData['bio']			= $row['bio'];	
 				$userData['accessLevel']	= $row['accessLevel'];											
 			}
 

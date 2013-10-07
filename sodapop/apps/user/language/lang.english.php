@@ -26,6 +26,11 @@ $language['regEmail']	= "Email: ";
 $language['regPwd']		= "Password: ";
 $language['regCnfPwd']	= "Confirm Password: ";
 $language['regSubmit']	= "Register";
+$language['editSubmit']	= "Update";
+$language['noUpdate']	= "That email address or username is already in use.";
+$language['emailUpdateNope']	= "That email address is already in use.";
+$language['usernameUpdateNope']	= "That user name address is already in use.";
+$language['profileEditTitle']	= "Edit Profile:";
 
 // Registration For Profile Page
 $language['profileTitle']	= "Profile:";
@@ -33,6 +38,11 @@ $language['profileUsrName']	= "Your User Name: ";
 $language['profileName']	= "Your Name: ";
 $language['profileEmail']	= "Your Email Address: ";
 $language['profileLogout']	= "Log Out";
+$language['profileEdit']	= "Edit Info";
+$language['profileDelete']	= "Delete Account";
+$language['profilePwd']		= "Your Password:";
+$language['profileBio']		= "Biography:";
+$language['editCancel']		= "Cancel";
 
 // Validator errors (Not using these yet...)
 $language['validateError']			= "Some fields need correction:\n\n";

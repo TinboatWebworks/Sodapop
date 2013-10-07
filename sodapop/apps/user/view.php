@@ -15,8 +15,11 @@ defined('_LOCK') or die('Restricted access');
 class appView extends view {
 
 	public $data;
-
+	
 	public function appView() {
+	
+	 	global $sodapop; // Let's bring in the global app object so we can access all the environmental info...
+		$this->sodapop	= $sodapop; // And give it to this class
 	
 	}
 		
@@ -30,9 +33,9 @@ class appView extends view {
 	}
 
 	/*
-	*  	buildRgstnForm($sodapop) builds the registration form for new registrations
+	*  	buildRgstnForm() builds the registration form for new registrations
 	*/	
-	public function buildRgstnForm($sodapop) {
+	public function buildRgstnForm() {
 
 		//require_once "./apps/user/assets/javascript/regFormValidation.php";
 
@@ -48,31 +51,31 @@ class appView extends view {
 		$form	.= "
 
 			<div class='registrationForm'>
-				<form name='Register' onsubmit='return validateFormOnSubmitRegister(this)' action='" . $sodapop->config['liveSite'] . "user?action=create' method='post'>
+				<form name='Register' onsubmit='return validateFormOnSubmitRegister(this)' action='" . $this->sodapop->config['liveUrl'] . "user?action=create' method='post'>
 					<table class='registrationTable'>
 						<tr>
-							<td><label for='name'> " . $sodapop->language['regName'] . " </label></td>	
+							<td><label for='name'> " . $this->sodapop->language['regName'] . " </label></td>	
 							<td><input type='text' name='name'></td>
 						</tr>
 						<tr>	
-							<td><label for='username'> " . $sodapop->language['regUsrname'] . "  </label></td>
+							<td><label for='username'> " . $this->sodapop->language['regUsrname'] . "  </label></td>
 							<td> <input type='text' name='username'> </td>
 						</tr>
 						<tr>							
-							<td><label for='email'> " . $sodapop->language['regEmail'] . " </label></td>
+							<td><label for='email'> " . $this->sodapop->language['regEmail'] . " </label></td>
 							<td> <input type='text' name='email'> </td>
 						</tr>
 						<tr>
-							<td><label for='pwd'> " . $sodapop->language['regPwd'] . "</label> </td>
+							<td><label for='pwd'> " . $this->sodapop->language['regPwd'] . "</label> </td>
 							<td> <input type='text' name='pwd'> </td>
 						</tr>
 						<tr>							
-							<td><label for='pwdConfirm'> " . $sodapop->language['regCnfPwd'] . " </label></td>
+							<td><label for='pwdConfirm'> " . $this->sodapop->language['regCnfPwd'] . " </label></td>
 							<td> <input type='text' name='pwdConfirm'> </td>
 						</tr>
 						<tr>							 
-							<td> <input name='redirect' type='hidden' value='" . $sodapop->config['liveSite'] . "user'>
-								<input name='Submit' type='submit' value='" . $sodapop->language['regSubmit'] . "'> </td>
+							<td> <input name='redirect' type='hidden' value='" . $this->sodapop->config['liveUrl'] . "user'>
+								<input name='Submit' type='submit' value='" . $this->sodapop->language['regSubmit'] . "'> </td>
 						</tr>
 					</table>	
 								
@@ -89,10 +92,10 @@ class appView extends view {
 	*	by greated an html.profile.php file and requiring it, or something like that, to 
 	*	make it more fancy for your own purposes.
 	*/			
-	public function buildProfile($sodapop) {
+	public function buildProfile() {
 	
-		$cookie		= $sodapop->getCookie("sp_login");
-		$userInfo	= $sodapop->database->getUserDataById($cookie);	
+		$cookie		= $this->sodapop->getCookie("sp_login");
+		$userInfo	= $this->sodapop->database->getUserDataById($cookie);	
 		
 		if (!$cookie) {
 		
@@ -101,17 +104,95 @@ class appView extends view {
 		
 		else {
 	
-			$output	= "<h1>" . $sodapop->language['profileTitle'] . "</h1> ";
+			$output	= "<h1>" . $this->sodapop->language['profileTitle'] . "</h1> ";
 			$output	.= "<div class='profileData'><table>";
-			$output .= "<tr><td><strong>" . $sodapop->language['profileUsrName'] . "</strong> </td><td>" . $userInfo['username'] . "</td></tr>";
-			$output .= "<tr><td><strong>" . $sodapop->language['profileName'] . "</strong> </td><td>" . $userInfo['name'] . "</td></tr>";
-			$output .= "<tr><td><strong>" . $sodapop->language['profileEmail'] . "</strong> </td><td>" . $userInfo['email'] . "</td></tr>";
-			$output .= "<tr><td></td><td><a href='" . $sodapop->config['liveSite'] . "user?action=logout'>" . $sodapop->language['profileLogout'] . "</a></td></tr>";
+			$output .= "<tr><td><strong>" . $this->sodapop->language['profileName'] . "</strong> </td><td>" . $userInfo['name'] . "</td></tr>";
+			$output .= "<tr><td><strong>" . $this->sodapop->language['profileUsrName'] . "</strong> </td><td>" . $userInfo['username'] . "</td></tr>";
+			$output .= "<tr><td><strong>" . $this->sodapop->language['profileEmail'] . "</strong> </td><td>" . $userInfo['email'] . "</td></tr>";
+			$output .= "<tr><td><strong>" . $this->sodapop->language['profileBio'] . "</strong> </td><td>" . $userInfo['bio'] . "</td></tr>";
 			$output	.= "</table></div>";	
+			$output .= "<br /><br /><a href='" . $sthis->odapop->config['liveUrl'] . "user?action=logout'>" . $this->sodapop->language['profileLogout'] . "</a> |  <a href='" . $sthis->odapop->config['liveUrl'] . "user?action=edit'>" . $this->sodapop->language['profileEdit'] . "</a> | </a> <a href='" . $sthis->odapop->config['liveUrl'] . "user?action=delete'>" . $this->sodapop->language['profileDelete'] . "</a>";
 		
 		}
 		
 		return $output;
+	}
+	
+	/*
+	*  	buildEditProfile() 
+	*/			
+	public function buildEditProfile() {
+	
+		$cookie		= $this->sodapop->getCookie("sp_login");
+		$userInfo	= $this->sodapop->database->getUserDataById($cookie);	
+
+		if (!$cookie) {
+		
+			$output = "Please log in.";
+		}
+		
+		else {
+		
+			$formFields = array ( 
+							name,
+							userName,
+							email);
+
+			$output	= $this->validator("Edit", $formFields);	
+			
+			if ($this->sodapop->string['update']) {
+			
+			if ($this->sodapop->string['dupEmail'] == '1') {
+				$output	.= "<span class='alert'>" . $this->sodapop->language['emailUpdateNope'] . "<span><br/>";
+			}	
+			
+			if ($this->sodapop->string['dupName'] == '1') {
+				$output	.= "<span class='alert'>" . $this->sodapop->language['usernameUpdateNope'] . "<span><br/>";
+			}
+			
+			}
+				
+			$output	.= "<h1>" . $this->sodapop->language['profileEditTitle'] . "</h1> ";	
+			$output	.= "
+
+						<div class='registrationForm'>
+							<form name='Register' onsubmit='return validateFormOnSubmitEdit(this)' action='" . $this->sodapop->config['liveUrl'] . "user?action=update' method='post'>
+								<table class='registrationTable'>
+									<tr>
+										<td><label for='name'> " . $this->sodapop->language['profileName'] . " </label></td>	
+										<td><input type='text' name='name' value='" . $userInfo['name'] . "'></td>
+									</tr>
+									<tr>	
+										<td><label for='username'> " . $this->sodapop->language['profileUsrName'] . "  </label></td>
+										<td> <input type='text' name='username' value='" . $userInfo['username'] . "'> </td>
+									</tr>
+									<tr>							
+										<td><label for='email'> " . $this->sodapop->language['profileEmail'] . " </label></td>
+										<td> <input type='text' name='email' value='" . $userInfo['email'] . "'> </td>
+									</tr>
+									<tr>
+										<td><label for='pwd'> " . $this->sodapop->language['profilePwd'] . "</label> </td>
+										<td> <input type='text' name='pwd' value=''> </td>
+									</tr>
+									<tr>
+										<td><label for='pwd'> " . $this->sodapop->language['profileBio'] . "</label> </td>
+										<td> <textarea name='bio' rows='4' cols='50'>" . $userInfo['bio'] . "</textarea> </td>
+									</tr>
+									<tr>							 
+										<td> <input name='redirect' type='hidden' value='" . $this->sodapop->config['liveUrl'] . "user'>
+											<input name='id' type='hidden' value='" . $userInfo['id'] . "'>
+											<input name='Submit' type='submit' value='" . $this->sodapop->language['editSubmit'] . "'> <a href='" . $this->sodapop->config['liveUrl'] . "user'>" . $this->sodapop->language['editCancel'] . "</a></td>
+									</tr>
+								</table>	
+							
+							</form>
+						</div>";
+						
+		
+							
+		}
+	
+		return $output;		
 	}
 	
 	/*
@@ -188,9 +269,6 @@ class appView extends view {
 					if (fld.value == "") {
 						fld.style.background = "Yellow"; 
 						error = "You didn\'t enter you name.\n";
-					} else if (illegalChars.test(fld.value)) {
-						fld.style.background = "Yellow"; 
-						error = "The username contains illegal characters.\n";
 					} else {
 						fld.style.background = "White";
 					} 

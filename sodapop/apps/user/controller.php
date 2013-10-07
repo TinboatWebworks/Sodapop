@@ -20,28 +20,31 @@ class appController extends sodapop {
 	public $appModel;
 	public $appView;
 	
-	public function appController($sodapop) {
+	public function appController() {
 	
-		require_once $sodapop->pageData['filePath'] . "/model.php";
+		global $sodapop; // Let's bring in the global app object so we can access all the environmental info...
+		$this->sodapop	= $sodapop; // And give it to this class
+	
+		require_once $this->sodapop->pageData['filePath'] . "/model.php";
 		$this->appModel	= new appModel;
 		
-		require_once $sodapop->pageData['filePath'] . "/view.php";		
+		require_once $this->sodapop->pageData['filePath'] . "/view.php";		
 		$this->appView	= new appView();
 		
 	}	
 	
-	public function loadApp($sodapop) {
+	public function loadApp() {
 	
-		$this->config	= $sodapop->config;
-		$this->appUrl	= $sodapop->appUrl;
-		$this->urlVars	= $this->parseUrl('qString');
-		$this->pageData	= $sodapop->pageData;
+		$this->config	= $this->sodapop->config;
+		$this->appUrl	= $this->sodapop->appUrl;
+		$this->urlVars	= $this->sodapop->parseUrl('qString');
+		$this->pageData	= $this->sodapop->pageData;
 		$this->formData	= $this->getFormData($_POST);
-		$this->redirect	= $sodapop->config['liveSite']; // Must chanage this to grab the redirect from the module params.
+		$this->redirect	= $this->sodapop->config['liveUrl']; // Maybe at some point this will be a app parameter
 
 	}
 	
-	public function output($sodapop) {
+	public function output() {
 	
 		//Now we switch to the action based on the value of action
 		//in the URL string
@@ -50,14 +53,14 @@ class appController extends sodapop {
 			// If there is no string at all, we just attempt to log in	
 			case 'login':
 	
-				$output	= $this->logIn($sodapop);
+				$output	= $this->logIn();
 			
 				break;
 			
 			// log out when action = logout
 			case 'logout':
 		
-				$output	= $this->logOut($sodapop);
+				$output	= $this->logOut();
 	
 				break;
 			
@@ -65,20 +68,38 @@ class appController extends sodapop {
 			//form	
 			case 'new':
 		
-				$output	= $this->newUser($sodapop);
+				$output	= $this->newUser();
 	
 				break;
 				
 			// There we are going to process the form and store the users data	
 			case 'create':
 		
-				$output	= $this->createUser($sodapop);
+				$output	= $this->createUser();
 	
 				break;	
 			
+			case 'edit':
+		
+				$output	= $this->editProfile();
+	
+				break;	
+
+			case 'update':
+		
+				$this->	output	= $this->updateProfile();
+	
+				break;		
+				
+			case 'delete':
+		
+				$this->	output	= $this->deleteUser();
+	
+				break;								
+			
 			case '':
 		
-				$output	= $this->showProfile($sodapop);
+				$output	= $this->showProfile();
 	
 				break;					
 		}
@@ -93,11 +114,11 @@ class appController extends sodapop {
 	*  	if everythings is kosher.  Then redirects to the redirect URL as set in the Login
 	* 	plugin.
 	*/
-	public function logIn($sodapop) {
+	public function logIn() {
 
 		$checkPass			= $this->appModel->getPassword($this->formData['username']);
 		$comparePass		= $this->comparePassword($this->formData['pwd'], $checkPass);
-	//print_r ($this->formData['username']); die();
+
 		if ($comparePass == '1') {
 		
 			$this->processUser($this->formData['username']);	
@@ -111,8 +132,8 @@ class appController extends sodapop {
 		
 		else { 
 
-			$output = $sodapop->language['didNotPass'];
-			$output = $output . $sodapop->language['thankYou'];
+			$output = $this->sodapop->language['didNotPass'];
+			$output = $output . $this->sodapop->language['thankYou'];
 
 			return $output;
 			
@@ -131,11 +152,9 @@ class appController extends sodapop {
 	/* 
 	* 	logOut() deletes the cookie and redirects to the home page of the site 
 	*/ 
-	public function logout($sodapop)	{
+	public function logout()	{
 
 		$setCookie	= $this->setaCookie('sp_login', $userData['id'], -3600);
-//		$redirect		= $formData['redirect'];
-
 
 		header('Location: ' . $this->redirect);
 	
@@ -145,29 +164,35 @@ class appController extends sodapop {
 	* 	newUswer generates the form that to allow a new user to register and provides the
 	*	form validation.
 	*/
-	public function newUser($sodapop)	{
+	public function newUser()	{
 		
-		$output = $output . $sodapop->language['newUser'];
+		$output = $output . $this->sodapop->language['newUser'];
 		
-		$output = $output . $this->appView->buildRgstnForm($sodapop);
+		$output = $output . $this->appView->buildRgstnForm($this->sodapop);
 		
 		return $output;
 	
 	}
 	
 	/* 
-	* createUser grabs the form data from newUser and pushes it to the database
+	* deleteUser 
 	*/
-	public function createUser($sodapop) {
+	public function deleteUser() {
 
+		$this->appModel->deleteUserData();
+		$this->logout();
+
+	}
+	
+		public function createUser() {
 
 		$confirmUnique	= $this->appModel->confirmUnique($this->formData);
-	
-		if ($confirmUnique !='1') {
+
+		if ($confirmUnique == 'yes') {
 			$this->appModel->putUserData($this->formData);
 			$output = $output . "Creating your account!!!";
 			$this->creatingUser	= "1";
-			$this->login($sodapop);
+			$this->login();
 		}
 			
 		else {$output = $output .  "email and username must be unique!";}						
@@ -192,11 +217,39 @@ class appController extends sodapop {
 		return $match;
 	}	
 	
-	public function showProfile($sodapop)  {
+	public function showProfile()  {
 	
-		$output = $this->appView->buildProfile($sodapop);
+		$output = $this->appView->buildProfile($this->sodapop);
 	
 		return $output;
 	}
+	
+	public function editProfile()  {
+	
+		$output = $this->appView->buildEditProfile($this->sodapop);
+	
+		return $output;
+	}	
+	
+		public function updateProfile()  {
+
+		$output = $this->appModel->updateUserData($this->formData);	
+	
+		if ($output) { 
+		
+
+			$string = "update=nope";		
+
+			if($output['email'] == 'email') 	{ $string .= "&dupEmail=1"; }
+			if($output['username']  == 'username')	{ $string .= "&dupName=1"; }	
+
+			header('Location: ' . $this->sodapop->config['liveUrl'] . 'user?action=edit&' . $string);
+		}
+		
+		else {
+			header('Location: ' . $this->sodapop->config['liveUrl'] . 'user');
+		}
+	
+	}	
 }
 ?>

@@ -22,17 +22,26 @@ class login extends sodapop {
 		
 		$cookie		= $this->getCookie("sp_login");
 		$redirect	= $modData['redirect'];
+		global $sodapop;
 
 		if ($cookie == '') {
 	
 			$modOutput	= "
 					
-					<form name='login' action='http://localhost/~brad/git/Sodapop/sodapop/user?action=login' method='post'>
+					<form name='login' class='loginForm' action='./user?action=login' method='post'>
 						Username: <input type='text' name='username'> 
 						Password: <input type='text' name='pwd'> 
 						<input type='hidden' name='redirect' value='" . $redirect . "'>
-						<input type='submit' value='Submit'>
-						<a href='user?action=new'>Create Account</a>
+						<input type='submit' value='Submit'>";
+						
+			if ($modData['registration'] == "on") {			
+						
+					$modOutput	.= "	
+						<a href='user?action=new'>[Register]</a>";
+						
+			}
+			
+			$modOutput	.= "			
 					</form>";		
 		}	
 	
@@ -40,7 +49,7 @@ class login extends sodapop {
 
 	
 			$userInfo	= $loginDatabase->getUserDataById($cookie);	
-			$modOutput	= "You are logged in <b><a href='http://localhost/~brad/git/Sodapop/sodapop/user'>" . $userInfo['name'] . "</a></b> [<a href='user?action=logout'>Log out</a>]";
+			$modOutput	= "You are logged in <b><a href='./user'>" . $userInfo['name'] . "</a></b> [<a href='./user?action=logout'>Log out</a>]";
 	
 		}
 

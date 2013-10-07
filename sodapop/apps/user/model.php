@@ -16,6 +16,9 @@ class appModel extends database {
 
 	public function appModel() {
 	
+		global $sodapop; // Let's bring in the global app object so we can access all the environmental info...
+		$this->sodapop	= $sodapop; // And give it to this class
+	
 	}
 
 
@@ -60,10 +63,45 @@ class appModel extends database {
 	
 	}
 	
+	
 	public function confirmUnique($formData) {
 
 		$query	= " select 	email, username
-					from app_user_users";						
+					from app_user_users";	
+					
+		$result	= $this->getData($query);
+ 		
+		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+	
+			$existingUser['email']		= $row['email'];
+			$existingUser['username']	= $row['username'];
+				
+			if ($formData['email']  ==  $existingUser['email'] || $formData['username']  ==  $existingUser['username']) {
+			
+				$confirmUnique = 'no';							
+			}
+			
+		}
+		
+		if ($confirmUnique != 'no'){
+	
+			$confirmUnique	=	'yes';
+		}
+					
+		return $confirmUnique;
+	}	
+	
+	public function confirmUniqueUpdate($formData) {
+
+		$id		= $formData['id'];
+
+		$query	= " select 	email, username
+					from app_user_users ";	
+					
+		if ($id != '')	{
+			
+			$query .= "where id != '$id'";
+		}							
 	
 		$result	= $this->getData($query);
 		
@@ -71,32 +109,41 @@ class appModel extends database {
 	
 			$existingUser['email']		= $row['email'];
 			$existingUser['username']	= $row['username'];
-				
-			if ($formData['email']  ==  $existingUser['email'] || $formData['username']  ==  $existingUser['username']) {
 		
-				$confirmUnique = 1;				
+		
+			if (($formData['email']  ==  $existingUser['email']) || ($formData['username']  ==  $existingUser['username'])) {
+		
+				if ($formData['email']  ==  $existingUser['email']) { 
+		
+					$confirmUnique['email'] = "email";
+							
+				}	
+			
+				if ($formData['username']  ==  $existingUser['username']) {
+	
+					$confirmUnique['username'] = "username";
+					
+						
+				}			
+			}		
 
-				return $confirmUnique;
+		}	
+		
+		if ($confirmUnique == ''){
 			
-			}
-			
-			else { $confirmUnique = '2'; }
+			$confirmUnique	=	'yes';
 		}
-		
-
 
 		return $confirmUnique;		
 	}
 	
 	public function putUserData($data) {
-
-		global $sodapop;  // Is there really no better way to get to the hashIt method?  Argh.
 	 
 		$id				= "";
 		$name			= $data['name'];
 		$email			= $data['email'];
 		$username		= $data['username'];
-		$password		= $sodapop->hashIt($data['pwd']);
+		$password		= $this->sodapop->hashIt($data['pwd']);
 		$accessLevel	= '5';
 
 		$query	= "insert into app_user_users
@@ -110,9 +157,65 @@ class appModel extends database {
 								'$email', 
 								'$username',
 								'$password', 
-								'$accessLevel')";								
+								'$accessLevel')";	
+																						
 		$result	= $this->getData($query);
 		return $result;			
 	}
+
+	public function deleteUserData() {
+	
+		$id		= $this->sodapop->getCookie("sp_login");
+	
+		$query	= "	DELETE FROM app_user_users 
+					WHERE id	= '$id'";
+		
+		$result	= $this->getData($query);
+		
+		$return;				
+	}
+	
+	public function updateUserData($data) {
+ 
+ 		$id				= $data['id'];
+		$name			= $data['name'];
+		$email			= $data['email'];
+		$username		= $data['username'];
+		$bio			= addslashes($data['bio']);
+		
+		$unique	= $this->confirmUniqueUpdate($data);
+	
+		if ( $unique == 'yes' ) {
+		
+			$query	= "	update app_user_users
+						set 	name		= '$name', 
+								email		= '$email', 
+								username	= '$username',
+								bio			= '$bio'
+						
+						where	id			= '$id'";
+										
+			$result	= $this->getData($query);		
+		}
+		
+		else {
+	
+			$output = $unique;							
+		}
+		
+		if ($data['pwd'] != '') {
+	
+			$password		= $this->sodapop->hashIt($data['pwd']);
+		
+			$query	= "update app_user_users
+						set 	password	= '$password'
+					
+						where	id			= '$id'";	
+			
+			$result	= $this->getData($query);																		
+		}
+
+		return $output;			
+	}	
 
 }

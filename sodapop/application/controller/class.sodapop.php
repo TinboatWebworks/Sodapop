@@ -455,27 +455,4 @@ class sodapop {
 		
 		return $string;
 	}
-	
-	
-	####
-	## Coming Soon!
-	####	
-	
-	public function request($InputString) {
-	
-	
-	}	
-	
-	
-	public function getChart($chartType, $chartData) {
-	
-	
-	}
-
-	
-	public function registerEvent($eventType, $userID, $EpisodeID, $ShowID) {
-	
-	
-	}
-
 }
