@@ -163,10 +163,12 @@ class appModel extends database {
 		return $result;			
 	}
 
-	public function deleteUserData() {
+	public function deleteUserData($id) {
 	
-		$id		= $this->sodapop->getCookie("sp_login");
-	
+		if (!$id) {
+			$id		= $this->sodapop->getCookie("sp_login");
+		}
+		
 		$query	= "	DELETE FROM app_user_users 
 					WHERE id	= '$id'";
 		
@@ -181,6 +183,7 @@ class appModel extends database {
 		$name			= $data['name'];
 		$email			= $data['email'];
 		$username		= $data['username'];
+		$accessLevel	= $data['accessLevel'];
 		$bio			= addslashes($data['bio']);
 		
 		$unique	= $this->confirmUniqueUpdate($data);
@@ -188,13 +191,17 @@ class appModel extends database {
 		if ( $unique == 'yes' ) {
 		
 			$query	= "	update app_user_users
-						set 	name		= '$name', 
-								email		= '$email', 
-								username	= '$username',
-								bio			= '$bio'
+						set";
+			
+			$query	.= " id		= '$id'";			
+			if($name != '') 		{ $query	.= ", name		= '$name'"; }
+			if($email != '') 		{ $query	.= ", email		= '$email'"; } 
+			if($username != '') 	{ $query	.= ", username	= '$username'"; }
+			if($bio != '') 			{ $query	.= ", bio			= '$bio'"; }
+			if($accessLevel != '') 	{ $query	.= ", accessLevel	= '$accessLevel'"; }    
 						
-						where	id			= '$id'";
-										
+			$query	.= " where	id			= '$id'";
+//die ($query);										
 			$result	= $this->getData($query);		
 		}
 		
@@ -217,5 +224,40 @@ class appModel extends database {
 
 		return $output;			
 	}	
+	
+	public function buildUserList() {
+
+		$query	= " select 		*
+					from 		app_user_users
+					order by	id";			
+	
+		$result	= $this->getData($query);
+		
+		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+				
+				$id				= $row['id'];
+				$name			= $row['name'];
+				$email			= $row['email'];
+				$userName		= $row['username'];	
+				$accessLevel	= $row['accessLevel'];	
+				
+				$userList	.="<form name='Manage' onsubmit='return validateFormOnSubmitmanageUsers(this)' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=update' method='post'>";
+				$userList	.="<tr>";
+				$userList	.="<td>" .$id . "</td>";
+				$userList	.="<td><input type='text' name='name' value='" . $name . "'></td>";
+				$userList	.="<td><input type='text' name='email' value='" . $email . "'></td>";
+				$userList	.="<td><input type='text' name='username' value='" . $userName . "'></td>";
+				$userList	.="<td><input type='text' name='pwd' value=''></td>";
+				$userList	.="<td><select name='accessLevel'><option>" . $accessLevel . "</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>11</option></td>";
+				$userList	.="<td><input name='id' type='hidden' value='" .$id . "'><input name='Submit' type='submit' value='Update'></form></td>";
+				$userList	.="<form name='Delete' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=delete' method='post'>";
+				$userList	.="<td><input name='id' type='hidden' value='" .$id . "'><input name='Submit' type='submit' value='Delete'></form></td>";				
+				$userList	.="</tr>";	
+				$userList	.="";														
+			}
+
+		return $userList;	
+	
+	}
 
 }

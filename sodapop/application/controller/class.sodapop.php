@@ -443,6 +443,13 @@ class sodapop {
 		return $cookie;
 	}
 	
+	public function checkAccessLevel($id) {
+	
+		$accessLevel	= $this->database->checkAccessLevel($id);
+		
+		return $accessLevel;	
+	}
+	
 	
 	/*
 	*  	for hashing things.  Right now it's just a double md5.  Will probably add another

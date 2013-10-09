@@ -22,11 +22,12 @@ class database {
 	private $page;
 	private $i;
 	private $mod;
-	
-	public $sodapop;
+
 	
 	public function database() {
-	
+		
+		global $sodapop;
+		$this->sodapop;
 	}
 
 
@@ -144,11 +145,11 @@ class database {
 		return $mod;			
 	}
 	
-		/*
-		*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
-		*	data based on that. 
-		*/		
-		public function getUserDataById($id) {
+	/*
+	*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
+	*	data based on that. 
+	*/		
+	public function getUserDataById($id) {
 
 		$query	= " select 	*
 			from 	app_user_users
@@ -169,12 +170,33 @@ class database {
 
 		return $userData;		
 	}
+	
+	/*
+	*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
+	*	data based on that. 
+	*/		
+	public function checkAccessLevel($id) {
+	
+		$query	= " select 	accessLevel
+			from 	app_user_users
+			where 	id = '$id'";
+		
+		$result	= $this->getData($query);
+		
+		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		
+			$accessLevel			= $row['accessLevel'];	
+		}
+		
+		return $accessLevel;	
+	}
+	
 
-		/*
-		*  	getModuleData($id) pulls module data from the db based on the modules ID number
-		*	then returns an array of that data.
-		*/	
-		public function getModuleData($id) {
+	/*
+	*  	getModuleData($id) pulls module data from the db based on the modules ID number
+	*	then returns an array of that data.
+	*/	
+	public function getModuleData($id) {
 
 		$query	= " select 	*
 			from 	modules

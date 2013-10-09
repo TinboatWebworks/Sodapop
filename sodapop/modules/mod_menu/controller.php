@@ -21,8 +21,8 @@ class menu extends sodapop {
 
 	public function menuOutput($sodapop) {
 		 
-		$modOutput="
-		<div class='menu'>
+		$modOutput=
+			"<div class='menu'>
 			<a href='./'>" . $sodapop->language['menu0'] . " </a> | <a href='monkeys'>" . $sodapop->language['menu1'] . " </a> | <a href='brick-wall'>" . $sodapop->language['menu2'] . "</a> | <a href='lamp'>" . $sodapop->language['menu3'] . "</a> 
 		</div>";
 

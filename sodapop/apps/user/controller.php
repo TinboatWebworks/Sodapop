@@ -87,15 +87,21 @@ class appController extends sodapop {
 
 			case 'update':
 		
-				$this->	output	= $this->updateProfile();
+				$output	= $this->updateProfile();
 	
 				break;		
 				
 			case 'delete':
 		
-				$this->	output	= $this->deleteUser();
+				$output	= $this->deleteUser();
 	
-				break;								
+				break;		
+
+			case 'mangeusers':
+		
+				$output	= $this->manageUsers();
+	
+				break;											
 			
 			case '':
 		
@@ -184,7 +190,7 @@ class appController extends sodapop {
 
 	}
 	
-		public function createUser() {
+	public function createUser() {
 
 		$confirmUnique	= $this->appModel->confirmUnique($this->formData);
 
@@ -219,14 +225,14 @@ class appController extends sodapop {
 	
 	public function showProfile()  {
 	
-		$output = $this->appView->buildProfile($this->sodapop);
+		$output = $this->appView->buildProfile();
 	
 		return $output;
 	}
 	
 	public function editProfile()  {
 	
-		$output = $this->appView->buildEditProfile($this->sodapop);
+		$output = $this->appView->buildEditProfile();
 	
 		return $output;
 	}	
@@ -251,5 +257,44 @@ class appController extends sodapop {
 		}
 	
 	}	
+	
+	public function manageUsers()  {
+
+		;
+
+		if($this->urlVars['do'] == 'update') {
+
+			$this->appModel->updateUserData($this->formData);
+		
+		}
+		
+		if($this->urlVars['do'] == 'new') {
+
+			$confirmUnique	= $this->appModel->confirmUnique($this->formData);
+
+			if ($confirmUnique == 'yes') {
+				$this->appModel->putUserData($this->formData);
+			}			
+		}
+
+		if($this->urlVars['do'] == 'delete') {
+
+			$this->appModel->deleteUserData($this->formData['id']);
+		
+		}
+
+		$id = $this->sodapop->getCookie("sp_login");
+
+		if ($this->appModel->checkAccessLevel($id) >= 5) {
+
+			$userList	= $this->appModel->buildUserList();
+			$output = $this->appView->listUsers($userList);
+		}
+		
+		else { $output = "You cannot view this page."; }
+			
+		return $output;
+	}	
+	
 }
 ?>

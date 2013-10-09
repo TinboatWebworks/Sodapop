@@ -25,7 +25,7 @@ class appView extends view {
 		
 	public function buildViewApp($data) {
 
-	global $language;	
+		$language = $this->sodapop->language;	
 
 		$viewApp	= $data['appView'];
 				
@@ -104,7 +104,12 @@ class appView extends view {
 		
 		else {
 	
-			$output	= "<h1>" . $this->sodapop->language['profileTitle'] . "</h1> ";
+			$id = $this->sodapop->getCookie("sp_login");
+	
+			if ($this->sodapop->checkAccessLevel($id) >= 5) {
+				$output	.= "<a href='" . $this->sodapop->language['liveUrl'] . "user?action=mangeusers'>Manage Users</a>";
+			}
+			$output	.= "<h1>" . $this->sodapop->language['profileTitle'] . "</h1> ";
 			$output	.= "<div class='profileData'><table>";
 			$output .= "<tr><td><strong>" . $this->sodapop->language['profileName'] . "</strong> </td><td>" . $userInfo['name'] . "</td></tr>";
 			$output .= "<tr><td><strong>" . $this->sodapop->language['profileUsrName'] . "</strong> </td><td>" . $userInfo['username'] . "</td></tr>";
@@ -194,6 +199,49 @@ class appView extends view {
 	
 		return $output;		
 	}
+	
+	
+	public function listUsers($userList) {
+	
+	
+		$formFields = array ( 
+							name,
+							userName,
+							email,
+							password);
+
+		$output	.= $this->validator("manageUsers", $formFields);
+	
+		$output	.= "<table width='100%'>
+						<tr>
+							<td>ID</td>
+							<td>Name</td>
+							<td>Email</td>
+							<td>User Name</td>
+							<td>Password</td>
+							<td>Access Level</td>
+							<td></td>
+							<td></td>
+						</tr>"
+							 . $userList . "
+						<tr>
+							<td><form name='Manage' onsubmit='return validateFormOnSubmitmanageUsers(this)' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=new' method='post'></td>
+							<td><input type='text' name='name' value=''></td>
+							<td><input type='text' name='email' value=''></td>
+							<td><input type='text' name='username' value=''></td>
+							<td><input type='text' name='pwd' value=''></td>
+							<td><input type='text' name='accessLevel' value=''></td>
+							<td><input type='submit' name='add' value='Add'></td>
+							<td></td>
+						</tr>		 
+					</table>";
+		
+		return $output;
+	
+	}
+	
+	
+	
 	
 	/*
 	*  	validator() builds the validation javascript based on the fields that are sent into

@@ -11,8 +11,7 @@
 
 <?php $sodapop->modPosition('login'); ?>
 <div class="menuBar">
-<a href="<?php echo $sodapop->config['liveUrl']; ?>"><img src="<?php  echo $sodapop->config['liveUrl']; ?>/templates/devTemplate/images/sodapopSplashLogoSmaller.png" /></a> Demonstration Site
-
+<a href="<?php echo $sodapop->config['liveUrl']; ?>"><img src="<?php  echo $sodapop->config['liveUrl']; ?>/templates/devTemplate/images/sodapopSplashLogoSmaller.png" /></a>Demonstration Site
 <?php
 $sodapop->modPosition('menu');
 ?>
