@@ -23,18 +23,15 @@ class login extends sodapop {
 		$cookie		= $this->getCookie("sp_login");
 		$redirect	= $modData['redirect'];
 		global $sodapop;
-		$this->sodapop;
 
 		if ($cookie == '') {
-			
-			$liveUrl	= $sodapop->config['liveUrl'];
-
+	
 			$modOutput	= "
 					
 					<form name='login' class='loginForm' action='./user?action=login' method='post'>
 						Username: <input type='text' name='username'> 
 						Password: <input type='password' name='pwd'> 
-						<input type='hidden' name='redirect' value='" . $liveUrl . $redirect . "'>
+						<input type='hidden' name='redirect' value='" . $redirect . "'>
 						<input type='submit' value='Submit'>";
 						
 			if ($modData['registration'] == "on") {			

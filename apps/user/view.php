@@ -58,7 +58,7 @@ class appView extends view {
 							<td><input type='text' name='name'></td>
 						</tr>
 						<tr>	
-							<td><label for='username'> " . $this->sodapop->language['regUsrname'] . "(5-15 chars)  </label></td>
+							<td><label for='username'> " . $this->sodapop->language['regUsrname'] . "  </label></td>
 							<td> <input type='text' name='username'> </td>
 						</tr>
 						<tr>							
@@ -66,8 +66,8 @@ class appView extends view {
 							<td> <input type='text' name='email'> </td>
 						</tr>
 						<tr>
-							<td><label for='pwd'> " . $this->sodapop->language['regPwd'] . "(7-15 chars)</label> </td>
-							<td> <input type='password' name='pwd'> </td>
+							<td><label for='pwd'> " . $this->sodapop->language['regPwd'] . "</label> </td>
+							<td> <input type='text' name='pwd'> </td>
 						</tr>
 						<tr>							
 							<td><label for='pwdConfirm'> " . $this->sodapop->language['regCnfPwd'] . " </label></td>
@@ -230,7 +230,7 @@ class appView extends view {
 							<td><input type='text' name='email' value=''></td>
 							<td><input type='text' name='username' value=''></td>
 							<td><input type='text' name='pwd' value=''></td>
-							<td><input type='text' name='accessLevel' value='' size='2'></td>
+							<td><input type='text' name='accessLevel' value=''></td>
 							<td><input type='submit' name='add' value='Add'></td>
 							<td></td>
 						</tr>		 

@@ -254,7 +254,8 @@ class appController extends sodapop {
 		
 		else {
 			header('Location: ' . $this->sodapop->config['liveUrl'] . 'user');
-		}	
+		}
+	
 	}	
 	
 	public function manageUsers()  {
@@ -294,5 +295,6 @@ class appController extends sodapop {
 			
 		return $output;
 	}	
+	
 }
 ?>
