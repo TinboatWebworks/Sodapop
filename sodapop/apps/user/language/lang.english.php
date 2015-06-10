@@ -11,13 +11,14 @@
 // no direct access
 defined('_LOCK') or die('Restricted access');
 
-$language['didPass']	.= "Successfully logged in. ";
-$language['didNotPass']	= "Password Does Not Match.  ";
-$language['thankYou']	= "Thank you for attempting to log in.";
-$language['newUser']	= "Welcome - lets create your account!";
+$language['didPass']		.= "Successfully logged in. ";
+$language['didNotPass']		= "Password Does Not Match.  ";
+$language['thankYou']		= "Thank you for attempting to log in.";
+$language['newUser']		= "Welcome - lets create your account!";
 
-$language['tempName']	= "Template Name";
-$language['whatApp']	= "App Name: ";
+$language['tempName']		= "Template Name";
+$language['whatApp']		= "App Name: ";
+$language['pleaseLogIn']	= "Please log in.";
 
 // Registration Form Language
 $language['regName']	= "Name: ";
@@ -43,6 +44,21 @@ $language['profileDelete']	= "Delete Account";
 $language['profilePwd']		= "Your Password:";
 $language['profileBio']		= "Biography:";
 $language['editCancel']		= "Cancel";
+$language['passwordUpdated']= "Your password has been updated.  You may now log in with your new password.";
+
+// Recover Password Language
+$language['emailForRecover']			= "Enter your email address:";
+$language['tokenForRecover']			= "Enter the token:";
+$language['tokenSentRecover']			= "An email has been sent with a token";
+$language['submitForRecover']			= "Submit";
+$language['submittokenForRecover']		= "Submit";
+$language['NoMatchingAccount']			= "No Matching Account with that email address.";
+$language['askForNewPassword']			= "Token Accepted.  Please enter your new password.";
+$language['passwordLabel']				= "Your New Password: ";
+$language['passwordLabelConfirm']		= "Confirm Password: ";
+$language['updatingPasswordMessage']	= "Updating password... [bleep] [bleep] [bleep]<br />";
+$language['youDontHaveAToken']			= "Are you trying to recover yourpassword?  If so, <a href='/user?action=recover'>try here</a>.";
+$language['cannotView']					= "You cannot view this page.";
 
 // Validator errors (Not using these yet...)
 $language['validateError']			= "Some fields need correction:\n\n";

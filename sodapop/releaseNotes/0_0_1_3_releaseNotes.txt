@@ -1,67 +1,45 @@
-0.0.1.2 Release Notes
+0.0.1.3 Release Notes
 
-Primary Goal:  Add module functionality:
+Primary Goal:  Add User Login and Management Functionality:
 
-	- The main purpose of the 2nd alpha release was to create the module struction, allowing modules to be created, assigned and hidden from specific pages.
-	
-	- We also separated the concepts of "pages" and "apps."  Pages load apps, but apps can be loaded by multiple pages.
-	
-	- Modules are assigned based on the page.  This is similar to ItemID (Menu Items) in Joomla.
-	
-	- Modules are published via "module positions" in the template.  Multiple modules can be assigned in each position, and they are ordered via an ordering parameter in the db
-	
-	- Two demo module were created for the purposes of testing.
+	- Thie main purpose of the third alpha release was to create the functionality for users, allowing them to
+		- log in
+		- log out
+		- manage their account info
+		- recover their password
+		- Site engineers to manage users account info
+
+	- We’ve reserved 10 levels of user accounts.  I expect the levels to be broken down into the 
+	following groups:
+
+			1 - public front-end
+			5 - Private front-end
+			7 - Site administrators
+			10 - Site engineers
+
 	
 Questions: 	
 	
-	- Will the splitting of the 'pages' and 'apps' be fine enough when assigning modules.  I think so, as you can have modules assing to one itteration of an app on one page, but not on the itteration of the app on another page.
-	
-	- At this point I really want apps and module to be completely discreet from the core application.  The application should run without error without any apps in place... none of them, even the 'core' apps should be required.
-		I'm not conviced this is going to be possible, but I am going to hold it as a guiding principle.
-		That having been said, the 404 app is already breaking that rule, so, perhaps finding a different way to handle 404 errors will be in order
-		Tho, I kinda like having an app to handle that.  See why this is in the 'questions' section?
+		- Will the account levels be enough, and is this a good way to organize them?
 
-Table: Pages
-			pageID
-			handle
-			getApp
-		
-Table: Templates
-			templateID
-			name
-			dflt
-			assigned
-
-Table: Modules
+Table: app_user_users
 			id
 			name
-			position
-			pages
-			hidden
-			params
-			ordering			
+			email
+			username
+			password
+			bio
+			accessLevel
+			recoveryToken
 
-
-What's next:	
-	
-
-0.0.1.3	
-Goal: To add login module and functionality
-
-Create Users app
-Create login module with popup
-Create Login handling
-Write cookie management functions	
-Language file update
-	
-Future releases planned:	
+What's next:		
 
 0.0.1.4
 Goal: to create a rudimentary administrator app
 
-Create Pages manager
 Create Modules manager
 Create Apps Manager
+Create Module with admin links
 Language file update
 
 
@@ -75,80 +53,3 @@ Create a Category view with all articles in that category
 Create a Tag view with all articles with a give tag
 Language file update
 	
-	
-**** 
-NOTE 0.0.1.5 marks the end the alpha stage.  All essential functionality and the first core apps and modules are now in 
-place.  Beta phase can begin.
-****
-
-
-
-Below here was for episodapop, but is no longer part of the roadmap for Sodapop:
-
-0.0.1.4
-Goal: To add front-end and profile view checklist display module
-
-	Create checklist module
-	Checklist module will: 
-switch based on page
-		pull data from episodes table
-		Allow user to sort based on column heading
-		Allow user to filter based on column heading
-	Language file update	
-
-0.0.1.5
-Goal: To allow registered users to check episode in checklist in profile view
-
-	Update module view on profile page with checkboxes
-Receive checkbox data and process it to database
-Add “Viewed Previously” checkbox
-Register checks to “Events Table”
-
-****
-Note: Alpha Testing can begin after 0.0.1.5
-****
-
-0.0.1.6
-Goal: To display events streams on front, profile and episode pages
-
-	Create events module
-	Events module will pull from events table 	
-	Events module will switch based on page
-		Front page will show all events
-		Profile page will show events for that user
-		Episode will show events for that event
-
-0.0.1.7
-Goal: To add Top-of-page stats
-	
-	Create primary stats modules for show, episode and profile
-	Create ratings modules for show
-		Top Watchers
-		Top Watched	
-		Highest Rated
-	Create reatings modules for Episode
-		Top Watchers
-		Episode rating and Rank
-		Smackdown wins
-	Creat ratings modules for Profile
-		Number of Episodes Watched
-		Favorite Episode
-		Quiz ranking	
-		Watch Percentage	
-	Add Google Charts
-		Show page: episode watch counts
-		Episode Page: timeline / watch counts
-Profile: timeline / watch percentage over time
-         
-		
-0.0.1.8
-Goal: Add Smackdown Module
-	Create module with iframe, pulling in smackdown page
-	Create Smackdown page
-	Create Smackdown answer handler
-
-0.1.9
-Goal: Add Quiz Module
-	Create module with iframe, pulling in Quiz page
-	Create Quiz page
-	Create Quiz results handler

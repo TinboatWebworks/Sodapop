@@ -43,6 +43,13 @@ class login extends sodapop {
 						<a href='user?action=new'>[Register]</a>";
 						
 			}
+
+			if ($modData['recover'] == "on") {			
+						
+			$modOutput	.= "	
+						<a href='user?action=recover'>[Recover]</a>";
+						
+			}
 			
 			$modOutput	.= "			
 					</form>";		
@@ -52,7 +59,7 @@ class login extends sodapop {
 
 	
 			$userInfo	= $loginDatabase->getUserDataById($cookie);	
-			$modOutput	= "You are logged in <b><a href='./user'>" . $userInfo['name'] . "</a></b> [<a href='./user?action=logout'>Log out</a>]";
+			$modOutput	= "You are logged in as <b><a href='./user'>" . $userInfo['name'] . "</a></b> [<a href='./user?action=logout'>Log out</a>]";
 	
 		}
 

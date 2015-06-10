@@ -462,4 +462,33 @@ class sodapop {
 		
 		return $string;
 	}
+	
+	
+	/*
+	*  	randomizedString will generate a string of random numbers up to 62 chars in length.
+	* 	Default is 8 chars.  I found this nice tight little function at:
+	*	http://stackoverflow.com/questions/853813/how-to-create-a-random-string-using-php
+	*	I did not write it myself.
+	*/	
+	
+	public function randomizedString($name_length = 8) {
+	
+		$alpha_numeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	
+		return substr(str_shuffle($alpha_numeric), 0, $name_length);
+	}
+	
+	public function sendEmail($emailData) {
+	
+		$address	= $emailData['email'];
+		$subject	= $emailData['subject'];
+		$message	= $emailData['message'];
+		$headers	= $emailData['headers'];
+		$params		= $emailData['params'];		
+		
+		$sendEmail	= mail($address,$subject,$message);
+	
+		return $emailData;		
+	}
+	
 }
