@@ -512,7 +512,7 @@ class appController extends sodapop {
 		}
 
 		//Get their id to make sure they are allowed to manage user data (must have an access 
-		//of 5 or greater
+		//of 5 or greater (will probably be changed to 10 or greater)
 		$id = $this->sodapop->getCookie("sp_login");
 
 		//If they are greater than level 5, show them the list
