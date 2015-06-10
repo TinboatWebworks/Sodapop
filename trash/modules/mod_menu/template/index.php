@@ -1,9 +1,0 @@
-<?php	?>
-
-
-
-
-
-<?php echo $modOutput; ?>
-
-
