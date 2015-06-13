@@ -5,7 +5,7 @@
 
 </style>
 
-<div class='testModuleBox'>
+<div style="float:left;">
 <?php echo $modOutput; ?>
 </div>
 

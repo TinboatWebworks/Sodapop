@@ -289,8 +289,11 @@ class sodapop {
 		
 		// This grabs the data from the db table for the modules assigned to the 
 		// given position, including the module's name
-		$this->allModsData = $this->database->modsInPosition ($position);
-		$this->loadModule($this->allModsData);
+		$this->allModsData = $this->database->modsInPosition($position);			
+		
+		$moduleData	= $this->loadModule($this->allModsData);
+		
+		return $moduleData;
 	
 	}	 
 	
@@ -317,7 +320,7 @@ class sodapop {
 									
 				// get the path to the requested module then pulls it in
 				$modulePath	=  $this->buildModPath($modData['name']);
-				
+			
 				// Fetches the modules index file if it exists
 				if (file_exists($modulePath)) {
 

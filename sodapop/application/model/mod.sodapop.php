@@ -129,9 +129,6 @@ class database {
 				$mod[$i]['params']			= $row['params'];		
 				$mod[$i]['active']			= $row['active'];		
 				
-			
-				//I want to move this logic out of the model, but it's gonna live
-				//here for now:
 				$params	= explode("::", $mod[$i]['params']);
 				
 				foreach ($params as $k) {

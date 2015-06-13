@@ -1,6 +1,5 @@
 <?php
 
-
 /**
 * @author 	Brad Grochowski 
 * @copyright	2011 Tinboat Webworks
@@ -8,7 +7,7 @@
 * @link		a url
 * @since  	9/20/2013
 */
- 
+
 /*
 *	The first thing we want to do is set a lock constant.  Every file will check
 * 	against this constant to make it is being loaded by the Sodapop application and 
@@ -40,7 +39,7 @@ $sodapop->output 	= $sodapop->loadApp();
 /*
 *	Finally we push all of the $sodapop data - including the output - to the template 
 *	via the view object to display the application in the browser.
-*/
+*/ 
 $displaySodapop	= $sodapop->view->displaySodapop($sodapop);
 
 /*

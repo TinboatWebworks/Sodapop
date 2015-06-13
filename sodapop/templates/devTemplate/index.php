@@ -9,7 +9,10 @@
 
 <div class="mainBody">
 
+<div class="testModuleBox">
 <?php $sodapop->modPosition('login'); ?>
+</div>
+
 <div class="menuBar">
 <a href="<?php echo $sodapop->config['liveUrl']; ?>"><img src="<?php  echo $sodapop->config['liveUrl']; ?>/templates/devTemplate/images/sodapopSplashLogoSmaller.png" /></a>Demonstration Site
 <?php

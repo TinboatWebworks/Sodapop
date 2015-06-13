@@ -229,11 +229,12 @@ class appView extends view {
 	
 			//Check their uers level to see how much access they have
 			$id = $this->sodapop->getCookie("sp_login");
-	
+/*	
 			//Allow them to manage users if their user level is greater than 5
 			if ($this->sodapop->checkAccessLevel($id) >= 5) {
 				$output	.= "<a href='" . $liveUrl . "user?action=mangeusers'>Manage Users</a>";
 			}
+*/			
 			
 			// Build the users profile view
 			$output	.= "<h1>" . $profileTitle . "</h1> ";
