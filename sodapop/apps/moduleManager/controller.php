@@ -58,17 +58,17 @@ class appController extends sodapop {
 				break;
 			
 			// log out when action = logout
-			case 'logout':
+			case 'updateStatus':
 		
-				$output	= $this->logOut();
+				$output	= $this->updateStatus();
 	
 				break;
 			
 			// We want to create a new user, so this outputs the registration
 			//form	
-			case 'new':
+			case 'updateAccess':
 		
-				$output	= $this->newUser();
+				$output	= $this->updateAccess();
 	
 				break;
 				
@@ -86,6 +86,26 @@ class appController extends sodapop {
 	
 		return $output;	
 	}
+	
+	public function updateStatus() {
+	
+		$output	= $this->appModel->switchStatus($this->urlVars);
+
+		$output	= "update";
+		$output	= $this->firsttext();
+	
+		return $output;	
+	}
+		
+	public function updateAccess() {
+	
+		$output	= $this->appModel->updateAccessLevel($this->urlVars);
+
+		$output	= $this->firsttext();
+	
+		return $output;	
+	}
+	
 			
 }
 ?>

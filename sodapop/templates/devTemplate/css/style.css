@@ -17,7 +17,9 @@ div.tempName {
 	width: 100%;
 }
 
-form {}
+form {
+		padding: 0px;
+		margin: 0px;}
 
 div.mainBody {
 	outline: 1px solid black;
