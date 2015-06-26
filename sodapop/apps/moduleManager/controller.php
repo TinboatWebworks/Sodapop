@@ -50,27 +50,29 @@ class appController extends sodapop {
 		//in the URL string
 		switch ($this->urlVars['action']) {
 	
-			// If there is no string at all, we just attempt to log in	
 			case '':
 	
 				$output	= $this->firsttext();
 			
 				break;
 			
-			// log out when action = logout
 			case 'updateStatus':
 		
 				$output	= $this->updateStatus();
 	
 				break;
-			
-			// We want to create a new user, so this outputs the registration
-			//form	
+
 			case 'updateAccess':
 		
 				$output	= $this->updateAccess();
 	
 				break;
+				
+			case 'updatePages':
+		
+				$output	= $this->updatePages();
+	
+				break;				
 				
 		}
 		
@@ -81,14 +83,26 @@ class appController extends sodapop {
 	
 	public function firsttext() {
 	
-		$moduleList	= $this->appModel->buildModuleList();
-		$output	= $this->appView->listModules($moduleList);
+		$modulesData= $this->appModel->getModuleData();	
+
+		$moduleList	= $this->appView->buildModuleList($modulesData);
+
+		$output		= $this->appView->listModules($moduleList);
+	
+		return $output;	
+	}
+	
+	public function updatePages() {
+	
+		$output	= $this->appModel->updatePages();
+
+		$output	= $this->firsttext();
 	
 		return $output;	
 	}
 	
 	public function updateStatus() {
-	
+
 		$output	= $this->appModel->switchStatus($this->urlVars);
 
 		$output	= "update";
@@ -104,8 +118,6 @@ class appController extends sodapop {
 		$output	= $this->firsttext();
 	
 		return $output;	
-	}
-	
-			
+	}			
 }
 ?>

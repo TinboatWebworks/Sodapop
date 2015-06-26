@@ -216,6 +216,18 @@ class database {
 
 		return $moduleData;	
 	}
+	
+	public Function buildResultArray($result) {
+	
+		$i	= 0;
+		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+
+			$thisResult[$i]		= $row;	
+			$i++;
+		}
+				
+		return $thisResult;	
+	}	
 }
 
 

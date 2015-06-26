@@ -286,6 +286,9 @@ class appController extends sodapop {
 	*/		
 	public function updateProfile()  {
 
+		// Check to make sure the username and email are unique
+		$this->formData['unique']	= $this->confirmUniqueUpdate($this->formData);
+
 		$output = $this->appModel->updateUserData($this->formData);	
 	
 		//If there is form data
@@ -518,7 +521,8 @@ class appController extends sodapop {
 		//If they are greater than level 5, show them the list
 		if ($this->appModel->checkAccessLevel($id) >= 5) {
 
-			$userList	= $this->appModel->buildUserList();
+			$usersListData	= $this->appModel->userListData();
+			$userList		= $this->appView->buildUserList($usersListData);
 			$output = $this->appView->listUsers($userList);
 		}
 		
@@ -527,6 +531,42 @@ class appController extends sodapop {
 			
 		return $output;
 	}	
+
+	public function confirmUniqueUpdate($formData) {
+
+		$id		= $formData['id'];
+
+		$usersData	=	$this->appModel->getUserDataForUnique($id);
+		
+		foreach ($usersData as $userData) {
+	
+			$existingUser['email']		= $userData['email'];
+			$existingUser['username']	= $userData['username'];		
+		
+			if (($formData['email']  ==  $existingUser['email']) || ($formData['username']  ==  $existingUser['username'])) {
+		
+				if ($formData['email']  ==  $existingUser['email']) { 
+		
+					$confirmUnique['email'] = "email";							
+				}	
+			
+				if ($formData['username']  ==  $existingUser['username']) {
+	
+					$confirmUnique['username'] = "username";						
+				}			
+			}		
+
+		}	
+		
+		if ($confirmUnique == ''){
+			
+			$confirmUnique	=	'yes';
+		}
+
+		return $confirmUnique;		
+	}
+
+
 	
 }
 ?>

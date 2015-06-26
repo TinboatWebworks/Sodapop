@@ -17,8 +17,7 @@ class appModel extends database {
 	public function appModel() {
 	
 		global $sodapop; // Let's bring in the global app object so we can access all the environmental info...
-		$this->sodapop	= $sodapop; // And give it to this class
-	
+		$this->sodapop	= $sodapop; // And give it to this class	
 	}
 
 	/*
@@ -131,9 +130,7 @@ class appModel extends database {
 	* confirmUniqueUpdate() checks to make sure that the username and email are unigue when a user is 
 	* updating their account info.  ##This can probably be refactored to be inlcuded in the confirmUnique() methode above. 
 	*/
-	public function confirmUniqueUpdate($formData) {
-
-		$id		= $formData['id'];
+	public function getUserDataForUnique($id) {
 
 		$query	= " select 	email, username
 					from app_user_users ";	
@@ -145,36 +142,9 @@ class appModel extends database {
 	
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
-	
-			$existingUser['email']		= $row['email'];
-			$existingUser['username']	= $row['username'];
-		
-		
-			if (($formData['email']  ==  $existingUser['email']) || ($formData['username']  ==  $existingUser['username'])) {
-		
-				if ($formData['email']  ==  $existingUser['email']) { 
-		
-					$confirmUnique['email'] = "email";
-							
-				}	
-			
-				if ($formData['username']  ==  $existingUser['username']) {
-	
-					$confirmUnique['username'] = "username";
-					
-						
-				}			
-			}		
+		$result	= $this->buildResultArray($result);
 
-		}	
-		
-		if ($confirmUnique == ''){
-			
-			$confirmUnique	=	'yes';
-		}
-
-		return $confirmUnique;		
+		return $result;		
 	}
 	
 	/*
@@ -228,16 +198,10 @@ class appModel extends database {
 	*/	
 	public function updateUserData($data) {
  
- 		$id				= $data['id'];
-		$name			= $data['name'];
-		$email			= $data['email'];
-		$username		= $data['username'];
-		$accessLevel	= $data['accessLevel'];
-		$bio			= addslashes($data['bio']);
-		$recoveryToken	= $data['token'];
-		
-		// Check to make sure the username and email are unique
-		$unique	= $this->confirmUniqueUpdate($data);
+ 		$data		=	extract($data);
+				
+		$bio			= addslashes($bio);
+	
 	
 		// If it is, let's update the date
 		if ( $unique == 'yes' ) {
@@ -301,7 +265,6 @@ class appModel extends database {
 		}			
 		
 		return $id;
-	
 	}
 	
 	/*
@@ -330,11 +293,9 @@ class appModel extends database {
 	}
 	
 	/*
-	* buildUserList() will get the data of each user and compile the view output for the Manage Users
-	* view.  ## This view building should really be moved to te view.php object, and the logic probably
-	* moved to the controller, but it's hear for now
+	* userListData() 
 	*/		
-	public function buildUserList() {
+	public function userListData() {
 
 		$query	= " select 		*
 					from 		app_user_users
@@ -342,26 +303,9 @@ class appModel extends database {
 	
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
-				
-				$userData	=	extract($row);
-				
-				$userList	.="<form name='Manage' onsubmit='return validateFormOnSubmitmanageUsers(this)' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=update' method='post'>";
-				$userList	.="<tr>";
-				$userList	.="<td>" .$id . "</td>";
-				$userList	.="<td><input type='text' name='name' value='" . $name . "'></td>";
-				$userList	.="<td><input type='text' name='email' value='" . $email . "'></td>";
-				$userList	.="<td><input type='text' name='username' value='" . $username . "'></td>";
-				$userList	.="<td><input type='text' name='pwd' value=''></td>";
-				$userList	.="<td><select name='accessLevel'><option>" . $accessLevel . "</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>11</option></td>";
-				$userList	.="<td><input name='id' type='hidden' value='" .$id . "'><input name='Submit' type='submit' value='Update'></form></td>";
-				$userList	.="<form name='Delete' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=delete' method='post'>";
-				$userList	.="<td><input name='id' type='hidden' value='" .$id . "'><input name='Submit' type='submit' value='Delete'></form></td>";				
-				$userList	.="</tr>";	
-				$userList	.="";														
-			}
+		$result	= $this->buildResultArray($result);
 
-		return $userList;	
+		return $result;	
 	
 	}
 

@@ -341,6 +341,36 @@ class appView extends view {
 	}
 		
 	/*
+	* buildUserList() will get the data of each user and compile the view output for the Manage Users
+	* view.  ## This view building should really be moved to te view.php object, and the logic probably
+	* moved to the controller, but it's hear for now
+	*/		
+	public function buildUserList($usersData) {
+		
+		foreach ($usersData as $userData) {
+				
+				$userData	=	extract($userData);
+				
+				$output	.="<form name='Manage' onsubmit='return validateFormOnSubmitmanageUsers(this)' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=update' method='post'>";
+				$output	.="<tr>";
+				$output	.="<td>" .$id . "</td>";
+				$output	.="<td><input type='text' name='name' value='" . $name . "'></td>";
+				$output	.="<td><input type='text' name='email' value='" . $email . "'></td>";
+				$output	.="<td><input type='text' name='username' value='" . $username . "'></td>";
+				$output	.="<td><input type='text' name='pwd' value=''></td>";
+				$output	.="<td><select name='accessLevel'><option>" . $accessLevel . "</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>11</option></td>";
+				$output	.="<td><input name='id' type='hidden' value='" .$id . "'><input name='Submit' type='submit' value='Update'></form></td>";
+				$output	.="<form name='Delete' action='" . $this->sodapop->config['liveUrl'] . "user?action=mangeusers&do=delete' method='post'>";
+				$output	.="<td><input name='id' type='hidden' value='" .$id . "'><input name='Submit' type='submit' value='Delete'></form></td>";				
+				$output	.="</tr>";	
+				$output	.="";														
+			}
+
+		return $output;	
+	
+	}		
+		
+	/*
 	*  	listUsers() is going to build the list of users for the Manage Users view.
 	*/			
 	public function listUsers($userList) {
