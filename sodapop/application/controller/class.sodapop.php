@@ -206,19 +206,21 @@ class sodapop {
 		$handle	= $this->getHandle();
 			
 		$pagesData	=	$this->database->getPagesData($handle);
-		
-				foreach ($pagesData as $pageData) { 
-					
-					$page['id']			= $pageData['pageID'];
-					$page['name']		= $pageData['name'];
-					$page['handle']		= $pageData['handle'];	
-					$page['getApp']		= $pageData['getApp'];						
-					}
-
+		///////XXXX//////
 		// So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
-		if (!$page['id']) {
+		if (!$pagesData) {
 		
-					$page['getApp']	= "404";	
+			$page['getApp']	= "404";
+			
+			return $page;	
+		}
+		
+		foreach ($pagesData as $pageData) { 
+					
+			$page['id']			= $pageData['pageID'];
+			$page['name']		= $pageData['name'];
+			$page['handle']		= $pageData['handle'];	
+			$page['getApp']		= $pageData['getApp'];						
 		}
 
 		return $page;
@@ -345,6 +347,7 @@ class sodapop {
 	public function appFilePath() {
 
 		$appFilePath	=  "./apps/" . $this->pageData['getApp'];
+	
 		return $appFilePath;
 	}
 

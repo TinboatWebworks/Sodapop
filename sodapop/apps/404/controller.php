@@ -37,7 +37,7 @@ class appController extends sodapop {
 		$this->pageData	= $sodapop->pageData;
 	}
 	
-	public function appOutput($sodapop) {	
+	public function output($sodapop) {	
 	
 		$appOutput = $sodapop->language['404'] ;
 		return $appOutput;
