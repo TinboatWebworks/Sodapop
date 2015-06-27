@@ -213,7 +213,7 @@ class appView extends view {
 	public function buildProfile() {
 	
 		$cookie		= $this->sodapop->getCookie("sp_login");
-		$userInfo	= $this->sodapop->database->getUserDataById($cookie);
+		$userInfo	= $this->sodapop->getUserDataById($cookie);
 		$userInfo	= extract($userInfo, EXTR_PREFIX_ALL, "USERINFO");	
 		$laguage	= extract($this->sodapop->language, EXTR_PREFIX_ALL, "LANG");
 		$config	= extract($this->sodapop->config, EXTR_PREFIX_ALL, "CONFIG");

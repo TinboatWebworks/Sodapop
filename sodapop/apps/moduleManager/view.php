@@ -93,13 +93,6 @@ class appView extends view {
 	public function buildPageList() {
 
 		$pagesListData	=	$this->appModel->getPagesListData();
-
-//		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
-//
-//			$pageID				= $row['pageID'];
-//			$output[$pageID]	= $row;		
-//		}
-
 		
 		foreach($pagesListData as $pageListData) {
 

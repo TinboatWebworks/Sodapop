@@ -15,6 +15,9 @@ defined('_LOCK') or die('Restricted access');
 class login extends sodapop {
 
 	public function login() {
+	
+		global $sodapop; // Let's bring in the global app object so we can access all the environmental info...
+		$this->sodapop	= $sodapop; // And give it to this class
 
 	}
 
@@ -57,8 +60,7 @@ class login extends sodapop {
 	
 		else	{
 
-	
-			$userInfo	= $loginDatabase->getUserDataById($cookie);	
+			$userInfo	= $this->sodapop->getUserDataById($cookie);	
 			$modOutput	= "You are logged in as <b><a href='./user'>" . $userInfo['name'] . "</a></b> [<a href='./user?action=logout'>Log out</a>]";
 	
 		}

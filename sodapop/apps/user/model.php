@@ -198,11 +198,9 @@ class appModel extends database {
 	*/	
 	public function updateUserData($data) {
  
- 		$data		=	extract($data);
-				
-		$bio			= addslashes($bio);
-	
-	
+ 		$data		=	extract($data);				
+		$bio		= addslashes($bio);
+		
 		// If it is, let's update the date
 		if ( $unique == 'yes' ) {
 		

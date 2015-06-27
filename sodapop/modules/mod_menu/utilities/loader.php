@@ -19,11 +19,11 @@ $menu	= new menu();
 
 ## 	Load module model
 require_once $modulePath . "model.php";
-$menuDatabase = new loginDatabase();
+$menuDatabase = new menuDatabase();
 
 ## 	Load module view
 require_once $modulePath . "view.php";
-$menuView	= new loginView();
+$menuView	= new menuView();
 
 
 ?>

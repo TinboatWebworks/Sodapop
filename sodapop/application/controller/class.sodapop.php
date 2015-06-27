@@ -67,9 +67,9 @@ class sodapop {
 		$this->config				= $this->loadConfigFile();
 		$this->dbConnect			= $this->dbConnect($this->config);
 		$this->currentLanguage 		= $this->setLanguage();
-		$this->template				= $this->database->templateLookup();
-		$this->template['path']		= $this->view->loadTemplate($this->template['name']);
-		$this->pageData				= $this->database->pageData($this);
+		$this->template				= $this->templateLookup();
+		$this->template['path']		= $this->loadTemplate($this->template['name']);
+		$this->pageData				= $this->pageData($this);
 		$this->pageData['filePath']	= $this->appFilePath();
 		$this->loadLanguage			= $this->loadLanguage();		
 	}
@@ -134,6 +134,120 @@ class sodapop {
 		require_once 	$this->langPath; 	// Load Applicaiton language file
 		require_once	$this->langPathTem; // Load Template Language file
 		require_once	$this->langPathApp; // Load app Language file
+	}
+
+
+	/*
+	*  getDefaultTemplate loads the template that is set as default in the 
+	*  tamplates table.    
+	*/			
+	public function templateLookup() {
+
+		## Let's find out which template is set to default
+		$templatesData	= $this->database->getTemplatesData();
+		
+				foreach ($templatesData as $templateData) { 
+				
+					$template['name']	= $templateData['name'];
+					$template['id']		= $templateData['templateID'];					
+				}
+		
+		return $template;
+	}
+
+
+
+	/*
+	*  loadTemplate loads the current template 
+	*/		
+	public function loadTemplate($templateName) {
+	
+		$loadTemplate = $this->templatePath($templateName);
+		
+		return $loadTemplate;
+	
+	}
+
+	/*
+	*  templatePath creates the path to the current template.  If no template is 
+	*  assigned, or the template file doesn't exist, its going to load a null 
+	*  template 
+	*/			
+	public function templatePath($templateName) {
+
+		if ($templateName == "")  {
+		
+			## If there is not template assinged were going to load the null template
+			$templatePath = "./templates/null";
+		}
+		
+		elseif (!file_exists("./templates/" . $templateName)) {
+
+			## What if there is no template to match what we are looking for?  Load the null template, that's what.	
+			$templatePath = "./templates/null";  		
+		}
+		
+		else {
+		
+			## And assuming all is well, we can load the assigned template
+			$templatePath = "./templates/" . $templateName;
+		}					
+	
+		return $templatePath;
+	
+	}
+
+	/*
+	*  appData retrieves all the info from the apps table for the given handle and packs it into the $app array.  If no app existis, it routes to a 404 app...  
+	*/		
+	public function pageData($sodapop) {
+	
+		// Get the handle
+		$handle	= $this->getHandle();
+			
+		$pagesData	=	$this->database->getPagesData($handle);
+		
+				foreach ($pagesData as $pageData) { 
+					
+					$page['id']			= $pageData['pageID'];
+					$page['name']		= $pageData['name'];
+					$page['handle']		= $pageData['handle'];	
+					$page['getApp']		= $pageData['getApp'];						
+					}
+
+		// So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
+		if (!$page['id']) {
+		
+					$page['getApp']	= "404";	
+		}
+
+		return $page;
+	}
+
+
+////////////////////////
+
+
+	/*
+	*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
+	*	data based on that. 
+	*/		
+	public function getUserDataById($id) {
+
+		$getUsersByIdData = $this->database->getUsersByIdData($id);
+		
+		foreach ($getUsersByIdData as $getUserByIdData) {
+
+				
+				$userData['id']				= $getUserByIdData['id'];
+				$userData['name']			= $getUserByIdData['name'];
+				$userData['email']			= $getUserByIdData['email'];
+				$userData['username']		= $getUserByIdData['username'];
+				$userData['bio']			= $getUserByIdData['bio'];	
+				$userData['accessLevel']	= $getUserByIdData['accessLevel'];											
+			}
+
+		return $userData;		
 	}
 
 
@@ -264,7 +378,7 @@ class sodapop {
 		// Load Template Language
 		if ($scope == "template") {
 		
-			$templatePath 	= $this->view->templatePath($this->template['name']);
+			$templatePath 	= $this->templatePath($this->template['name']);
 			$langPath		= $templatePath . "/language/lang." . $this->currentLanguage . ".php";
 		}
 		
@@ -289,7 +403,7 @@ class sodapop {
 		
 		// This grabs the data from the db table for the modules assigned to the 
 		// given position, including the module's name
-		$this->allModsData = $this->database->modsInPosition($position);			
+		$this->allModsData = $this->modsInPosition($position);			
 		
 		$moduleData	= $this->loadModule($this->allModsData);
 		
@@ -297,6 +411,39 @@ class sodapop {
 	
 	}	 
 	
+	/*
+	*  	modsInPosition($position) determines which modules are to be loaded for the given position,
+	*	then processes all the info from the modules in that position loading them into
+	*	an array $mod then returning the array  
+	*/	
+	public function modsInPosition($position) {
+	
+			$modsInPostionData	= $this->database->modsInPostionData($position);
+		
+			foreach ($modsInPostionData as $modInPostionData) {
+
+				$i++;
+				
+				$mod[$i]['id']				= $modInPostionData['id'];
+				$mod[$i]['name']			= $modInPostionData['name'];
+				$mod[$i]['positions']		= $modInPostionData['positions'];
+				$mod[$i]['pages']			= $modInPostionData['pages'];	
+				$mod[$i]['hidden']			= $modInPostionData['hidden'];
+				$mod[$i]['params']			= $modInPostionData['params'];		
+				$mod[$i]['active']			= $modInPostionData['active'];		
+				
+				$params	= explode("::", $mod[$i]['params']);
+				
+				foreach ($params as $k) {
+				
+					list ($name, $value)	= explode("==", $k);				
+					$mod[$i][$name]			= $value;
+									
+				}								
+			}		
+				
+		return $mod;			
+	}
 	
 	/*
 	 *  loadModule() loads all the modules for the given position
@@ -348,7 +495,7 @@ class sodapop {
 	*/
 	private function doShowModule($modData) {
 		
-//		global $pageData;
+
 	
 		//  What if there is no handle?  Then we will set the handle to 'home'
 		if ($this->pageData['handle'] == "") {$this->pageData['handle'] = 'home';}
@@ -402,11 +549,12 @@ class sodapop {
 	*  	parseModParams() was intended to parse out the parameter of the module
 	*  	but I think that's currently being done in mod.sodapop.pop in getModuleData()
 	*	This  method can probably be removed.
-	*/	
+	*	
 	public function parseModParams($modParams) {
 	
 		$modParams	= '';
 	}
+	/*
 	
 	/*
 	*  	getFormData() should be getting the data submitted by a form.  It sends it to 
@@ -448,7 +596,7 @@ class sodapop {
 	
 	public function checkAccessLevel($id) {
 	
-		$accessLevel	= $this->database->checkAccessLevel($id);
+		$accessLevel	= $this->database->checkAccessLevelData($id);
 		
 		return $accessLevel;	
 	}

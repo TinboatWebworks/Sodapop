@@ -51,7 +51,7 @@ class database {
 	*  getDefaultTemplate loads the template that is set as default in the 
 	*  tamplates table.    
 	*/			
-	public function templateLookup() {
+	public function getTemplatesData() {
 
 		## Let's find out which template is set to default
 		$query	= " select 	*
@@ -60,46 +60,27 @@ class database {
 												
 		$result	= $this->getData($query);
 		
-				while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) { 
-				
-					$template['name']	= $row['name'];
-					$template['id']		= $row['templateID'];					
-		}
+		$result	= $this->buildResultArray($result);
 		
-		return $template;
+		return $result;
 	}
 
 	/*
 	*  appData retrieves all the info from the apps table for the given handle and packs it into the $app array.  If no app existis, it routes to a 404 app...  
 	*/		
-	public function pageData($sodapop) {
+	public function getPagesData($handle) {
 	
-		// Get the handle
-		$this->handle	= $sodapop->getHandle();
-
 			
 		// Get the app data from the table for this handle
 		$query	= " select 	*
 					from 	pages
-					where 	handle = '$this->handle'";
+					where 	handle = '$handle'";
 												
 		$result	= $this->getData($query);
 		
-				while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) { 
-					
-					$page['id']			= $row['pageID'];
-					$page['name']		= $row['name'];
-					$page['handle']		= $row['handle'];	
-					$page['getApp']		= $row['getApp'];						
-					}
+		$result	= $this->buildResultArray($result);
 
-		// So what happens if there is not a app for the handle?  We'll load the 404 app, that's what happens.
-		if (!$page['id']) {
-		
-					$page['getApp']	= "404";	
-		}
-
-		return $page;
+		return $result;
 	}
 
 	
@@ -108,7 +89,7 @@ class database {
 	*	then processes all the info from the modules in that position loading them into
 	*	an array $mod then returning the array  
 	*/	
-	public function modsInPosition($position) {
+	public function modsInPostionData($position) {
 	
 		$query	= " select 	*
 			from 	modules
@@ -117,36 +98,16 @@ class database {
 	
 		$result	= $this->getData($query);
 		
-			while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
-
-				$i++;
+		$result	= $this->buildResultArray($result);								
 				
-				$mod[$i]['id']				= $row['id'];
-				$mod[$i]['name']			= $row['name'];
-				$mod[$i]['positions']		= $row['positions'];
-				$mod[$i]['pages']			= $row['pages'];	
-				$mod[$i]['hidden']			= $row['hidden'];
-				$mod[$i]['params']			= $row['params'];		
-				$mod[$i]['active']			= $row['active'];		
-				
-				$params	= explode("::", $mod[$i]['params']);
-				
-				foreach ($params as $k) {
-				
-					list ($name, $value)	= explode("==", $k);				
-					$mod[$i][$name]			= $value;
-									
-				}								
-			}		
-				
-		return $mod;			
+		return $result;			
 	}
 	
 	/*
 	*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
 	*	data based on that. 
 	*/		
-	public function getUserDataById($id) {
+	public function getUsersByIdData($id) {
 
 		$query	= " select 	*
 			from 	app_user_users
@@ -154,25 +115,16 @@ class database {
 	
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
-
-				
-				$userData['id']				= $row['id'];
-				$userData['name']			= $row['name'];
-				$userData['email']			= $row['email'];
-				$userData['username']		= $row['username'];
-				$userData['bio']			= $row['bio'];	
-				$userData['accessLevel']	= $row['accessLevel'];											
-			}
-
-		return $userData;		
+		$result	= $this->buildResultArray($result);	
+		
+		return $result;		
 	}
 	
 	/*
 	*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
 	*	data based on that. 
 	*/		
-	public function checkAccessLevel($id) {
+	public function checkAccessLevelData($id) {
 	
 		$query	= " select 	accessLevel
 			from 	app_user_users
@@ -180,19 +132,16 @@ class database {
 		
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result	= $this->buildResultArray($result);	
 		
-			$accessLevel			= $row['accessLevel'];	
-		}
-		
-		return $accessLevel;	
+		return $result;	
 	}
 	
 
 	/*
 	*  	getModuleData($id) pulls module data from the db based on the modules ID number
 	*	then returns an array of that data.
-	*/	
+	*	
 	public function getModuleData($id) {
 
 		$query	= " select 	*
@@ -216,6 +165,7 @@ class database {
 
 		return $moduleData;	
 	}
+	*/
 	
 	public Function buildResultArray($result) {
 	

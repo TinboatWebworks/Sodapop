@@ -519,7 +519,7 @@ class appController extends sodapop {
 		$id = $this->sodapop->getCookie("sp_login");
 
 		//If they are greater than level 5, show them the list
-		if ($this->appModel->checkAccessLevel($id) >= 5) {
+		if ($this->sodapop->checkAccessLevel($id) >= 5) {
 
 			$usersListData	= $this->appModel->userListData();
 			$userList		= $this->appView->buildUserList($usersListData);
