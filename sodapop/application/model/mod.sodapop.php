@@ -169,11 +169,10 @@ class database {
 	
 	public Function buildResultArray($result) {
 	
-		$i	= 0;
 		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
-
-			$thisResult[$i]		= $row;	
+			
 			$i++;
+			$thisResult[$i]		= $row;	
 		}
 				
 		return $thisResult;	

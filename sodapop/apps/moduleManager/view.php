@@ -28,32 +28,47 @@ class appView extends view {
 
 
 	/*
-	* buildModelList() 
+	* buildModuleList() 
 	*/		
 	public function buildModuleList($modulesData) {
 	
 		foreach($modulesData as $moduleData) {
-				
+			
 				$moduleData		=	extract($moduleData);
 
 				if($active=='1') {$activeStatus	= "Y";}
 				else {$activeStatus	= "N";}
-													
+																	
 				$selectsForAccess	= $this->selectSelector($accessLevel);	
-					
+				
+				$selectAll	= $this->selectAll($pages);
+				$selectNone	= $this->selectAll($hidden);
+									
 				$moduleList	.="<tr>";
 				$moduleList	.="<td>" .$id . "</td>";
 				$moduleList	.="<td>" . $name . "</td>";
 				$moduleList	.="<td>" . $positions . "</td>";
 				$moduleList	.="<td>" . $ordering . "</td>";
-				$moduleList	.="<td><form action='?action=updatePages&current=" . $active . "&id=" . $id . "'' method='GET'>";
+				$moduleList	.="<td><form action='?action=updatePages&current=" . $active . "&id=" . $id . "' method='GET'>";
 				$moduleList	.="<input type='hidden' name='action' value='updatePages'>";
 				$moduleList	.="<input type='hidden' name='id' value='". $id ."'>";
 				$moduleList	.="<select name='pages' multiple>";
-				$moduleList	.="<option>All</option>";
-				$moduleList	.= $this->buildPageList(); 
+
+				$moduleList	.= "<option value='0' " . $selectAll . ">All</option>";				
+				
+				$moduleList	.= $this->buildPageList($pages); 
 				$moduleList	.="</select><input type='submit' value='update'></form></td>";
-				$moduleList	.="<td>" . $hidden . "</td>";
+
+				$moduleList	.="<td><form action='?action=updateHidden&current=" . $active . "&id=" . $id . "' method='GET'>";
+				$moduleList	.="<input type='hidden' name='action' value='updateHidden'>";
+				$moduleList	.="<input type='hidden' name='id' value='". $id ."'>";
+				$moduleList	.="<select name='pages' multiple>";
+				$moduleList	.= "<option value='0' " . $selectNone . ">None</option>";	 
+				$moduleList	.= $this->buildPageList($hidden); 
+				$moduleList	.="</select><input type='submit' value='update'></form></td>";
+
+
+//				$moduleList	.="<td>" . $hidden . "</td>";
 				$moduleList	.="<td>" . $params . "</td>";
 				$moduleList	.="<td><a href='?action=updateStatus&current=" . $active . "&id=" . $id . "'>" . $activeStatus . "</a></td>";
 				$moduleList	.="<td><form action='?action=updateAccess' method='GET'>";
@@ -86,19 +101,67 @@ class appView extends view {
 		return $output;
 	}
 
+	public function selectAll($pages) {
+	
+		if (!$pages) {
+		
+			$output	= "selected='selected'";		
+		}
+		
+		else {
+		
+			$output	= "";
+		}
+		
+		return $output;
+	}
+/*	
+	public function selectNone($pages) {
+	
+		if ($pages) {
+		
+			$output	= "<option value='0'>None</option>
+			";			
+		}
+		
+		else {
+		
+			$output	= "<option value='0' selected='selected'>None</option>
+			";	
+		}
+	
+		return $output;
+	}	
+*/
+	public function whichPagesSelector($pages) {
+
+		$pages	= explode("," ,$pages);
+
+		foreach ($pages as $page) {
+		
+			$pageSelector[$page]	=  " selected='selected' ";		
+
+		}
+		
+		return $pageSelector;
+	}
 
 	/*
 	* buildPageList() 
 	*/		
-	public function buildPageList() {
+	public function buildPageList($pages) {
 
 		$pagesListData	=	$this->appModel->getPagesListData();
-		
+				
 		foreach($pagesListData as $pageListData) {
 
+			$selectsForPages	= $this->whichPagesSelector($pages);
+						
 			$pageListData	=	extract($pageListData);
 			
-			$output		.= "<option>" . $name . "</option>";				
+			$output		.= "<option " . $selectsForPages[$pageID] . " value='" . $pageID . "'>" . $name . "</option>
+			";		
+			
 		}
 	
 		return $output;	
