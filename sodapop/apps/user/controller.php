@@ -462,14 +462,14 @@ class appController extends sodapop {
 	
 		$emailData['email']		= $data['email'];
 		$emailData['subject']	= "Your Password Token from " . $this->sodapop->config['siteName'];
-		$emailData['message']	= "You have requested a token to reset your password at " . $this->sodapop->config['siteName'] . ".\n
-									Your token is: " . $data['token'] . "\n
-									You can submit this token to reset your password at: 
-									" .  $this->sodapop->config['liveUrl'] . ".user?action=tokenplease \n
-									\n
-									Thanks much!\n
-									\n
-									The staff of " . $this->sodapop->config['siteName'];
+		$emailData['message']	= "You have requested a token to reset your password at " . $this->sodapop->config['siteName'] . ".\n";
+		$emailData['message']	.= "Your token is: " . $data['token'] . "\n";
+		$emailData['message']	.= "You can submit this token to reset your password at: \n";
+		$emailData['message']	.= $this->sodapop->config['liveUrl'] . "user?action=tokenplease \n";
+		$emailData['message']	.= "\n";
+		$emailData['message']	.= "Thanks much!\n";
+		$emailData['message']	.= "\n";
+		$emailData['message']	.= "The staff of " . $this->sodapop->config['siteName'];
 		
 		$this->sodapop->sendEmail($emailData);
 			

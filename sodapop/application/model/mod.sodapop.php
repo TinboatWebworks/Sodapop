@@ -103,6 +103,26 @@ class database {
 		return $result;			
 	}
 	
+	
+		/*
+	*  	modsInPosition($position) determines which modules are to be loaded for the given position,
+	*	then processes all the info from the modules in that position loading them into
+	*	an array $mod then returning the array  
+	*/	
+	public function modsOnPageData($page) {
+	
+		$query	= " select 	*
+			from 	modules
+			where 	page = '$position'
+			order by ordering";
+	
+		$result	= $this->getData($query);
+		
+		$result	= $this->buildResultArray($result);								
+				
+		return $result;			
+	}
+	
 	/*
 	*  	getUserDataById($id) acceptes the user's ID number and pulls all of their user
 	*	data based on that. 

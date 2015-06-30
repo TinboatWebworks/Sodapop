@@ -34,7 +34,7 @@ class appController extends sodapop {
 	}	
 	
 	public function loadApp() {
-	
+
 		$this->config	= $this->sodapop->config;
 		$this->appUrl	= $this->sodapop->appUrl;
 		$this->urlVars	= $this->sodapop->parseUrl('qString');
@@ -69,10 +69,16 @@ class appController extends sodapop {
 				break;
 				
 			case 'updatePages':
-		
+
 				$output	= $this->updatePages();
 	
-				break;				
+				break;	
+				
+			case 'updateHidden':
+
+				$output	= $this->updateHidden();
+	
+				break;								
 				
 		}
 		
@@ -93,13 +99,26 @@ class appController extends sodapop {
 	}
 	
 	public function updatePages() {
-	
-		$output	= $this->appModel->updatePages();
+		
+		$values	= $this->sodapop->newGetStringVariables();
+		
+		$output	= $this->appModel->updatePages($values);
 
-		$output	= $this->firsttext();
+		$output	.= $this->firsttext();
 	
 		return $output;	
 	}
+	
+	public function updateHidden() {
+		
+		$values	= $this->sodapop->newGetStringVariables();
+		
+		$output	= $this->appModel->updateHidden($values);
+
+		$output	.= $this->firsttext();
+	
+		return $output;	
+	}	
 	
 	public function updateStatus() {
 

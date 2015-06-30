@@ -83,7 +83,41 @@ class appModel extends database {
 		return	$result	= $this->getData($query);	
 	}
 
-	public Function updatePages() {
-	
+	public Function updatePages($values) {
+
+		$values = extract($values);
+		
+		$updatePages = implode($pages, ",");
+
+		$query	= "update modules ";
+		if ($updatePages == '0') {
+			$query	.= "set pages 	= '' ";
+		}
+		else {
+			$query	.= "set pages 	= '" . $updatePages ."' ";
+		}
+					
+		$query	.= "where id	= '". $id . "'";
+					
+		return	$result	= $this->getData($query);			
 	}
+
+	public Function updateHidden($values) {
+
+		$values = extract($values);
+		
+		$updateHidden = implode($hidden, ",");
+
+		$query	= "update modules ";
+		if ($updateHidden == '0') {
+			$query	.= "set hidden 	= '' ";
+		}
+		else {
+			$query	.= "set hidden 	= '" . $updateHidden ."' ";
+		}
+					
+		$query	.= "where id	= '". $id . "'";
+					
+		return	$result	= $this->getData($query);			
+	}	
 }

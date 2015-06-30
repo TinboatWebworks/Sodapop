@@ -52,7 +52,7 @@ class appView extends view {
 				$moduleList	.="<td><form action='?action=updatePages&current=" . $active . "&id=" . $id . "' method='GET'>";
 				$moduleList	.="<input type='hidden' name='action' value='updatePages'>";
 				$moduleList	.="<input type='hidden' name='id' value='". $id ."'>";
-				$moduleList	.="<select name='pages' multiple>";
+				$moduleList	.="<select name='pages[]' multiple>";
 
 				$moduleList	.= "<option value='0' " . $selectAll . ">All</option>";				
 				
@@ -62,7 +62,7 @@ class appView extends view {
 				$moduleList	.="<td><form action='?action=updateHidden&current=" . $active . "&id=" . $id . "' method='GET'>";
 				$moduleList	.="<input type='hidden' name='action' value='updateHidden'>";
 				$moduleList	.="<input type='hidden' name='id' value='". $id ."'>";
-				$moduleList	.="<select name='pages' multiple>";
+				$moduleList	.="<select name='hidden[]' multiple>";
 				$moduleList	.= "<option value='0' " . $selectNone . ">None</option>";	 
 				$moduleList	.= $this->buildPageList($hidden); 
 				$moduleList	.="</select><input type='submit' value='update'></form></td>";
@@ -190,7 +190,7 @@ class appView extends view {
 							<td><strong>Order</strong></td>
 							<td><strong>Pages</strong></td>
 							<td><strong>Hidden</strong></td>
-							<td><strong>Params</strong></td>
+							<td><strong>Parameters</strong></td>
 							<td><strong>Active</strong></td>
 							<td><strong>Access</strong></td>
 						</tr>"

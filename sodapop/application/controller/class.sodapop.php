@@ -325,6 +325,15 @@ class sodapop {
 	
 		return $urlVals;	
 	}
+	
+	public function newGetStringVariables() {
+	
+		$values		=	$_GET;
+		
+		return $values;
+					
+	}
+	
 
 	/*
 	*  loadApp() builds the path to the requested app, and then loads it up by 
@@ -412,7 +421,8 @@ class sodapop {
 		
 		return $moduleData;
 	
-	}	 
+	}
+		 
 	
 	/*
 	*  	modsInPosition($position) determines which modules are to be loaded for the given position,
@@ -449,7 +459,7 @@ class sodapop {
 	}
 	
 	/*
-	 *  loadModule() loads all the modules for the given position
+	 *  loadModule() loads all the modules for the given position #on the given page
 	 */
 	private function loadModule() {
 					
@@ -502,33 +512,33 @@ class sodapop {
 	
 		//  What if there is no handle?  Then we will set the handle to 'home'
 		if ($this->pageData['handle'] == "") {$this->pageData['handle'] = 'home';}
-		
+	
 		// Is the current page one that the module is supposed to show up on?
-		// we compare the current page's handle to the 'pages' field in the module
+		// we compare the current page's id to the 'pages' field in the module
 		// to see if it's in there
-		$isItThisPage	= strpos("_" . $modData['pages'], $this->pageData['handle']);
-		
+		$isItThisPage	= strpos("," . $modData['pages'], $this->pageData['id']);
+
 		// Is the current page one that the module us supposed to be hidden from?
-		// we compare the current pages's name to the 'hidden' field in the module
+		// we compare the current pages's id to the 'hidden' field in the module
 		// to see if it's in there
-		$hideOnThisPage	= strpos("_" . $modData['hidden'], $this->pageData['handle']);
-				
-		// if the module is assigned to all apps ('apps' field is blank) and the module 
-		// is not hidden from this app, then we can show the module.
+		$hideOnThisPage	= strpos("," . $modData['hidden'], $this->pageData['id']);
+							
+		// if the module is assigned to all apps ('pages' field is blank) and the module 
+		// is not hidden from this page, then we can show the module.
 		if 	(($modData['pages'] == '') && ($hideOnThisPage === false)) {
 
 			$showIt = true;	
 					
 		}
 
-		// If it the module is assigned to this app, then we can show the module
+		// If it the module is assigned to this page, then we can show the module
 		else if ($isItThisPage == true ) {
 
 			$showIt = true;
 					
 		} 
 		
-		// unless it's explicitly hidden from this app, then we won't show it.
+		// unless it's explicitly hidden from this page, then we won't show it.
 		if ($hideOnThisPage == true) {
 
 			$showIt	= false;
@@ -543,7 +553,7 @@ class sodapop {
 			$showIt	= false;
 			
 		}		
-				
+			
 		return $showIt;		
 	}
 	
