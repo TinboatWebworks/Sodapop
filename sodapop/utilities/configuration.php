@@ -13,7 +13,7 @@
 defined('_LOCK') or die('Restricted access');
 
 $config['appName']			= "sodapop";	
-$config['appVersion']		= "0.0.1.4.4";
+$config['appVersion']		= "0.0.1.4.7";
 $config['siteName']			= "Sodapop.com";
 $config['liveSite']			= "sodapop";
 $config['liveUrl']			= "http://localhost/~brad/git/Sodapop/sodapop/";
@@ -24,5 +24,3 @@ $config['dbName']			= "sodapop";
 $config['dbServer']			= "localhost";
 $config['dbUser']			= "root";
 $config['dbPass']			= ""; 
-
-?>

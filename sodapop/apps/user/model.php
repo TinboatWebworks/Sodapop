@@ -31,7 +31,7 @@ class appModel extends database {
 	
 		$result	= $this->getData($query);
 		
-			while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row= mysqli_fetch_array($result, MYSQL_ASSOC)) {
 				
 				$password	= $row['password'];
 													
@@ -54,7 +54,7 @@ class appModel extends database {
 	
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row= mysqli_fetch_array($result, MYSQL_ASSOC)) {
 
 				
 				$userData['id']				= $row['id'];
@@ -81,7 +81,7 @@ class appModel extends database {
 	
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row= mysqli_fetch_array($result, MYSQL_ASSOC)) {
 
 				
 				$userData['id']				= $row['id'];
@@ -102,18 +102,21 @@ class appModel extends database {
 	public function confirmUnique($formData) {
 
 		$query	= " select 	email, username
-					from app_user_users";	
-					
+					from app_user_users
+					where 'id' != " .  $formData['id'] . "";	
+				
 		$result	= $this->getData($query);
  		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row= mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 	
 			$existingUser['email']		= $row['email'];
 			$existingUser['username']	= $row['username'];
-				
-			if ($formData['email']  ==  $existingUser['email'] || $formData['username']  ==  $existingUser['username']) {
 			
-				$confirmUnique = 'no';							
+			if ($formData['email']  ==  $existingUser['email'] && $formData['username']  ==  $existingUser['username']) {
+						
+				$confirmUnique = 'no';	
+		
+				return $confirmUnique;						
 			}
 			
 		}
@@ -121,9 +124,11 @@ class appModel extends database {
 		if ($confirmUnique != 'no'){
 	
 			$confirmUnique	=	'yes';
+			
+			return $confirmUnique;
 		}
 					
-		return $confirmUnique;
+		
 	}	
 	
 	/*
@@ -197,7 +202,9 @@ class appModel extends database {
 	* updateUserData() is going to update the users data in the db
 	*/	
 	public function updateUserData($data) {
- 
+
+		$unique		= $this->confirmUnique($data);
+
  		$data		=	extract($data);				
 		$bio		= addslashes($bio);
 		
@@ -256,7 +263,7 @@ class appModel extends database {
 					
 		$result	= $this->getData($query);
 		
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row= mysqli_fetch_array($result, MYSQL_ASSOC)) {
 		
 			$id	= $row['id'];
 		

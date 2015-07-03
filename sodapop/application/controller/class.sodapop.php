@@ -64,8 +64,8 @@ class sodapop {
 	*/        	
 	public function loadSodapop() {
 	
-		$this->config				= $this->loadConfigFile();
-		$this->dbConnect			= $this->dbConnect($this->config);
+		$this->config				= $this->database->loadConfigFile();
+//		$this->dbConnect			= $this->dbConnect($this->config);
 		$this->currentLanguage 		= $this->setLanguage();
 		$this->template				= $this->templateLookup();
 		$this->template['path']		= $this->loadTemplate($this->template['name']);
@@ -74,31 +74,23 @@ class sodapop {
 		$this->loadLanguage			= $this->loadLanguage();		
 	}
 	
-
-	/*
-	*  loadConfigFile() grabs the config file and generates the config array $sodapop->config
-	*/		
-	public function loadConfigFile() {
-	
-		require_once "./utilities/configuration.php";
-		return $config;
-	}
-
-
 	/*
 	*	dbConnect() takes care of the db connection.  Somebody's got to do it.
 	*/
 	function dbConnect($config) {
 		
-		$link 	= mysql_connect(
+/*		$link 	= mysqli_connect(
 			$config['dbServer'], 
 			$config['dbUser'], 
-			$config['dbPass']); 
+			$config['dbPass'],
+			$config['dbName']);
+	
+			
 		if (! $link) {
 			die("Couldn't connect to MySQL");
-		}	
-		mysql_select_db($config['dbName'] , $link)
+		}	 
 		or die("Couldn't open" . $config['dbName'] . ": ".mysql_error());
+		*/
 	}
 
 	/*

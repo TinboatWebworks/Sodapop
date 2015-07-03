@@ -35,7 +35,7 @@ class appController extends sodapop {
 	
 	public function loadApp() {
 
-		$this->config	= $this->sodapop->config;
+		$this->config	= $this->database->config;
 		$this->appUrl	= $this->sodapop->appUrl;
 		$this->urlVars	= $this->sodapop->parseUrl('qString');
 		$this->pageData	= $this->sodapop->pageData;

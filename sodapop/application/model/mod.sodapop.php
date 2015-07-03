@@ -28,8 +28,16 @@ class database {
 		
 		global $sodapop;
 		$this->sodapop;
-	}
 
+	}
+	/*
+	*  loadConfigFile() grabs the config file and generates the config array $sodapop->config
+	*/		
+	public function loadConfigFile() {
+	
+		require "./utilities/configuration.php";
+		return $config;
+	}
 
 	/*
 	*  getData performs the basic db query, and add scrubbing for sql injection 
@@ -41,11 +49,23 @@ class database {
 		## Add some sql injection protection here? Scrub the $query before 
 		## sending it to the db
 		#####
+		
+		$config	= $this->loadConfigFile();
 
-		$result = mysql_query($query) or die("Couldn't execute query");
+		$this->config	= $config;
+
+		$con	= mysqli_connect(
+		$config['dbServer'], 
+		$config['dbUser'], 
+		$config['dbPass'],
+		$config['dbName']);
+		
+//		echo $config['dbServer'].",".$config['dbUser'].",".$config['dbPass'].",".$config['dbName'];
+
+		$result = mysqli_query($con, $query) or die("Couldn't execute this query");
 			
 		return $result;
-	}
+	}	
 	
 	/*
 	*  getDefaultTemplate loads the template that is set as default in the 
@@ -189,7 +209,7 @@ class database {
 	
 	public Function buildResultArray($result) {
 	
-		while ($row= mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row= mysqli_fetch_array($result, MYSQL_ASSOC)) {
 			
 			$i++;
 			$thisResult[$i]		= $row;	
