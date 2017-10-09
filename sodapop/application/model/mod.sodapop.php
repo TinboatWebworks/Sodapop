@@ -22,6 +22,7 @@ class database {
 	private $page;
 	private $i;
 	private $mod;
+	public $sodapop;
 
 	
 	public function database() {
@@ -211,10 +212,13 @@ class database {
 	
 		while ($row= mysqli_fetch_array($result, MYSQL_ASSOC)) {
 			
+		    if(empty($i)) {$i="";}
 			$i++;
 			$thisResult[$i]		= $row;	
 		}
-				
+		
+		if (empty($thisResult)) {$thisResult = "";}
+		
 		return $thisResult;	
 	}	
 }

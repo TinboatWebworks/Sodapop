@@ -31,11 +31,16 @@ class appController extends sodapop {
 		require_once $this->sodapop->pageData['filePath'] . "/view.php";		
 		$this->appView	= new appView();
 		
+		$test = $sodapop->loadTest("user_controller");
+//		$test = $sodapop->loadTest("user_" . $_SERVER["PHP_SELF"]);
+		
+		
 	}	
 	
 	public function loadApp() {
 	
-		$this->config	= $this->database->config;
+	  //$this->config	= $this->database->config;  <-- I had it as this but I think it should be --v
+	    $this->config	= $this->sodapop->config;
 		$this->appUrl	= $this->sodapop->appUrl;
 		$this->urlVars	= $this->sodapop->parseUrl('qString');
 		$this->pageData	= $this->sodapop->pageData;
@@ -48,100 +53,105 @@ class appController extends sodapop {
 	
 		//Now we switch to the action based on the value of action
 		//in the URL string
-		switch ($this->urlVars['action']) {
-	
-			// If there is no string at all, we just attempt to log in	
-			case 'login':
-	
-				$output	= $this->logIn();
+	    if (isset($this->urlVars['action'])){
+	        
+		      switch ($this->urlVars['action']) {
+		          
+            			// If there is no string at all, we just attempt to log in	
+			        case 'login':
+			            
+        				$output	= $this->logIn();
 			
-				break;
+		      		break;
 			
-			// log out when action = logout
-			case 'logout':
+			        // log out when action = logout
+			        case 'logout':
 		
-				$output	= $this->logOut();
+				    $output	= $this->logOut();
 	
-				break;
+				    break;
 			
-			// We want to create a new user, so this outputs the registration
-			//form	
-			case 'new':
+				    // We want to create a new user, so this outputs the registration
+				    //form	
+				    case 'new':
 		
-				$output	= $this->newUser();
+				    $output	= $this->newUser();
 	
-				break;
+				    break;
 				
-			// There we are going to process the form and store the users data	
-			case 'create':
+				    // There we are going to process the form and store the users data	
+				    case 'create':
 		
-				$output	= $this->createUser();
+				    $output	= $this->createUser();
 	
-				break;	
+				    break;	
 			
-			// If we want to edit our profile
-			case 'edit':
+				    // If we want to edit our profile
+				    case 'edit':
 		
-				$output	= $this->editProfile();
+				    $output	= $this->editProfile();
 	
-				break;	
+				    break;	
 
-			// updating profiles from user management list
-			case 'update':
+				    // updating profiles from user management list
+				    case 'update':
 		
-				$output	= $this->updateProfile();
+				    $output	= $this->updateProfile();
 	
-				break;		
-			
-			// Start the process of recovering a lost password	
-			case 'recover':
+				    break;		
+				    
+				    // Start the process of recovering a lost password	
+				    case 'recover':
 		
-				$output	= $this->recoverPassword();
+				    $output	= $this->recoverPassword();
 	
-				break;	
+				    break;	
 				
-			// Ask for the token in password recovery process	
-			case 'tokenplease':
+				    // Ask for the token in password recovery process	
+				    case 'tokenplease':
 		
-				$output	= $this->dealWithToken();
+				    $output	= $this->dealWithToken();
 	
-				break;							
+				    break;							
 
-			// Check the token and ask for a new password during password recovery	
-			case 'checktoken':
+				    // Check the token and ask for a new password during password recovery	
+				    case 'checktoken':
 		
-				$output	= $this->checkToken();
+				    $output	= $this->checkToken();
 	
-				break;		
+				    break;		
 				
-			// Update the password during password recovery	
-			case 'updatePassword':
+				    // Update the password during password recovery	
+				    case 'updatePassword':
 		
-				$output	= $this->updatePassword();
+				    $output	= $this->updatePassword();
 	
-				break;						
+				    break;						
 				
-			// Delete a use from the user manager list	
-			case 'delete':
+				    // Delete a use from the user manager list	
+				    case 'delete':
 		
-				$output	= $this->deleteUser();
+				    $output	= $this->deleteUser();
 	
-				break;		
+				    break;		
 
-			// Loads the user manager page
-			case 'mangeusers':
+				    // Loads the user manager page
+				    case 'mangeusers':
 		
-				$output	= $this->manageUsers();
+				    $output	= $this->manageUsers();
 	
-				break;											
+				    break;											
 			
-			// just show the logged-in users provile
-			case '':
-		
-				$output	= $this->showProfile();
-	
-				break;					
-		}
+				    				
+		       }
+	    }
+	    
+	    // just show the logged-in users provile	
+	    else {
+	        
+	        $output	= $this->showProfile();
+	       
+	    }
 		
 	
 		return $output;
@@ -154,23 +164,22 @@ class appController extends sodapop {
 	* 	plugin.
 	*/
 	public function logIn() {
-
-		$checkPass			= $this->appModel->getPassword($this->formData['username']);
-		$comparePass		= $this->comparePassword($this->formData['pwd'], $checkPass);
-
-		if ($comparePass == '1') {
+	    
+		$checkPass        = $this->appModel->getPassword($this->formData['username']);
+		$comparePass      = $this->comparePassword($this->formData['pwd'], $checkPass);
 		
+		if ($comparePass == '1') {
+
 			$this->processUser($this->formData['username']);	
 		}
 	
-		elseif ($this->creatingUser == 1) {
-	
-	
+		elseif (isset($this->creatingUser)) {
+
 			$this->processUser($this->formData['username']);
 		}
 		
 		else { 
-
+		    
 			$output = $this->sodapop->language['didNotPass'];
 			$output = $output . $this->sodapop->language['thankYou'];
 
@@ -206,9 +215,10 @@ class appController extends sodapop {
 	* 	newUswer generates the form that to allow a new user to register and provides the
 	*	form validation.
 	*/
-	public function newUser()	{
-		
-		$output = $output . $this->sodapop->language['newUser'];
+	public function newUser()	{		
+	    
+	    $output    ="";
+		$output = $this->sodapop->language['newUser'];
 		
 		$output = $output . $this->appView->buildRgstnForm($this->sodapop);
 		
@@ -227,8 +237,9 @@ class appController extends sodapop {
 	}
 	
 	public function createUser() {
-
-		$confirmUnique	= $this->appModel->confirmUnique($this->formData);
+	   
+        if(empty($output)){$output = "";}
+	    $confirmUnique	= $this->appModel->confirmUnique($this->formData);
 
 		if ($confirmUnique == 'yes') {
 			$this->appModel->putUserData($this->formData);
@@ -247,8 +258,13 @@ class appController extends sodapop {
 	* password in the database.
 	*/
 	public function comparePassword($password, $checkPass) {
-	
+	    
+	    $match     = "";
+	    
 		$password	= $this->hashIt($password);
+		
+//		echo "<br />password: " . $password . "<br />checkpass: " . $checkPass;
+		
 		
 		if ($password == $checkPass) {
 		
@@ -256,6 +272,8 @@ class appController extends sodapop {
 		
 		}
 
+//		echo "match: " . $match;
+		
 		return $match;
 	}	
 
@@ -318,13 +336,14 @@ class appController extends sodapop {
 	public function recoverPassword()  {
 
 
-		$recoverEmail = $this->formData['recoveryEmail'];
+	    if(isset($this->formData['recoveryEmail'])) {
+        		$recoverEmail = $this->formData['recoveryEmail'];
+	    }
 		
-		
-		if (!$step) {
-		
-		echo $step;
-		
+		if (!isset($step)) {
+		  
+		    if(empty($output)){$output = "";}
+		    
 			$output .= $this->appView->buildRecoverPassword();
 		
 		}
@@ -340,6 +359,8 @@ class appController extends sodapop {
 	*/		
 	public function dealWithToken()  {
 
+	    if(empty($output)) {$output = "";}
+	    
 		// get the variables from the form data
 		extract($this->formData);
 	
@@ -363,14 +384,14 @@ class appController extends sodapop {
 			}
 		
 			// If there is a matching user, lets generate the token
-			$userData[token] = $this->sodapop->randomizedString(32);
+			$userData['token'] = $this->sodapop->randomizedString(32);
 									
 			// Then stick the token in the database				
 			$output 		.= $this->appModel->updateUserData($userData);	
 			
 			// And email the token to the user's email address
 			$output 		.= $this->emailToken($userData);
-			$output			.= "<span style='color:gray; font-size:10px; font-family:courier;'>" . $userData[token] . "</span>";
+			$output		.= "<span style='color:gray; font-size:10px; font-family:courier;'>" . $userData['token'] . "</span>";
 		
 		}
 		
@@ -486,33 +507,36 @@ class appController extends sodapop {
 	*/		
 	public function manageUsers()  {
 
+	    if(isset($this->urlVars['do'])){
+		      // Are we updating edited user data?  If so, lets push the new data to the db
+	        
+	           if($this->urlVars['do'] == 'update') {
 
-		// Are we updating edited user data?  If so, lets push the new data to the db
-		if($this->urlVars['do'] == 'update') {
-
-			$this->appModel->updateUserData($this->formData);
+			         $this->appModel->updateUserData($this->formData);
 		
-		}
+		      }
+	    
 		
-		// Are we adding a new user?  Let's send this new users data to the db
-		if($this->urlVars['do'] == 'new') {
+		      // Are we adding a new user?  Let's send this new users data to the db
+		      if($this->urlVars['do'] == 'new') {
 
-			//Make sure the user is unique.
-			$confirmUnique	= $this->appModel->confirmUnique($this->formData);
+			     //Make sure the user is unique.
+			     $confirmUnique	= $this->appModel->confirmUnique($this->formData);
 
-			//and if it is, update the db
-			if ($confirmUnique == 'yes') {
-				$this->appModel->putUserData($this->formData);
-			}			
-		}
+			     //and if it is, update the db
+			     if ($confirmUnique == 'yes') {
+				        $this->appModel->putUserData($this->formData);
+			     }			
+		      }
 
-		//Are we deleting a user?
-		if($this->urlVars['do'] == 'delete') {
+		      //Are we deleting a user?
+		      if($this->urlVars['do'] == 'delete') {
 
-			// Remove their data from the db
-			$this->appModel->deleteUserData($this->formData['id']);
+			         // Remove their data from the db
+			         $this->appModel->deleteUserData($this->formData['id']);
 		
-		}
+		      }
+	    	    }		      
 
 		//Get their id to make sure they are allowed to manage user data (must have an access 
 		//of 5 or greater (will probably be changed to 10 or greater)
