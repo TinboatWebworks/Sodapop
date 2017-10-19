@@ -100,7 +100,7 @@ class database {
 		$result	= $this->getData($query);
 		
 		$result	= $this->buildResultArray($result);
-
+		
 		return $result;
 	}
 

@@ -43,6 +43,8 @@ class appView extends view {
 				
 				$selectAll	= $this->selectAll($pages);
 				$selectNone	= $this->selectAll($hidden);
+				
+				$params = $this->dispalyParams($params);
 									
 				$moduleList	.="<tr>";
 				$moduleList	.="<td>" .$id . "</td>";
@@ -69,7 +71,13 @@ class appView extends view {
 
 
 //				$moduleList	.="<td>" . $hidden . "</td>";
-				$moduleList	.="<td>" . $params . "</td>";
+
+				$moduleList	.="<td><form action='?action=updateParams' method='GET'>";
+				$moduleList	.="<input type='hidden' name='action' value='updateParams'>";
+				$moduleList	.="<input type='hidden' name='id' value='". $id ."'>";
+				$moduleList	.="<textarea name='params' rows='3'>" . $params."</textarea>";
+				$moduleList	.="<input type='submit' value='update'></form></td>";
+							
 				$moduleList	.="<td><a href='?action=updateStatus&current=" . $active . "&id=" . $id . "'>" . $activeStatus . "</a></td>";
 				$moduleList	.="<td><form action='?action=updateAccess' method='GET'>";
 				$moduleList	.="<input type='hidden' name='action' value='updateAccess'>";
@@ -171,7 +179,7 @@ class appView extends view {
 	public function listModules($moduleList) {
 	
 		$id = $this->sodapop->getCookie("sp_login");
-	
+
 		if ($this->sodapop->checkAccessLevel($id) < 5) {
 		
 			$output = "No Dice";
@@ -201,6 +209,29 @@ class appView extends view {
 		
 		return $output;
 	
+	}
+	
+	public function dispalyParams($params) {
+	    
+	    if (empty($output)) {$output = "";}
+	    
+	    if(!empty($params)){
+	    
+	        $params    = explode("::", $params);
+	    
+        	    foreach ($params as $param) {
+	        
+	           $param = explode("==", $param);
+	        
+	           $output .= $param[0] . "=" . $param[1] . "\r\n";
+	           	       
+	         }
+	     }
+
+	    $output  = rtrim($output, "\r\n"); // This is dumb, but I have to remove the trailing \r\n have to find a way to not have it there in the first place.
+	     
+	    return $output;
+	 	    
 	}
 	
 }

@@ -78,7 +78,13 @@ class appController extends sodapop {
 
 				$output	= $this->updateHidden();
 	
-				break;								
+				break;		
+				
+			case 'updateParams':
+			    
+			    $output	= $this->updateParams();
+			    
+			    break;		
 				
 		}
 		
@@ -119,6 +125,15 @@ class appController extends sodapop {
 	
 		return $output;	
 	}	
+
+	public function updateParams() {
+	    
+	    $output	= $this->appModel->updateParams($this->urlVars);
+	    
+	    $output	= $this->firsttext();
+	    
+	    return $output;
+	}	
 	
 	public function updateStatus() {
 
@@ -138,5 +153,16 @@ class appController extends sodapop {
 	
 		return $output;	
 	}			
+	
+	public function dispalyParams($params) {
+	    
+	    $params    = explode($params, "::");
+	    
+	    echo $params;
+	    
+	    
+	}
 }
+
+
 ?>

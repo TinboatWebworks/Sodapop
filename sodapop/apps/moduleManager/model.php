@@ -79,7 +79,7 @@ class appModel extends database {
 		$query	= "update modules set ";
 		$query	.= "accessLevel = '$level' "; 			
 		$query	.= "where id	= '$id'";		
-
+		
 		return	$result	= $this->getData($query);	
 	}
 
@@ -120,4 +120,39 @@ class appModel extends database {
 					
 		return	$result	= $this->getData($query);			
 	}	
-}
+	
+	public Function updateParams($values) {
+	    
+	    $values = extract($values);
+	    
+	    if(!empty($params)){
+	    
+	        $params    = rawurldecode($params);
+	        
+	        $params = $this->convertParams($params);
+	        
+        	    $query = "update modules ";
+        	    $query .= "set params = '" . $params ."' where id= '" . $id . "'";
+	    }
+	    
+	    else {
+	        $query = "";
+	    }
+	    
+	   return	$result	= $this->getData($query);
+	    
+	}
+	
+	public function convertParams($params) {
+	    
+	    $params    = str_replace("\r\n", "::", $params);
+	    $params    = str_replace("=", "==", $params);
+//	    $params    = rtrim($params, "::"); // This is dumb, but I have to remove the trailing :: have to find a way to not have it there in the first place.
+	    
+	    return $params;
+	    
+	}
+	
+}	
+
+

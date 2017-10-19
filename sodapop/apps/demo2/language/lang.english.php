@@ -14,16 +14,10 @@ defined('_LOCK') or die('Restricted access');
 $language['welcome']	= " [New text added by template]";
 $language['noTemplate']	= "";
 
-$language['labelVersion']	= "sodapop version: ";
-
 $language['tempName']	= "Template Name";
+$language['whatApp']	= "App Name: ";
+$language['whatPage']	= "Page Name: ";
 
-$language['menu0']		= "Home";
-$language['menu1']		= "Monkeys";
-$language['menu2']	= "Brick Wall";
-$language['menu3']	= "Lamp";
-$language['menu4']	= "Modules";
-
-$this->language			= $language;
+$this->language			=	$language;
 
 ?>
