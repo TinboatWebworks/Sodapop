@@ -39,7 +39,7 @@ echo "
 		
 	</div>";
 	?>
-
+<?php $sodapop->modPosition('footer'); ?>
 </div>
 </div>
 

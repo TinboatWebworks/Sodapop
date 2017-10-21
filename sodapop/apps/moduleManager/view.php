@@ -31,11 +31,13 @@ class appView extends view {
 	* buildModuleList() 
 	*/		
 	public function buildModuleList($modulesData) {
-	
+	    
 		foreach($modulesData as $moduleData) {
 			
+		        $modulePositions = $this->listModulePositions($moduleData);
+		    
 				$moduleData		=	extract($moduleData);
-
+				
 				if($active=='1') {$activeStatus	= "Y";}
 				else {$activeStatus	= "N";}
 																	
@@ -49,7 +51,14 @@ class appView extends view {
 				$moduleList	.="<tr>";
 				$moduleList	.="<td>" .$id . "</td>";
 				$moduleList	.="<td>" . $name . "</td>";
-				$moduleList	.="<td>" . $positions . "</td>";
+				
+				$moduleList	.="<td><form action='?action=updatePositions' method='GET'>";
+				$moduleList	.="<input type='hidden' name='action' value='updatePosition'>";
+				$moduleList	.="<input type='hidden' name='id' value='". $id ."'>";
+				$moduleList	.="<select name='position'>";
+				$moduleList	.= $modulePositions;
+				$moduleList	.="</select><input type='submit' value='update'></form></td>";
+				
 				$moduleList	.="<td>" . $ordering . "</td>";
 				$moduleList	.="<td><form action='?action=updatePages&current=" . $active . "&id=" . $id . "' method='GET'>";
 				$moduleList	.="<input type='hidden' name='action' value='updatePages'>";
@@ -141,6 +150,7 @@ class appView extends view {
 		return $output;
 	}	
 */
+	
 	public function whichPagesSelector($pages) {
 
 		$pages	= explode("," ,$pages);
@@ -232,6 +242,30 @@ class appView extends view {
 	     
 	    return $output;
 	 	    
+	}
+	
+	public function listModulePositions($moduleData) {
+	    
+	    if (empty($output)) {$output = "";}
+	    
+	    $templateData   = $this->appModel->getTemplateData();
+  
+	    $positions  = explode(":", $templateData[1]['positions']);
+	    
+	    foreach ($positions as $position ) {
+	        
+	        $output    .= "<option ";
+	        
+	        if($position == $moduleData['positions']) {
+	            
+	            $output    .= " selected = 'selected' ";
+	        }
+	        
+	        $output    .= "value='" . $position . "'>" . $position . "</option>";
+	        
+	    }
+	      
+	    return $output;
 	}
 	
 }

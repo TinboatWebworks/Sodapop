@@ -40,6 +40,7 @@ class appController extends sodapop {
 		$this->urlVars	= $this->sodapop->parseUrl('qString');
 		$this->pageData	= $this->sodapop->pageData;
 		$this->formData	= $this->getFormData($_POST);
+		$this->templateData   = $this->appModel->getTemplateData();
 		$this->redirect	= $this->sodapop->config['liveUrl']; // Maybe at some point this will be a app parameter
 
 	}
@@ -85,6 +86,12 @@ class appController extends sodapop {
 			    $output	= $this->updateParams();
 			    
 			    break;		
+			    
+			case 'updatePosition':
+			    
+			    $output	= $this->updatePosition();
+			    
+			    break;	
 				
 		}
 		
@@ -154,12 +161,24 @@ class appController extends sodapop {
 		return $output;	
 	}			
 	
+/*	
 	public function dispalyParams($params) {
 	    
 	    $params    = explode($params, "::");
 	    
-	    echo $params;
+	    //echo $params;
 	    
+	    
+	}
+*/	
+	
+	public function updatePosition() {
+	    
+	    $output	= $this->appModel->updatePosition($this->urlVars);
+	    
+	    $output	= $this->firsttext();
+	    
+	    return $output;
 	    
 	}
 }

@@ -13,11 +13,11 @@
 defined('_LOCK') or die('Restricted access');
 
 $config['appName']			= "sodapop";	
-$config['appVersion']		= "0.0.1.5.0";
+$config['appVersion']		= "0.0.1.5.0dev";
 $config['siteName']			= "Sodapop.com";
-$config['liveSite']			= "Sodapop0_0_1_4_9/sodapop/";
-$config['liveUrl']			= "http://localhost/Sodapop0_0_1_4_9/sodapop/";
-$config['sitePath'] 		= "/Applications/XAMPP/htdocs/Sodapop0_0_1_4_9/sodapop/";
+$config['liveSite']			= "Sodapop/Sodapop0_0_1_5/sodapop/";
+$config['liveUrl']			= "http://localhost/Sodapop/Sodapop0_0_1_5/sodapop/";
+$config['sitePath'] 		    = "/Applications/XAMPP/htdocs/Sodapop/Sodapop0_0_1_5/sodapop/";
 $config['maintenanceMode'] 	= "no";
 $config['testingMode']		= "no";
 

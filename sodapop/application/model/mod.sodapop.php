@@ -125,7 +125,7 @@ class database {
 	}
 	
 	
-		/*
+	/*
 	*  	modsInPosition($position) determines which modules are to be loaded for the given position,
 	*	then processes all the info from the modules in that position loading them into
 	*	an array $mod then returning the array  

@@ -18,4 +18,4 @@ RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*) Sodapop0_0_1_4_9/sodapop/
+RewriteRule ^(.*) Sodapop/Sodapop0_0_1_5/sodapop/

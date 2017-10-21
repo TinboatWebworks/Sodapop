@@ -122,7 +122,7 @@ class appModel extends database {
 	}	
 	
 	public Function updateParams($values) {
-	    
+   
 	    $values = extract($values);
 	    
 	    if(!empty($params)){
@@ -152,6 +152,40 @@ class appModel extends database {
 	    return $params;
 	    
 	}
+	
+	public function getTemplateData() {
+	    
+	    $query	= " select 		*
+					from 		templates
+					where dflt = '1'";
+	    
+	    $result	= $this->getData($query);
+	    
+	    $result	= $this->buildResultArray($result);
+	    
+	    //print_r($result);echo "<br />";
+	    return $result;	
+	    
+	}
+	
+	public function updatePosition($values) {
+	    
+	    $values = extract($values);
+	    
+	   $query = "update modules ";
+	   $query .= "set positions = '" . $position ."' where id= '" . $id . "'";
+	    
+	   return $result	= $this->getData($query);
+	   
+	}
+	
+	public function updateModuleOrder($values) {
+	    
+	    $values = extract($values);
+	    
+	    $query	= "update module where id = $id set ordering = $count";
+	    
+    }
 	
 }	
 
